@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posters — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/posters.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- PORTADA -->
+    <section class="portada">
+        <div class="portada-contenido">
+            <span class="etiqueta-edicion">Edición Limitada</span>
+            <h1>Ruido Visual</h1>
+            <p>Transforma tu espacio con impresiones de alta fidelidad de las giras y portadas de álbumes más icónicas del mundo.</p>
+        </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="contenedor-principal">
+
+        <button class="btn-toggle-filtros" id="btnToggleFiltros">
+            <i class="fas fa-sliders-h"></i>
+            Filtros
+        </button>
+
+        <!-- SIDEBAR FILTROS -->
+        <aside class="panel-filtros" id="panelFiltros">
+            <div class="filtros-titulo">
+                <i class="fas fa-sliders-h"></i>
+                Filtros
+            </div>
+
+            <div class="grupo-filtro">
+                <span class="grupo-label">Artista</span>
+                <div class="campo-busqueda">
+                    <input class="input-busqueda" type="text" id="campoBusqueda" placeholder="Buscar artista...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div id="listaArtistas"></div>
+            </div>
+
+            <div class="grupo-filtro">
+                <span class="grupo-label">Estilo</span>
+                <div id="listaEstilos"></div>
+            </div>
+
+            <div class="grupo-filtro">
+                <span class="grupo-label">Tamaño</span>
+                <div class="grid-tamaños" id="listaTamaños"></div>
+            </div>
+        </aside>
+
+        <!-- ZONA RESULTADOS -->
+        <div class="zona-resultados">
+            <div class="barra-superior">
+                <p class="contador" id="contador"></p>
+                <select class="selector-orden" id="selectorOrden">
+                    <option value="recientes">Ordenar por: Más recientes</option>
+                    <option value="precio-asc">Precio: Menor a mayor</option>
+                    <option value="precio-desc">Precio: Mayor a menor</option>
+                    <option value="nombre">Nombre A-Z</option>
+                </select>
+            </div>
+
+            <div class="filtros-activos" id="filtrosActivos"></div>
+            <div class="rejilla-posters" id="rejillaPosters"></div>
+
+            <div class="zona-cargar-mas">
+                <button class="btn-cargar-mas" id="btnCargarMas">
+                    <span>Cargar Más Pósters</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="aviso-toast" id="avisoToast">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="mensajeToast"></span>
+    </div>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/posters.js"></script>
+</body>
+</html>

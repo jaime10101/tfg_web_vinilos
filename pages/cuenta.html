@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/cuenta.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <main class="cuenta-contenedor">
+
+        <!-- SIDEBAR: navegación de cuenta -->
+        <aside class="cuenta-sidebar">
+            <div class="cuenta-avatar">
+                <div class="avatar-circulo">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="cuenta-nombre">
+                    <span id="nombreUsuario">Usuario</span>
+                    <span class="cuenta-email" id="emailUsuario">usuario@email.com</span>
+                </div>
+            </div>
+
+            <nav class="cuenta-nav">
+                <button class="cuenta-nav-btn activo" data-seccion="pedidos">
+                    <i class="fa-solid fa-box"></i> Mis Pedidos
+                </button>
+                <button class="cuenta-nav-btn" data-seccion="favoritos">
+                    <i class="fa-solid fa-heart"></i> Favoritos
+                </button>
+                <button class="cuenta-nav-btn" data-seccion="perfil">
+                    <i class="fa-solid fa-pen"></i> Mi Perfil
+                </button>
+                <button class="cuenta-nav-btn" data-seccion="seguridad">
+                    <i class="fa-solid fa-lock"></i> Seguridad
+                </button>
+                <button class="cuenta-nav-btn btn-cerrar-sesion" id="btnCerrarSesion">
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                </button>
+            </nav>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="cuenta-contenido">
+
+            <!-- Sección: Mis Pedidos -->
+            <section class="seccion-cuenta activa" id="sec-pedidos">
+                <h2 class="cuenta-titulo">Mis Pedidos</h2>
+                <div class="pedidos-lista" id="listaPedidos">
+                    <!-- Pedido de ejemplo -->
+                    <div class="pedido-card">
+                        <div class="pedido-cabecera">
+                            <div>
+                                <span class="pedido-numero">#VS-4821</span>
+                                <span class="pedido-fecha">15 de marzo, 2026</span>
+                            </div>
+                            <span class="pedido-estado en-camino">
+                                <i class="fa-solid fa-truck"></i> En camino
+                            </span>
+                        </div>
+                        <div class="pedido-items">
+                            <div class="pedido-item">
+                                <div class="pedido-item-img" style="background:var(--superficie2)">
+                                    <i class="fa-solid fa-record-vinyl" style="color:var(--morado)"></i>
+                                </div>
+                                <div>
+                                    <p class="pedido-item-nombre">AM — Arctic Monkeys</p>
+                                    <p class="pedido-item-detalle">Vinilo LP · x1</p>
+                                </div>
+                                <span class="pedido-item-precio">€25,00</span>
+                            </div>
+                        </div>
+                        <div class="pedido-footer">
+                            <span class="pedido-total">Total: <strong>€29,95</strong></span>
+                            <button class="btn-pedido-detalle">Ver detalle</button>
+                        </div>
+                    </div>
+
+                    <div class="pedido-vacio" id="pedidosVacio" style="display:none">
+                        <i class="fa-solid fa-box-open"></i>
+                        <p>Aún no tienes pedidos</p>
+                        <a href="tienda.html" class="btn-ir-tienda">Explorar tienda</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección: Favoritos -->
+            <section class="seccion-cuenta" id="sec-favoritos">
+                <h2 class="cuenta-titulo">Mis Favoritos</h2>
+                <div class="favoritos-vacio">
+                    <i class="fa-regular fa-heart"></i>
+                    <p>No tienes favoritos guardados</p>
+                    <a href="tienda.html" class="btn-ir-tienda">Explorar tienda</a>
+                </div>
+            </section>
+
+            <!-- Sección: Mi Perfil -->
+            <section class="seccion-cuenta" id="sec-perfil">
+                <h2 class="cuenta-titulo">Mi Perfil</h2>
+                <div class="perfil-form">
+                    <div class="campo-perfil">
+                        <label>Nombre</label>
+                        <input type="text" id="perfilNombre" placeholder="Tu nombre" class="input-perfil">
+                    </div>
+                    <div class="campo-perfil">
+                        <label>Apellidos</label>
+                        <input type="text" id="perfilApellidos" placeholder="Tus apellidos" class="input-perfil">
+                    </div>
+                    <div class="campo-perfil">
+                        <label>Correo electrónico</label>
+                        <input type="email" id="perfilEmail" placeholder="tu@email.com" class="input-perfil">
+                    </div>
+                    <div class="campo-perfil">
+                        <label>Teléfono</label>
+                        <input type="tel" id="perfilTelefono" placeholder="+34 600 000 000" class="input-perfil">
+                    </div>
+                    <button class="btn-guardar-perfil" id="btnGuardarPerfil">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                    </button>
+                </div>
+            </section>
+
+            <!-- Sección: Seguridad -->
+            <section class="seccion-cuenta" id="sec-seguridad">
+                <h2 class="cuenta-titulo">Seguridad</h2>
+                <div class="perfil-form">
+                    <div class="campo-perfil">
+                        <label>Contraseña actual</label>
+                        <input type="password" placeholder="••••••••" class="input-perfil">
+                    </div>
+                    <div class="campo-perfil">
+                        <label>Nueva contraseña</label>
+                        <input type="password" placeholder="Mínimo 8 caracteres" class="input-perfil">
+                    </div>
+                    <div class="campo-perfil">
+                        <label>Confirmar nueva contraseña</label>
+                        <input type="password" placeholder="Repite la contraseña" class="input-perfil">
+                    </div>
+                    <button class="btn-guardar-perfil">
+                        <i class="fa-solid fa-lock"></i> Cambiar contraseña
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/cuenta.js"></script>
+</body>
+</html>

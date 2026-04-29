@@ -1,0 +1,66 @@
+<!-- ============================================================
+     FOOTER COMPARTIDO — components/footer.html
+     Se carga en todas las páginas mediante js/header.js
+     ============================================================ -->
+<footer class="footer-site-block">
+    <div class="footer-wrapper">
+
+        <!-- Columna: información y redes sociales -->
+        <div class="footer-column-info">
+            <div class="footer-brand-name">Vinyl Sounds</div>
+            <p class="footer-text-muted">
+                Tu destino número uno para vinilos, desde clásicos atemporales
+                hasta los lanzamientos más frescos.
+            </p>
+            <div class="footer-social-links">
+                <a href="#"><i class="fa-solid fa-globe"></i></a>
+                <a href="#"><i class="fa-solid fa-at"></i></a>
+                <a href="#"><i class="fa-solid fa-thumbs-up"></i></a>
+            </div>
+        </div>
+
+        <!-- Columna: enlaces de exploración -->
+        <div class="footer-column-links">
+            <h4 class="footer-title">Explorar</h4>
+            <ul class="footer-list">
+                <li><a href="/pages/novedades.html">Novedades</a></li>
+                <li><a href="/pages/tienda.html">Más Vendidos</a></li>
+                <li><a href="/pages/tienda.html">Ofertas</a></li>
+                <li><a href="#">Tarjetas de Regalo</a></li>
+            </ul>
+        </div>
+
+        <!-- Columna: enlaces de ayuda -->
+        <div class="footer-column-links">
+            <h4 class="footer-title">Ayuda</h4>
+            <ul class="footer-list">
+                <li><a href="#">Envíos y Devoluciones</a></li>
+                <li><a href="#">Preguntas Frecuentes</a></li>
+                <li><a href="#">Estado del Pedido</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+
+        <!-- Columna: formulario de suscripción -->
+        <div class="footer-column-subscribe">
+            <h4 class="footer-title">Suscríbete</h4>
+            <p class="footer-text-muted">Recibe las últimas noticias y ofertas exclusivas.</p>
+            <!-- TODO (Supabase): conectar al endpoint de newsletter -->
+            <div class="footer-form">
+                <input type="email" placeholder="Tu correo electrónico" class="footer-input">
+                <button type="button" class="footer-submit-btn">Suscribirse</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Barra de derechos -->
+    <div class="footer-copyright-bar">
+        <p>Todos los derechos reservados &copy; 2026 Vinyl Sounds</p>
+    </div>
+</footer>
+
+<!-- Botón flotante para volver arriba -->
+<button class="btn-subir" id="btnSubir" aria-label="Volver arriba">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>

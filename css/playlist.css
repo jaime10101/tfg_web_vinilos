@@ -1,0 +1,140 @@
+/* ============================================================
+   PLAYLIST.CSS - Estilos del reproductor de playlist
+   Header, footer, variables y reset en global.css
+   ============================================================ */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(123,47,255,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,0,110,0.1)  0%, transparent 50%),
+        #08050F;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-bottom: calc(84px + 20px);
+    overflow-x: hidden;
+    color: var(--texto);
+    animation: aparecerPagina 1.2s ease-out forwards;
+}
+
+@keyframes aparecerPagina { from { opacity: 0; } to { opacity: 1; } }
+
+/* HERO */
+.playlist-hero { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 80px 8% 100px; min-height: 60vh; overflow: hidden; clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%); background: linear-gradient(135deg, rgba(123,47,255,0.15) 0%, transparent 50%, rgba(255,0,110,0.08) 100%); opacity: 0; transform: translateY(20px); transition: all 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s; }
+.playlist-hero.visible { opacity: 1; transform: translateY(0); }
+
+.hero-fondo-glow { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px); pointer-events: none; }
+
+.hero-contenido { flex: 1; max-width: 560px; z-index: 2; }
+.etiqueta-hero { display: inline-flex; align-items: center; gap: 6px; color: var(--rojo); border: 1px solid rgba(255,0,110,0.4); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: bold; background: rgba(255,0,110,0.1); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+.etiqueta-hero i { animation: pulso 2s ease-in-out infinite; }
+@keyframes pulso { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
+
+.hero-contenido h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 16px; }
+.hero-contenido h1 span { background: var(--grad-uv); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-contenido p { color: var(--apagado); font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+
+.hero-stats { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; }
+.stat span { font-size: 22px; font-weight: 800; color: var(--texto); }
+.stat small { font-size: 11px; color: var(--apagado); text-transform: uppercase; letter-spacing: 1px; }
+.stat-sep { width: 1px; height: 36px; background: var(--borde); }
+
+/* VINILO GIRANDO */
+.hero-vinilo-wrap { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; z-index: 2; }
+.vinilo-girando { width: 280px; height: 280px; position: relative; filter: drop-shadow(0 20px 60px rgba(123,47,255,0.4)); }
+.vinilo-disco { width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f1a 30%, #050510 55%, #0a0a18 70%, #050508 100%); position: relative; animation: girarVinilo 4s linear infinite paused; border: 2px solid rgba(123,47,255,0.2); box-shadow: 0 0 0 1px rgba(255,255,255,0.03), inset 0 0 60px rgba(0,0,0,0.8); }
+.vinilo-disco.girando { animation-play-state: running; }
+@keyframes girarVinilo { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.vinilo-surco { position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.04); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.s1 { width: 92%; height: 92%; } .s2 { width: 76%; height: 76%; } .s3 { width: 62%; height: 62%; } .s4 { width: 48%; height: 48%; }
+.vinilo-label { position: absolute; width: 36%; height: 36%; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--grad-uv); display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 2; }
+.vinilo-centro { position: absolute; width: 36%; height: 36%; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; overflow: hidden; border: 2px solid rgba(255,255,255,0.15); }
+.vinilo-centro img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.vinilo-label::after { content: ''; position: absolute; width: 10%; height: 10%; border-radius: 50%; background: var(--fondo); z-index: 4; }
+.vinilo-titulo { font-size: 7px; font-weight: 800; color: rgba(255,255,255,0.9); text-align: center; padding: 0 6px; letter-spacing: 0.05em; text-transform: uppercase; z-index: 3; max-width: 80%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* BARRA REPRODUCTORA */
+.barra-reproductor { position: fixed; bottom: 0; left: 0; right: 0; height: 84px; background: rgba(8,5,15,0.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-top: 1px solid var(--borde); display: flex; align-items: center; padding: 0 24px; gap: 20px; z-index: 3000; box-shadow: 0 -8px 40px rgba(0,0,0,0.6); }
+.reproductor-portada { width: 52px; height: 52px; border-radius: 8px; overflow: hidden; flex-shrink: 0; position: relative; background: var(--superficie2); border: 1px solid var(--borde); }
+.reproductor-portada img { width: 100%; height: 100%; object-fit: cover; }
+.portada-glow { position: absolute; inset: 0; opacity: 0; background: rgba(123,47,255,0.5); transition: opacity 0.4s; pointer-events: none; }
+.barra-reproductor.reproduciendo .portada-glow { opacity: 0.3; }
+.reproductor-info { display: flex; flex-direction: column; min-width: 120px; max-width: 200px; }
+.reproductor-titulo  { font-size: 13px; font-weight: 700; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reproductor-artista { font-size: 11px; color: var(--apagado); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reproductor-controles { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.ctrl-btn { background: none; border: none; color: var(--apagado); font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
+.ctrl-btn:hover { color: var(--texto); background: rgba(255,255,255,0.06); }
+.ctrl-btn.activo { color: var(--morado); }
+.ctrl-principal { font-size: 18px; }
+.ctrl-play { width: 44px; height: 44px; background: var(--grad-fuego); color: #fff !important; font-size: 16px; border-radius: 50%; box-shadow: 0 4px 20px rgba(255,0,110,0.4); transition: all 0.2s ease; }
+.ctrl-play:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(255,107,0,0.5); }
+.reproductor-progreso-wrap { flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.tiempo { font-size: 11px; color: var(--apagado); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+.barra-progreso { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; cursor: pointer; position: relative; transition: height 0.2s; }
+.barra-progreso:hover { height: 6px; }
+.progreso-relleno { height: 100%; width: 0%; background: var(--grad-fuego); border-radius: 2px; transition: width 0.1s linear; }
+.progreso-punto { position: absolute; width: 12px; height: 12px; background: #fff; border-radius: 50%; top: 50%; transform: translate(-50%, -50%); left: 0%; box-shadow: 0 0 6px rgba(255,0,110,0.6); opacity: 0; transition: opacity 0.2s, left 0.1s linear; pointer-events: none; }
+.barra-progreso:hover .progreso-punto { opacity: 1; }
+.reproductor-volumen { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.reproductor-volumen i { color: var(--apagado); font-size: 14px; cursor: pointer; }
+.slider-volumen { -webkit-appearance: none; appearance: none; width: 80px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; outline: none; cursor: pointer; }
+.slider-volumen::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--morado); cursor: pointer; box-shadow: 0 0 6px rgba(123,47,255,0.6); }
+
+/* LISTA DE CANCIONES */
+.contenedor-playlist { max-width: 1100px; margin: 60px auto 40px; padding: 0 40px; }
+.playlist-cabecera-lista { display: grid; grid-template-columns: 40px 1fr 180px 130px 60px; gap: 16px; padding: 0 16px 12px; border-bottom: 1px solid var(--borde); color: var(--apagado); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.lista-canciones { padding: 8px 0; }
+
+.fila-cancion { display: grid; grid-template-columns: 40px 1fr 180px 130px 60px; gap: 16px; align-items: center; padding: 12px 16px; border-radius: 10px; cursor: pointer; transition: background 0.2s ease; border: 1px solid transparent; position: relative; animation: subirFadeIn 0.4s ease both; }
+.fila-cancion:hover { background: rgba(123,47,255,0.08); border-color: rgba(123,47,255,0.15); }
+.fila-cancion.activa { background: rgba(255,0,110,0.07); border-color: rgba(255,0,110,0.2); }
+@keyframes subirFadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.col-num-valor { display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--apagado); font-variant-numeric: tabular-nums; }
+.fila-cancion:hover .num-texto, .fila-cancion.activa .num-texto { display: none; }
+.fila-cancion .icono-play-fila { display: none; color: var(--rojo); font-size: 14px; }
+.fila-cancion:hover .icono-play-fila { display: block; }
+.fila-cancion.activa .icono-play-fila { display: block; color: var(--rojo); }
+.col-titulo-valor { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.portada-mini { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--borde); background: var(--superficie2); }
+.titulo-info { display: flex; flex-direction: column; min-width: 0; }
+.nombre-cancion { font-size: 14px; font-weight: 600; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fila-cancion.activa .nombre-cancion { background: var(--grad-fuego); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.nombre-artista { font-size: 12px; color: var(--apagado); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.col-album-valor, .col-genero-valor { font-size: 13px; color: var(--apagado); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.col-duracion-valor { font-size: 13px; color: var(--apagado); text-align: right; font-variant-numeric: tabular-nums; }
+
+.fila-cancion:nth-child(1)  { animation-delay: 0.05s; } .fila-cancion:nth-child(2)  { animation-delay: 0.10s; }
+.fila-cancion:nth-child(3)  { animation-delay: 0.15s; } .fila-cancion:nth-child(4)  { animation-delay: 0.20s; }
+.fila-cancion:nth-child(5)  { animation-delay: 0.25s; } .fila-cancion:nth-child(6)  { animation-delay: 0.30s; }
+.fila-cancion:nth-child(7)  { animation-delay: 0.35s; } .fila-cancion:nth-child(8)  { animation-delay: 0.40s; }
+.fila-cancion:nth-child(9)  { animation-delay: 0.45s; } .fila-cancion:nth-child(10) { animation-delay: 0.50s; }
+
+@media (max-width: 900px) {
+    .playlist-hero { flex-direction: column; text-align: center; padding: 60px 5% 80px; clip-path: none; min-height: auto; }
+    .hero-contenido { max-width: 100%; }
+    .hero-stats { justify-content: center; }
+    .hero-vinilo-wrap { margin-top: 40px; }
+    .vinilo-girando { width: 220px; height: 220px; }
+    .playlist-cabecera-lista, .fila-cancion { grid-template-columns: 32px 1fr 100px 60px; }
+    .col-genero, .col-genero-valor { display: none; }
+    .contenedor-playlist { padding: 0 20px; }
+    .barra-reproductor { gap: 12px; padding: 0 16px; }
+    .reproductor-info { min-width: 100px; max-width: 140px; }
+}
+
+@media (max-width: 600px) {
+    body { padding-top: 70px; }
+    .playlist-cabecera-lista, .fila-cancion { grid-template-columns: 32px 1fr 60px; }
+    .col-album, .col-album-valor { display: none; }
+    .portada-mini { width: 36px; height: 36px; }
+    .barra-reproductor { gap: 8px; padding: 0 12px; }
+    .reproductor-volumen { display: none; }
+    .reproductor-info { min-width: 80px; max-width: 110px; }
+    .reproductor-portada { width: 40px; height: 40px; }
+    .vinilo-girando { width: 180px; height: 180px; }
+    .contenedor-playlist { padding: 0 12px; margin-top: 40px; }
+}

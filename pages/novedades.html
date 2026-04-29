@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novedades — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/novedades.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- PORTADA -->
+    <div class="contenedor">
+        <div class="portada">
+            <div class="etiqueta-lanzamiento">
+                <i class="fas fa-bolt"></i>
+                Lanzamiento de la semana
+            </div>
+            <h1>
+                The Weeknd
+                <span class="titulo-destacado">After Hours</span>
+            </h1>
+            <p class="portada-descripcion">
+                Edición Deluxe Limitada en vinilo "Blood Red" splatter. Incluye póster exclusivo y arte conceptual inédito.
+            </p>
+            <div class="portada-botones">
+                <button class="btn btn-principal">
+                    <i class="fas fa-shopping-cart"></i>
+                    Comprar Exclusivo
+                </button>
+                <button class="btn btn-secundario">
+                    <i class="fas fa-play"></i>
+                    Escuchar Preview
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN PRODUCTOS -->
+    <div class="contenedor">
+        <div class="seccion-productos">
+            <div class="cabecera-seccion">
+                <h2 class="titulo-seccion">Últimas Llegadas</h2>
+                <div class="zona-filtros">
+                    <button class="btn-filtro activo" data-filter="all">Todos</button>
+                    <button class="btn-filtro" data-filter="vinyl">
+                        <i class="fas fa-record-vinyl"></i> Vinilos
+                    </button>
+                    <button class="btn-filtro" data-filter="merch">
+                        <i class="fas fa-tshirt"></i> Merch
+                    </button>
+                    <button class="btn-filtro" data-filter="poster">
+                        <i class="fas fa-image"></i> Posters
+                    </button>
+                    <select class="selector-orden" id="selectorOrden">
+                        <option value="recent">Ordenar por: Más Reciente</option>
+                        <option value="price-low">Precio: Menor a Mayor</option>
+                        <option value="price-high">Precio: Mayor a Menor</option>
+                        <option value="name-asc">Nombre: A-Z</option>
+                        <option value="name-desc">Nombre: Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="rejilla-productos" id="rejillaProductos"></div>
+
+            <div class="zona-cargar-mas">
+                <button class="btn-cargar-mas" id="btnCargarMas">
+                    Cargar Más Novedades
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="newsletter">
+            <h2>No te pierdas ningún <span>Drop</span></h2>
+            <p>Recibe notificaciones sobre lanzamientos limitados, preventas y descuentos exclusivos directamente en tu email.</p>
+            <div class="formulario-newsletter">
+                <input type="email" class="input-newsletter" placeholder="tu@email.com" id="inputEmail">
+                <button class="btn btn-principal" id="btnSuscribir">Suscribirte</button>
+            </div>
+            <p class="aviso-newsletter">Nos comprometemos a cuidar tu privacidad.</p>
+        </div>
+    </div>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/novedades.js"></script>
+</body>
+</html>

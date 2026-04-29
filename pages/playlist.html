@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist · Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/playlist.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- HERO DE LA PLAYLIST -->
+    <section class="playlist-hero" id="playlistHero">
+        <div class="hero-fondo-glow"></div>
+        <div class="hero-contenido">
+            <span class="etiqueta-hero"><i class="fa-solid fa-circle-play"></i> REPRODUCCIÓN EN CURSO</span>
+            <h1>Nuestra <span>Playlist</span></h1>
+            <p>Una selección curada de los mejores sonidos analógicos.<br>Pulsa play y déjate llevar.</p>
+            <div class="hero-stats">
+                <div class="stat"><span id="statCanciones">10</span><small>canciones</small></div>
+                <div class="stat-sep"></div>
+                <div class="stat"><span id="statDuracion">~42 min</span><small>duración</small></div>
+                <div class="stat-sep"></div>
+                <div class="stat"><span>2026</span><small>curada</small></div>
+            </div>
+        </div>
+        <div class="hero-vinilo-wrap">
+            <div class="vinilo-girando" id="viniloGirando">
+                <div class="vinilo-disco">
+                    <div class="vinilo-centro" id="viniloCentro">
+                        <img src="" alt="Portada" id="portadaVinilo">
+                    </div>
+                    <div class="vinilo-surco s1"></div>
+                    <div class="vinilo-surco s2"></div>
+                    <div class="vinilo-surco s3"></div>
+                    <div class="vinilo-surco s4"></div>
+                    <div class="vinilo-label">
+                        <div class="vinilo-titulo" id="viniloTitulo">---</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REPRODUCTOR FIJO -->
+    <div class="barra-reproductor" id="barraReproductor">
+        <div class="reproductor-portada">
+            <img src="" alt="" id="reproductorPortada">
+            <div class="portada-glow" id="portadaGlow"></div>
+        </div>
+        <div class="reproductor-info">
+            <span class="reproductor-titulo" id="reproductorTitulo">Selecciona una canción</span>
+            <span class="reproductor-artista" id="reproductorArtista">—</span>
+        </div>
+        <div class="reproductor-controles">
+            <button class="ctrl-btn" id="btnAleatorio" title="Aleatorio"><i class="fa-solid fa-shuffle"></i></button>
+            <button class="ctrl-btn ctrl-principal" id="btnAnterior"><i class="fa-solid fa-backward-step"></i></button>
+            <button class="ctrl-btn ctrl-play" id="btnPlay"><i class="fa-solid fa-play" id="iconoPlay"></i></button>
+            <button class="ctrl-btn ctrl-principal" id="btnSiguiente"><i class="fa-solid fa-forward-step"></i></button>
+            <button class="ctrl-btn" id="btnRepetir" title="Repetir"><i class="fa-solid fa-repeat"></i></button>
+        </div>
+        <div class="reproductor-progreso-wrap">
+            <span class="tiempo" id="tiempoActual">0:00</span>
+            <div class="barra-progreso" id="barraProgreso">
+                <div class="progreso-relleno" id="progresoRelleno"></div>
+                <div class="progreso-punto" id="progresoPunto"></div>
+            </div>
+            <span class="tiempo" id="tiempoTotal">0:00</span>
+        </div>
+        <div class="reproductor-volumen">
+            <i class="fa-solid fa-volume-high" id="iconoVolumen"></i>
+            <input type="range" class="slider-volumen" id="sliderVolumen" min="0" max="1" step="0.01" value="0.8">
+        </div>
+        <audio id="audioPlayer"></audio>
+    </div>
+
+    <!-- LISTA DE CANCIONES -->
+    <main class="contenedor-playlist">
+        <div class="playlist-cabecera-lista">
+            <div class="col-num">#</div>
+            <div class="col-titulo">TÍTULO</div>
+            <div class="col-album">ÁLBUM</div>
+            <div class="col-genero">GÉNERO</div>
+            <div class="col-duracion"><i class="fa-regular fa-clock"></i></div>
+        </div>
+        <div class="lista-canciones" id="listaCanciones">
+            <!-- Generado por JS -->
+        </div>
+    </main>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/playlist.js"></script>
+</body>
+</html>

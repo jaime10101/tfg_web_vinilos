@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Vinilo — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/detalle.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- MIGAS DE PAN -->
+    <div class="migas-pan">
+        <a href="../../index.html">Inicio</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="../tienda.html">Tienda</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span id="migaNombre">Cargando...</span>
+    </div>
+
+    <!-- DETALLE PRINCIPAL -->
+    <main class="detalle-principal">
+
+        <!-- COLUMNA IZQUIERDA — IMAGEN -->
+        <div class="col-imagen">
+            <div class="marco-portada" id="marcoPortada">
+                <div class="portada-fondo-blur" id="portadaFondoBlur"></div>
+                <div class="portada-imagen" id="portadaImagen">
+                    <img id="imgPortada" src="" alt="Portada">
+                </div>
+                <div class="vinilo-saliente" id="viniloSaliente">
+                    <div class="vinilo-disco-detalle">
+                        <div class="vinilo-surcos-detalle"></div>
+                        <div class="vinilo-centro-detalle">
+                            <div class="vinilo-agujero-detalle"></div>
+                        </div>
+                    </div>
+                </div>
+                <span class="insignia-detalle" id="insigniaDetalle" style="display:none"></span>
+            </div>
+
+            <div class="fichas-rapidas">
+                <div class="ficha"><i class="fa-solid fa-record-vinyl"></i><span id="fichaFormato">LP</span></div>
+                <div class="ficha"><i class="fa-solid fa-calendar"></i><span id="fichaAnio">—</span></div>
+                <div class="ficha"><i class="fa-solid fa-music"></i><span id="fichaGenero">—</span></div>
+                <div class="ficha"><i class="fa-solid fa-star"></i><span id="fichaPopularidad">—</span></div>
+            </div>
+        </div>
+
+        <!-- COLUMNA DERECHA — INFO -->
+        <div class="col-info">
+            <div class="info-cabecera">
+                <span class="etiqueta-genero" id="etiquetaGenero">GÉNERO</span>
+                <h1 id="nombreAlbum">Cargando...</h1>
+                <p class="nombre-artista" id="nombreArtista">—</p>
+            </div>
+
+            <div class="zona-precio">
+                <span class="precio-principal" id="precioPrincipal">€0.00</span>
+                <div class="precio-badges">
+                    <span class="badge-stock en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span>
+                </div>
+            </div>
+
+            <div class="zona-descripcion">
+                <p id="descripcionAlbum">—</p>
+            </div>
+
+            <div class="zona-specs">
+                <div class="spec-fila"><span class="spec-clave">Formato</span><span class="spec-valor" id="specFormato">—</span></div>
+                <div class="spec-fila"><span class="spec-clave">Año</span><span class="spec-valor" id="specAnio">—</span></div>
+                <div class="spec-fila"><span class="spec-clave">Género</span><span class="spec-valor" id="specGenero">—</span></div>
+                <div class="spec-fila"><span class="spec-clave">Velocidad</span><span class="spec-valor" id="specVelocidad">—</span></div>
+                <div class="spec-fila"><span class="spec-clave">Disponibilidad</span><span class="spec-valor en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span></div>
+            </div>
+
+            <div class="zona-acciones">
+                <div class="selector-cantidad">
+                    <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
+                    <span class="cantidad-actual" id="cantidad">1</span>
+                    <button class="btn-cantidad" id="btnMas"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <button class="btn-anadir-carrito" id="btnAnadir">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Añadir al carrito
+                </button>
+            </div>
+
+            <div class="aviso-carrito" id="avisoCarrito" style="display:none">
+                <i class="fa-solid fa-circle-check"></i>
+                ¡Añadido al carrito correctamente!
+            </div>
+
+            <a href="javascript:history.back()" class="enlace-volver">
+                <i class="fa-solid fa-arrow-left"></i> Volver a la tienda
+            </a>
+        </div>
+    </main>
+
+    <!-- RELACIONADOS -->
+    <section class="seccion-relacionados">
+        <div class="relacionados-cabecera">
+            <h2>También te puede gustar</h2>
+            <a href="../tienda.html" class="ver-mas-link">Ver toda la tienda <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="grid-relacionados" id="gridRelacionados"></div>
+    </section>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../../js/header.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/detalle_vinilo.js"></script>
+</body>
+</html>

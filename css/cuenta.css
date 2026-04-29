@@ -1,0 +1,333 @@
+/* ============================================================
+   CUENTA.CSS — Página de cuenta de usuario
+   ============================================================ */
+
+body {
+    background:
+        radial-gradient(ellipse at 20% 10%, rgba(123, 47, 255, 0.16) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 80%, rgba(255, 0, 110, 0.09) 0%, transparent 50%),
+        var(--fondo);
+    background-attachment: fixed;
+    padding-top: 100px;
+    min-height: 100vh;
+}
+
+/* ── Layout principal ── */
+.cuenta-contenedor {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 40px auto 80px;
+    padding: 0 24px;
+    align-items: start;
+}
+
+/* ── Sidebar ── */
+.cuenta-sidebar {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 24px;
+    position: sticky;
+    top: 110px;
+}
+
+.cuenta-avatar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.avatar-circulo {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--grad-uv);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.cuenta-nombre {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--texto);
+    overflow: hidden;
+}
+
+.cuenta-email {
+    font-size: 12px;
+    color: var(--apagado);
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cuenta-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cuenta-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--apagado);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.cuenta-nav-btn:hover { background: rgba(123, 47, 255, 0.08); color: var(--texto); }
+
+.cuenta-nav-btn.activo {
+    background: rgba(123, 47, 255, 0.14);
+    color: #fff;
+    border-left: 3px solid var(--morado);
+}
+
+.btn-cerrar-sesion { color: var(--rojo) !important; margin-top: 12px; }
+.btn-cerrar-sesion:hover { background: rgba(255, 0, 110, 0.08) !important; }
+
+/* ── Contenido ── */
+.cuenta-contenido {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 32px;
+    min-height: 400px;
+}
+
+.seccion-cuenta { display: none; }
+.seccion-cuenta.activa { display: block; }
+
+.cuenta-titulo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--texto);
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--borde);
+}
+
+/* ── Pedidos ── */
+.pedido-card {
+    background: var(--superficie2);
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+}
+
+.pedido-card:hover { border-color: rgba(0, 212, 255, 0.3); }
+
+.pedido-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pedido-numero {
+    font-weight: 800;
+    color: var(--texto);
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.pedido-fecha { font-size: 13px; color: var(--apagado); }
+
+.pedido-estado {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pedido-estado.en-camino  { background: rgba(0, 212, 255, 0.1); color: var(--cian); border: 1px solid rgba(0, 212, 255, 0.25); }
+.pedido-estado.entregado  { background: rgba(0, 255, 148, 0.1); color: var(--verde); border: 1px solid rgba(0, 255, 148, 0.25); }
+.pedido-estado.procesando { background: rgba(255, 230, 0, 0.1);  color: var(--amarillo); border: 1px solid rgba(255, 230, 0, 0.25); }
+
+.pedido-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+.pedido-item:last-child { border-bottom: none; }
+
+.pedido-item-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--borde);
+    font-size: 18px;
+}
+
+.pedido-item-nombre { font-size: 14px; font-weight: 600; color: var(--texto); }
+.pedido-item-detalle { font-size: 12px; color: var(--apagado); margin-top: 2px; }
+.pedido-item-precio {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--grad-fuego);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pedido-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pedido-total { font-size: 14px; color: var(--apagado); }
+.pedido-total strong { color: var(--texto); }
+
+.btn-pedido-detalle {
+    background: rgba(123, 47, 255, 0.1);
+    border: 1px solid rgba(123, 47, 255, 0.3);
+    color: #A87BFF;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.btn-pedido-detalle:hover { background: rgba(123, 47, 255, 0.2); }
+
+/* ── Vacío ── */
+.pedido-vacio, .favoritos-vacio {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--apagado);
+}
+
+.pedido-vacio i, .favoritos-vacio i {
+    font-size: 48px;
+    opacity: 0.25;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.pedido-vacio p, .favoritos-vacio p { font-size: 16px; margin-bottom: 20px; }
+
+.btn-ir-tienda {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: var(--grad-fuego);
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    transition: opacity 0.2s;
+}
+
+.btn-ir-tienda:hover { opacity: 0.85; }
+
+/* ── Perfil / Seguridad ── */
+.perfil-form { display: flex; flex-direction: column; gap: 20px; }
+
+.campo-perfil { display: flex; flex-direction: column; gap: 8px; }
+
+.campo-perfil label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--apagado);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-perfil {
+    background: var(--superficie2);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    color: var(--texto);
+    font-size: 14px;
+    padding: 13px 16px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-perfil:focus {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.07);
+}
+
+.input-perfil::placeholder { color: var(--apagado); }
+
+.btn-guardar-perfil {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: var(--grad-fuego);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    width: fit-content;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(255, 0, 110, 0.3);
+}
+
+.btn-guardar-perfil:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .cuenta-contenedor { grid-template-columns: 1fr; }
+    .cuenta-sidebar { position: static; }
+    .cuenta-nav { flex-direction: row; flex-wrap: wrap; gap: 6px; }
+    .cuenta-nav-btn { flex: 1; min-width: 120px; justify-content: center; }
+}
+
+@media (max-width: 500px) {
+    .cuenta-contenido { padding: 20px; }
+    .pedido-cabecera { flex-direction: column; align-items: flex-start; }
+}

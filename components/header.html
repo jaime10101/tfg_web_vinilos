@@ -1,0 +1,37 @@
+<!-- ============================================================
+     HEADER COMPARTIDO — components/header.html
+     Se carga en todas las páginas mediante js/header.js
+     ============================================================ -->
+<header class="header-transparent">
+
+    <!-- Logo con enlace a inicio -->
+    <div class="logo">
+        <a href="/index.html">Vinyl Sounds</a>
+    </div>
+
+    <!-- Menú de navegación principal -->
+    <nav class="menu" id="menu-nav">
+        <a href="/index.html">INICIO</a>
+        <a href="/pages/tienda.html">TIENDA</a>
+        <a href="/pages/artistas.html">ARTISTAS</a>
+        <a href="/pages/merch.html">MERCH</a>
+        <a href="/pages/novedades.html">NOVEDADES</a>
+    </nav>
+
+    <!-- Iconos de carrito, cuenta y botón hamburguesa -->
+    <div class="iconos-nav">
+        <a href="/pages/pago.html">
+            <span class="icono"><i class="fa-solid fa-cart-shopping"></i></span>
+        </a>
+        <a href="/pages/cuenta.html">
+            <span class="icono"><i class="fa-solid fa-user"></i></span>
+        </a>
+        <!-- Botón solo visible en móvil -->
+        <button class="btn-hamburguesa" id="btnHamburguesa" aria-label="Abrir menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+</header>

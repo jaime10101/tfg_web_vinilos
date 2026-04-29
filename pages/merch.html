@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merch — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/merch.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- PORTADA -->
+    <div class="contenedor">
+        <div class="portada">
+            <div class="etiqueta-portada">COLECCIÓN OFICIAL</div>
+            <h1>Merch &amp; Accesorios</h1>
+            <p>Encuentra ropa exclusiva, posters limitados y accesorios de tus artistas favoritos. Calidad premium y diseños oficiales.</p>
+        </div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="contenedor">
+        <div class="barra-controles">
+            <div class="pestañas">
+                <button class="pestaña activa" data-filter="all">Todos</button>
+                <button class="pestaña" data-filter="new">Novedades</button>
+                <button class="pestaña" data-filter="tour">Tour 2026</button>
+                <button class="pestaña" data-filter="limited">Edición Limitada</button>
+            </div>
+            <div class="zona-orden">
+                <label>Ordenar por:</label>
+                <select class="selector-orden" id="selectorOrden">
+                    <option value="popular">Más Populares</option>
+                    <option value="price-low">Precio: Menor a Mayor</option>
+                    <option value="price-high">Precio: Mayor a Menor</option>
+                    <option value="newest">Más Recientes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="contenido-principal">
+
+            <button class="btn-toggle-filtros" id="btnToggleFiltros">
+                <i class="fas fa-sliders-h"></i>
+                Filtros
+            </button>
+
+            <!-- SIDEBAR FILTROS -->
+            <aside class="panel-filtros" id="panelFiltros">
+                <div class="campo-busqueda">
+                    <input type="text" placeholder="Artista o producto..." id="campoBusqueda">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="grupo-filtro">
+                    <div class="grupo-titulo">CATEGORÍA <span>▼</span></div>
+                    <label class="opcion-check"><input type="checkbox" id="cat-all" checked> Ver Todo</label>
+                    <label class="opcion-check"><input type="checkbox" id="cat-shirts"> Camisetas</label>
+                    <label class="opcion-check"><input type="checkbox" id="cat-hoodies"> Sudaderas</label>
+                    <label class="opcion-check"><input type="checkbox" id="cat-accessories"> Gorras &amp; Accesorios</label>
+                    <label class="opcion-check"><input type="checkbox" id="cat-posters"> Posters</label>
+                </div>
+                <div class="grupo-filtro">
+                    <div class="grupo-titulo">ARTISTAS <span>▼</span></div>
+                    <label class="opcion-check"><input type="checkbox" id="art-rosalia"> Rosalía</label>
+                    <label class="opcion-check"><input type="checkbox" id="art-arctic"> Arctic Monkeys</label>
+                    <label class="opcion-check"><input type="checkbox" id="art-taylor"> Taylor Swift</label>
+                    <label class="opcion-check"><input type="checkbox" id="art-bad"> Bad Bunny</label>
+                    <label class="opcion-check"><input type="checkbox" id="art-weeknd"> The Weeknd</label>
+                </div>
+                <div class="grupo-filtro">
+                    <div class="grupo-titulo">PRECIO</div>
+                    <div class="rango-precio">
+                        <input type="range" min="0" max="100" value="100" class="slider-precio" id="sliderPrecio">
+                        <div class="etiquetas-precio">
+                            <span>0€</span>
+                            <span id="precioMax">100€+</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- REJILLA PRODUCTOS -->
+            <div class="zona-productos">
+                <div class="rejilla-productos" id="rejillaProductos"></div>
+                <div class="paginacion" id="paginacion"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/merch.js"></script>
+</body>
+</html>

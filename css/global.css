@@ -1,0 +1,424 @@
+/* ============================================================
+   GLOBAL.CSS — Estilos compartidos de Vinyl Sounds
+   Contiene: variables, reset, cabecera, footer, botón subir
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+   VARIABLES CSS
+   ============================================================ */
+:root {
+    /* Fondos y superficies */
+    --fondo:       #08050F;
+    --superficie:  #0C0918;
+    --superficie2: #12103A;
+
+    /* Texto */
+    --texto:   #F0EBFF;
+    --apagado: #6B6880;
+
+    /* Colores de acento */
+    --rojo:     #FF006E;
+    --naranja:  #FF6B00;
+    --morado:   #7B2FFF;
+    --cian:     #00D4FF;
+    --verde:    #00FF94;
+    --amarillo: #FFE600;
+
+    /* Gradientes reutilizables */
+    --grad-fuego: linear-gradient(135deg, #FF006E, #FF6B00);
+    --grad-uv:    linear-gradient(135deg, #7B2FFF, #FF006E);
+
+    /* Bordes sutiles con tono morado */
+    --borde: rgba(123, 47, 255, 0.18);
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--texto);
+    background: #08050F;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   CABECERA FIJA
+   ============================================================ */
+.header-transparent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    z-index: 2000;
+    background: linear-gradient(
+        to bottom,
+        rgba(8, 5, 15, 0.97) 0%,
+        rgba(8, 5, 15, 0.75) 50%,
+        rgba(8, 5, 15, 0) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(123, 47, 255, 0.12);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.8s ease-out;
+}
+
+/* JS añade .visible al cargar */
+.header-transparent.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Logo con degradado */
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    cursor: pointer;
+    font-family: 'DM Sans', -apple-system, sans-serif;
+}
+
+.logo a {
+    text-decoration: none;
+    background: linear-gradient(45deg, #F0EBFF 10%, #7B2FFF 40%, #FF006E 70%, #FF6B00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    transition: background-position 0.5s ease;
+}
+
+.logo a:hover { background-position: right center; }
+
+/* Menú de navegación */
+.menu {
+    display: flex;
+    gap: 30px;
+}
+
+.menu a {
+    color: var(--apagado);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.menu a:hover {
+    background: var(--grad-fuego);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.menu a.activo { color: var(--verde); }
+
+/* Iconos de carrito y usuario */
+.iconos-nav { display: flex; gap: 20px; align-items: center; }
+
+.iconos-nav a { display: flex; align-items: center; justify-content: center; }
+
+.iconos-nav .icono {
+    color: var(--apagado);
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.iconos-nav .icono:hover {
+    color: var(--cian);
+    transform: scale(1.2);
+}
+
+/* Botón hamburguesa */
+.btn-hamburguesa {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px;
+    transition: border-color 0.2s;
+}
+
+.btn-hamburguesa:hover { border-color: rgba(255, 0, 110, 0.5); }
+
+.btn-hamburguesa span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--texto);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.btn-hamburguesa.abierto span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.btn-hamburguesa.abierto span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.btn-hamburguesa.abierto span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer-site-block {
+    background-color: var(--fondo);
+    border-top: 1px solid var(--borde);
+    color: var(--texto);
+    padding: 80px 0 30px;
+}
+
+.footer-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-column-info,
+.footer-column-links,
+.footer-column-subscribe {
+    flex: 1;
+    min-width: 220px;
+}
+
+.footer-brand-name {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 25px;
+    background: linear-gradient(45deg, #F0EBFF 5%, #7B2FFF 40%, #FF006E 65%, #FF6B00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-text-muted {
+    color: var(--apagado);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.footer-social-links { display: flex; gap: 20px; }
+
+.footer-social-links a {
+    color: var(--apagado);
+    font-size: 1.3rem;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.footer-social-links a:hover {
+    color: var(--cian);
+    transform: translateY(-2px);
+}
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--texto);
+}
+
+.footer-list { list-style: none; padding: 0; }
+
+.footer-list li { margin-bottom: 12px; }
+
+.footer-list li a {
+    color: var(--apagado);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.footer-list li a:hover { color: var(--texto); }
+
+.footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-input {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    padding: 14px;
+    border-radius: 8px;
+    color: var(--texto);
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.footer-input:focus {
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06);
+}
+
+.footer-input::placeholder { color: var(--apagado); }
+
+.footer-submit-btn {
+    background: var(--grad-fuego);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: box-shadow 0.3s, transform 0.2s;
+    box-shadow: 0 4px 20px rgba(255, 0, 110, 0.3);
+    font-family: inherit;
+}
+
+.footer-submit-btn:hover {
+    box-shadow: 0 6px 28px rgba(255, 107, 0, 0.45);
+    transform: translateY(-1px);
+}
+
+.footer-copyright-bar {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    text-align: center;
+}
+
+.footer-copyright-bar p {
+    color: var(--apagado);
+    font-size: 0.85rem;
+}
+
+
+/* ============================================================
+   BOTÓN SUBIR ARRIBA
+   ============================================================ */
+.btn-subir {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--grad-uv);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(123, 47, 255, 0.5);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s;
+    pointer-events: none;
+}
+
+.btn-subir.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.btn-subir:hover {
+    box-shadow: 0 6px 28px rgba(255, 0, 110, 0.5);
+    transform: translateY(-3px);
+}
+
+
+/* ============================================================
+   RESPONSIVE — CABECERA MÓVIL (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+    .btn-hamburguesa { display: flex; }
+
+    .menu {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(8, 5, 15, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 20px 0 30px;
+        border-bottom: 1px solid var(--borde);
+        z-index: 1999;
+        animation: deslizarMenu 0.3s ease;
+    }
+
+    @keyframes deslizarMenu {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu.abierto { display: flex; }
+
+    .menu a {
+        width: 100%;
+        text-align: center;
+        padding: 16px 20px;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(123, 47, 255, 0.08);
+        color: var(--apagado);
+    }
+
+    .menu a:last-child { border-bottom: none; }
+
+    .menu a:hover {
+        background: rgba(123, 47, 255, 0.08);
+        color: var(--texto);
+        -webkit-text-fill-color: var(--texto);
+    }
+
+    .header-transparent { padding: 14px 20px; align-items: center; }
+
+    .iconos-nav { display: flex; align-items: center; gap: 14px; }
+}
+
+/* ============================================================
+   RESPONSIVE — FOOTER (≤ 850px)
+   ============================================================ */
+@media (max-width: 850px) {
+    .footer-wrapper      { flex-direction: column; text-align: center; }
+    .footer-social-links { justify-content: center; }
+    .footer-form         { max-width: 350px; margin: 0 auto; }
+}

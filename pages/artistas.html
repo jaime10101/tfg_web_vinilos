@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artistas — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/artistas.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- HERO -->
+    <section class="hero-artistas">
+        <div class="hero-fondo">
+            <div class="hero-orbe orbe-1"></div>
+            <div class="hero-orbe orbe-2"></div>
+            <div class="hero-scanlines"></div>
+        </div>
+
+        <div class="tira-fotos" id="tiraFotos" aria-hidden="true"></div>
+
+        <div class="hero-contenido">
+            <span class="hero-etiqueta">
+                <i class="fa-solid fa-microphone-lines"></i>
+                Más de 120 artistas
+            </span>
+            <h1>
+                Descubre a los<br>
+                <span class="titulo-grad">artistas</span> que<br>
+                dan vida al vinilo
+            </h1>
+            <p>
+                Desde leyendas del rock hasta las nuevas voces del indie.
+                Encuentra vinilos y merch oficial de tus músicos favoritos.
+            </p>
+            <div class="hero-estadisticas">
+                <div class="hero-estadistica">
+                    <span class="estadistica-numero">120+</span>
+                    <span class="estadistica-etiqueta">Artistas</span>
+                </div>
+                <div class="hero-divisor"></div>
+                <div class="hero-estadistica">
+                    <span class="estadistica-numero">6</span>
+                    <span class="estadistica-etiqueta">Géneros</span>
+                </div>
+                <div class="hero-divisor"></div>
+                <div class="hero-estadistica">
+                    <span class="estadistica-numero">500+</span>
+                    <span class="estadistica-etiqueta">Vinilos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLORAR ARTISTAS -->
+    <section class="seccion-explorar" style="padding-top: 80px;">
+        <div class="contenedor">
+            <div class="barra-superior">
+                <div class="campo-busqueda">
+                    <i class="fa-solid fa-search icono-busqueda"></i>
+                    <input type="text" id="campoBusqueda" placeholder="Buscar artista…" autocomplete="off">
+                </div>
+                <div class="filtros-genero" id="filtrosGenero">
+                    <button class="btn-genero activo" data-genre="all">Todos</button>
+                    <button class="btn-genero" data-genre="rock">Rock</button>
+                    <button class="btn-genero" data-genre="pop">Pop</button>
+                    <button class="btn-genero" data-genre="indie">Indie</button>
+                    <button class="btn-genero" data-genre="jazz">Jazz</button>
+                    <button class="btn-genero" data-genre="electronica">Electrónica</button>
+                </div>
+                <select class="selector-orden" id="selectOrden">
+                    <option value="popularity">Popularidad</option>
+                    <option value="name">Nombre A–Z</option>
+                    <option value="albums">Más álbumes</option>
+                </select>
+            </div>
+
+            <div class="info-resultados">
+                <span id="contadorArtistas">0 artistas</span>
+            </div>
+            <div class="rejilla-artistas" id="rejilla"></div>
+
+            <div class="sin-resultados" id="sinResultados" style="display: none;">
+                <i class="fa-solid fa-user-slash"></i>
+                <p>No se encontraron artistas</p>
+                <span>Prueba con otro término o género</span>
+            </div>
+
+            <div class="zona-cargar-mas" id="zonaCargarMas">
+                <button class="btn-cargar-mas" id="btnCargarMas">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    Ver más artistas
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GÉNEROS -->
+    <section class="seccion-generos">
+        <div class="contenedor">
+            <div class="seccion-cabecera">
+                <div>
+                    <h2 class="seccion-titulo">Explorar por Género</h2>
+                    <p class="seccion-subtitulo">Encuentra artistas según tu estilo favorito</p>
+                </div>
+            </div>
+            <div class="cuadricula-generos" id="gridGeneros"></div>
+        </div>
+    </section>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/artistas.js"></script>
+</body>
+</html>

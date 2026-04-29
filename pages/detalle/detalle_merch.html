@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Producto — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/detalle_merch.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+    <!-- MIGAS DE PAN -->
+    <div class="migas-pan">
+        <a href="../../index.html">Inicio</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="../merch.html">Merch</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span id="migaCategoria">Cargando...</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span id="migaNombre">Cargando...</span>
+    </div>
+
+    <!-- DETALLE -->
+    <main class="contenedor-detalle">
+        <div class="detalle-grid">
+
+            <!-- IMAGEN -->
+            <div class="zona-imagen">
+                <div class="marco-imagen">
+                    <img id="productoImagen" src="" alt="Producto">
+                    <span class="insignia-nuevo" id="insigniaNuevo" style="display:none">NUEVO</span>
+                </div>
+                <div class="miniaturas">
+                    <div class="miniatura activa" id="miniaturaUnica"></div>
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="zona-info">
+                <div class="info-cabecera">
+                    <span class="etiqueta-categoria" id="etiquetaCategoria">MERCH OFICIAL</span>
+                    <h1 id="productoNombre"></h1>
+                    <p id="productoArtista" class="artista-producto"></p>
+                </div>
+
+                <div class="zona-precio">
+                    <span class="precio-grande" id="productoPrecio">€0,00</span>
+                    <span class="precio-antes" id="precioAntes" style="display:none"></span>
+                </div>
+
+                <div class="selector-talla" id="selectorTalla" style="display:none">
+                    <h3 class="titulo-selector">Talla <span id="tallaSeleccionada"></span></h3>
+                    <div class="opciones-talla" id="opcionesTalla"></div>
+                    <a href="#" class="guia-tallas"><i class="fa-solid fa-ruler"></i> Guía de tallas</a>
+                </div>
+
+                <div class="selector-color" id="selectorColor" style="display:none">
+                    <h3 class="titulo-selector">Color: <span id="colorSeleccionado"></span></h3>
+                    <div class="opciones-color" id="opcionesColor"></div>
+                </div>
+
+                <div class="bloque-descripcion">
+                    <h3 class="titulo-descripcion">Descripción</h3>
+                    <p class="descripcion-larga" id="productoDescripcion"></p>
+                </div>
+
+                <div class="detalles-tabla">
+                    <div class="fila-detalle"><span>Material</span><span id="productoMaterial">100% algodón orgánico</span></div>
+                    <div class="fila-detalle"><span>Categoría</span><span id="productoCategoria"></span></div>
+                    <div class="fila-detalle"><span>Artista</span><span id="productoArtistaBD"></span></div>
+                    <div class="fila-detalle"><span>Disponibilidad</span><span class="en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span></div>
+                </div>
+
+                <div class="zona-acciones">
+                    <div class="selector-cantidad">
+                        <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
+                        <span class="cantidad-actual" id="cantidad">1</span>
+                        <button class="btn-cantidad" id="btnMas"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <button class="btn-anadir-carrito" id="btnAnadirCarrito">
+                        <i class="fa-solid fa-cart-shopping"></i> Añadir al carrito
+                    </button>
+                </div>
+
+                <div class="aviso-carrito" id="avisoCarrito" style="display:none">
+                    <i class="fa-solid fa-circle-check"></i> ¡Añadido al carrito!
+                </div>
+
+                <a href="javascript:history.back()" class="enlace-volver">
+                    <i class="fa-solid fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- RELACIONADOS -->
+    <section class="seccion-relacionados">
+        <div class="contenedor-relacionados">
+            <h2 class="titulo-relacionados">También te puede gustar</h2>
+            <div class="grid-relacionados" id="gridRelacionados"></div>
+        </div>
+    </section>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../../js/header.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/detalle_merch.js"></script>
+</body>
+</html>

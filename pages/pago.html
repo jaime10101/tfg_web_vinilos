@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito & Pago — Vinyl Sounds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/pago.css">
+</head>
+<body>
+
+    <!-- Header inyectado por header.js -->
+
+<!-- PAGE 1: CARRITO -->
+<div class="page active" id="page-cart">
+  <div class="stepper-wrap">
+    <div class="stepper">
+      <div class="step-item"><div class="step-circle active">1</div><span class="step-label active">Carrito</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">2</div><span class="step-label">Envío</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">3</div><span class="step-label">Pago</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">4</div><span class="step-label">Confirmación</span></div>
+    </div>
+  </div>
+  <div class="checkout-layout">
+    <div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;">
+        <h1>Tu Carrito <span id="cart-count" style="color:var(--rojo);font-size:1.5rem;">(3)</span></h1>
+        <button class="continue-shop"><i class="fa-solid fa-arrow-left"></i> Seguir comprando</button>
+      </div>
+      <p class="subtitle">Tienes envío gratis a partir de 100€</p>
+      <div class="free-ship-bar">
+        <i class="fa-solid fa-truck"></i>
+        <span id="free-msg-bar">Te faltan <span class="hl" id="free-amt">€0.00</span> para envío gratis</span>
+        <div class="ship-progress"><div class="ship-fill" id="ship-fill" style="width:0%"></div></div>
+      </div>
+      <div id="cart-list"></div>
+      <div id="empty-state" style="display:none;text-align:center;padding:50px 0;color:var(--apagado);">
+        <i class="fa-solid fa-cart-shopping" style="font-size:2.8rem;margin-bottom:14px;display:block;"></i>
+        Tu carrito está vacío
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="s-title"><i class="fa-solid fa-receipt"></i> Resumen del Pedido</div>
+      <div class="s-row"><span class="lbl" id="s-count-lbl">Subtotal (0 artículos)</span><span class="val" id="s-sub">€0.00</span></div>
+      <div class="s-row"><span class="lbl">Envío</span><span class="val free" id="s-ship">Gratis</span></div>
+      <div class="s-row"><span class="lbl">Impuestos (21%)</span><span class="val">Incluidos</span></div>
+      <hr class="s-divider">
+      <div class="promo-label">Código Promocional</div>
+      <div class="promo-row">
+        <input type="text" class="promo-input" id="promo-input" placeholder="Ej: VINYL20">
+        <button class="btn-promo" onclick="applyPromo()">Aplicar</button>
+      </div>
+      <hr class="s-divider">
+      <div class="s-total"><span class="lbl">Total</span><span class="val" id="s-total">€0.00</span></div>
+      <div class="s-iva">Incluye IVA (21%)</div>
+      <button class="btn-primary" onclick="goTo(2)">Finalizar Compra <i class="fa-solid fa-arrow-right"></i></button>
+      <div class="ssl-icons">
+        <span class="ssl-icon"><i class="fa-solid fa-credit-card"></i></span>
+        <span class="ssl-icon"><i class="fa-solid fa-lock"></i></span>
+        <span class="ssl-icon"><i class="fa-solid fa-globe"></i></span>
+      </div>
+      <div class="ssl-badge">Pagos 100% seguros y encriptados</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: ENVÍO -->
+<div class="page" id="page-shipping">
+  <div class="stepper-wrap">
+    <div class="stepper">
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle active">2</div><span class="step-label active">Envío</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">3</div><span class="step-label">Pago</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">4</div><span class="step-label">Confirmación</span></div>
+    </div>
+  </div>
+  <div class="checkout-layout">
+    <div>
+      <h1>Dirección de Envío</h1>
+      <p class="subtitle">¿Dónde quieres recibir tu pedido?</p>
+      <div class="panel">
+        <div class="panel-title"><i class="fa-solid fa-user"></i> Datos de Contacto</div>
+        <div class="field-row">
+          <div class="field-group"><div class="field-label">Nombre</div><input type="text" class="field-input" id="sh-name" placeholder="Juan"></div>
+          <div class="field-group"><div class="field-label">Apellidos</div><input type="text" class="field-input" id="sh-surname" placeholder="Pérez"></div>
+        </div>
+        <div class="field-group"><div class="field-label">Email</div><input type="email" class="field-input" id="sh-email" placeholder="usuario@ejemplo.com"></div>
+        <div class="field-group"><div class="field-label">Teléfono</div><input type="tel" class="field-input" id="sh-phone" placeholder="+34 600 000 000"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><i class="fa-solid fa-location-dot"></i> Dirección</div>
+        <div class="field-group"><div class="field-label">Calle y número</div><input type="text" class="field-input" id="sh-street" placeholder="Calle de la Música 42, 3ºB"></div>
+        <div class="field-row3">
+          <div class="field-group"><div class="field-label">Ciudad</div><input type="text" class="field-input" id="sh-city" placeholder="Madrid"></div>
+          <div class="field-group"><div class="field-label">Código Postal</div><input type="text" class="field-input" id="sh-cp" placeholder="28001" maxlength="5"></div>
+          <div class="field-group"><div class="field-label">País</div>
+            <select class="field-input" id="sh-country">
+              <option value="ES" selected>España</option>
+              <option value="MX">México</option>
+              <option value="AR">Argentina</option>
+              <option value="US">EE.UU.</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><i class="fa-solid fa-truck"></i> Método de Envío</div>
+        <div class="ship-option" id="ship-std" onclick="selectShipping('std', true)">
+          <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-std"></div></div>
+          <div class="ship-info"><div class="ship-name">Envío Estándar (Correos)</div><div class="ship-desc">Entrega en 3–5 días laborables</div></div>
+          <div class="ship-price">€4.95</div>
+        </div>
+        <div class="ship-option" id="ship-exp" onclick="selectShipping('exp', true)">
+          <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-exp"></div></div>
+          <div class="ship-info"><div class="ship-name">Envío Express (24h)</div><div class="ship-desc">Entrega al día siguiente hábil</div></div>
+          <div class="ship-price">€9.95</div>
+        </div>
+        <div class="ship-option" id="ship-free" onclick="selectShipping('free', true)" style="display:none;">
+          <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-free"></div></div>
+          <div class="ship-info"><div class="ship-name">Envío Gratuito</div><div class="ship-desc">¡Tu pedido supera los 100€!</div></div>
+          <div class="ship-price free-tag">Gratis</div>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goTo(1)"><i class="fa-solid fa-arrow-left"></i> Volver al Carrito</button>
+        <button class="btn-continue" onclick="goToPayment()">Continuar al Pago <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="s-title"><i class="fa-solid fa-bag-shopping"></i> Tu Pedido</div>
+      <div id="ship-summary-items"></div>
+      <hr class="s-divider">
+      <div class="s-row"><span class="lbl">Subtotal</span><span class="val" id="ss-sub">€0.00</span></div>
+      <div class="s-row"><span class="lbl">Envío</span><span class="val" id="ss-ship">€4.95</span></div>
+      <hr class="s-divider">
+      <div class="s-total"><span class="lbl">Total</span><span class="val" id="ss-total">€0.00</span></div>
+      <div class="s-iva">Incluye IVA</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: PAGO -->
+<div class="page" id="page-payment">
+  <div class="stepper-wrap">
+    <div class="stepper">
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Envío</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle active">3</div><span class="step-label active">Pago</span></div>
+      <div class="step-line"></div>
+      <div class="step-item"><div class="step-circle">4</div><span class="step-label">Confirmación</span></div>
+    </div>
+  </div>
+  <div class="checkout-layout">
+    <div>
+      <h1>Método de Pago</h1>
+      <p class="subtitle">Finaliza tu compra de forma segura.</p>
+      <button class="card-method-btn"><i class="fa-solid fa-credit-card"></i> Tarjeta</button>
+      <div class="panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+          <div class="panel-title" style="margin:0;"><i class="fa-solid fa-credit-card"></i> Detalles de la Tarjeta</div>
+          <div class="card-logos"><span class="card-logo">VISA</span><span class="card-logo">MC</span><span class="card-logo">AMEX</span></div>
+        </div>
+        <div class="field-group">
+          <div class="field-label"><i class="fa-solid fa-lock" style="font-size:.7rem;"></i> Número de Tarjeta</div>
+          <div class="input-wrap" id="wrap-cn">
+            <input type="text" class="field-input" id="card-num" placeholder="0000 0000 0000 0000" maxlength="19" oninput="fmtCard(this)">
+            <span class="valid-icon"><i class="fa-solid fa-check"></i></span>
+          </div>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Nombre del Titular</div>
+          <div class="input-wrap" id="wrap-ch">
+            <input type="text" class="field-input" id="card-holder" placeholder="Como aparece en la tarjeta" oninput="chkHolder(this)">
+            <span class="valid-icon"><i class="fa-solid fa-check"></i></span>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <div class="field-label">Fecha de Caducidad</div>
+            <div class="input-wrap" id="wrap-ex">
+              <input type="text" class="field-input" id="card-exp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)">
+              <span class="valid-icon"><i class="fa-solid fa-check"></i></span>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field-label">CVV</div>
+            <div class="input-wrap" id="wrap-cv">
+              <input type="text" class="field-input" id="card-cvv" placeholder="123" maxlength="4" oninput="chkCVV(this)">
+              <span class="valid-icon"><i class="fa-solid fa-check"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle" id="bill-toggle" onclick="toggleBill()"></div>
+          <span>La dirección de facturación es la misma que la de envío</span>
+        </div>
+      </div>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goTo(2)"><i class="fa-solid fa-arrow-left"></i> Volver al Envío</button>
+        <button class="btn-continue" id="btn-pay" onclick="processPay()">
+          <i class="fa-solid fa-lock"></i> Pagar <span id="pay-amt">€0.00</span>
+        </button>
+      </div>
+    </div>
+    <div class="summary-card">
+      <div class="s-title"><i class="fa-solid fa-gift"></i> Resumen del Pedido</div>
+      <div id="pay-summary-items"></div>
+      <hr class="s-divider">
+      <div class="s-row"><span class="lbl">Subtotal</span><span class="val" id="ps-sub">€0.00</span></div>
+      <div class="s-row"><span class="lbl">Envío</span><span class="val" id="ps-ship">€0.00</span></div>
+      <hr class="s-divider">
+      <div class="s-total"><span class="lbl">Total</span><span class="val" id="ps-total">€0.00</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: CONFIRMACIÓN -->
+<div class="page" id="page-confirm">
+  <div class="stepper-wrap">
+    <div class="stepper">
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Envío</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Pago</span></div>
+      <div class="step-line done"></div>
+      <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Confirmación</span></div>
+    </div>
+  </div>
+  <div class="confirm-wrap">
+    <div class="confirm-check"><i class="fa-solid fa-check"></i></div>
+    <h1 class="confirm-title">¡Gracias por tu compra!</h1>
+    <p class="confirm-sub">Tu pedido <span id="conf-order-id">#VS-0000</span> ha sido confirmado.</p>
+    <p class="confirm-email" id="conf-email-msg">Hemos enviado los detalles a tu correo.</p>
+    <div class="confirm-grid">
+      <div class="confirm-left">
+        <div class="panel" style="margin-bottom:0;">
+          <div class="panel-title"><i class="fa-solid fa-gift"></i> Resumen del Pedido</div>
+          <div id="conf-items"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;">
+          <div class="addr-box">
+            <div class="addr-label"><i class="fa-solid fa-box"></i> Dirección de Envío</div>
+            <div class="addr-name" id="conf-name">–</div>
+            <div class="addr-line" id="conf-addr">–</div>
+          </div>
+          <div class="delivery-box">
+            <div class="addr-label"><i class="fa-solid fa-calendar-days"></i> Entrega Estimada</div>
+            <div class="delivery-date" id="conf-date">–</div>
+            <div class="delivery-method" id="conf-method">–</div>
+            <div class="dp-label">Estado: Procesando</div>
+            <div class="dp-bar"><div class="dp-fill"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="confirm-right">
+        <div class="total-conf-card">
+          <div class="addr-label" style="margin-bottom:11px;"><i class="fa-solid fa-receipt"></i> Total</div>
+          <div class="tc-row"><span class="lbl">Subtotal</span><span class="val" id="cf-sub">€0.00</span></div>
+          <div class="tc-row"><span class="lbl">Envío</span><span class="val" id="cf-ship">€0.00</span></div>
+          <div class="tc-row"><span class="lbl">IVA (21%)</span><span class="val">Incluido</span></div>
+          <div class="tc-total"><span class="lbl">Total</span><span class="val" id="cf-total">€0.00</span></div>
+        </div>
+        <div class="payment-method-badge">
+          <div class="visa-badge">VISA</div>
+          <div><div class="pm-info">Método de pago</div><div class="pm-sub" id="conf-card">•••• 0000</div></div>
+        </div>
+        <button class="btn-primary" onclick="goTo(1); resetCart();">
+          <i class="fa-solid fa-bag-shopping"></i> Seguir Comprando
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><i id="t-icon" class="fa-solid fa-circle-info"></i><span id="t-msg">–</span></div>
+
+    <!-- Footer inyectado por header.js -->
+
+    <script src="../js/header.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/pago.js"></script>
+</body>
+</html>
