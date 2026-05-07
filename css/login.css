@@ -1,10 +1,10 @@
 /* ============================================================
    LOGIN.CSS — Página de inicio de sesión
-   Paleta: igual que el resto del proyecto (global.css)
+   Header, footer y variables en global.css
    ============================================================ */
 
-/* Importa variables del proyecto (se usa junto a global.css) */
 
+/* Body — fondo con gradientes radiales */
 body {
     background:
         radial-gradient(circle at 15% 20%, rgba(255, 0, 110, 0.08), transparent 40%),
@@ -13,54 +13,56 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Sin padding-top: el login no tiene header fijo */
     padding-top: 0;
 }
 
 
 /* ============================================================
-   LAYOUT PRINCIPAL
+   LAYOUT — dos columnas: formulario + decorativa
    ============================================================ */
-.container {
+.contenedor-login {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
     flex: 1;
     min-height: 100vh;
+    padding-top: 70px;
 }
 
 
 /* ============================================================
-   IZQUIERDA — Formulario de login
+   TARJETA LOGIN — columna izquierda con formulario
    ============================================================ */
-.login-card {
-    padding: 80px 80px;
+.tarjeta-login {
+    padding: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.login-card h1 {
+/* Título */
+.tarjeta-login h1 {
     font-size: 34px;
     font-weight: 800;
     margin-bottom: 10px;
     color: var(--texto);
 }
 
-.subtitle {
+/* Subtítulo descriptivo */
+.subtitulo {
     color: var(--apagado);
     margin-bottom: 40px;
     font-size: 14px;
     line-height: 1.6;
 }
 
-/* Etiquetas */
+/* Etiquetas de campo */
 label {
     font-size: 14px;
     color: #ccc;
     display: block;
 }
 
-/* Inputs */
+/* Inputs generales */
 input[type="email"],
 input[type="password"],
 input[type="text"] {
@@ -77,8 +79,11 @@ input[type="text"] {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-input::placeholder { color: var(--apagado); }
+input::placeholder {
+    color: var(--apagado);
+}
 
+/* Focus — resaltado morado */
 input:focus {
     outline: none;
     border-color: var(--morado);
@@ -88,28 +93,32 @@ input:focus {
 }
 
 /* Fila etiqueta contraseña + enlace olvidé */
-.password-label {
+.etiqueta-contrasena {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0;
 }
 
-.forgot {
+/* Enlace olvidé contraseña */
+.enlace-olvidaste {
     font-size: 12px;
     color: var(--rojo);
     text-decoration: none;
     transition: opacity 0.2s;
 }
 
-.forgot:hover { opacity: 0.75; }
+.enlace-olvidaste:hover {
+    opacity: 0.75;
+}
 
-/* Wrapper para el ojo de contraseña */
-.password-wrapper {
+/* Wrapper para el toggle de contraseña */
+.campo-contrasena {
     position: relative;
 }
 
-.toggle-pass {
+/* Botón toggle ojo */
+.toggle-contrasena {
     position: absolute;
     right: 14px;
     top: 50%;
@@ -118,17 +127,20 @@ input:focus {
     color: var(--apagado);
     font-size: 15px;
     transition: color 0.2s;
-    /* Ajuste para que no choque con el margin-bottom del input */
     margin-top: -12px;
 }
 
-.toggle-pass:hover { color: var(--texto); }
+.toggle-contrasena:hover {
+    color: var(--texto);
+}
 
 
 /* ============================================================
    BOTONES
    ============================================================ */
-.btn-primary {
+
+/* Botón principal — degradado UV */
+.btn-principal {
     width: 100%;
     padding: 16px;
     border-radius: 10px;
@@ -143,12 +155,13 @@ input:focus {
     transition: box-shadow 0.3s, transform 0.2s;
 }
 
-.btn-primary:hover {
+.btn-principal:hover {
     box-shadow: 0 0 35px rgba(255, 0, 110, 0.5);
     transform: translateY(-2px);
 }
 
-.divider {
+/* Separador "O continúa con" */
+.separador {
     text-align: center;
     margin: 24px 0;
     color: var(--apagado);
@@ -156,8 +169,8 @@ input:focus {
     position: relative;
 }
 
-.divider::before,
-.divider::after {
+.separador::before,
+.separador::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -166,10 +179,10 @@ input:focus {
     background: var(--borde);
 }
 
-.divider::before { left: 0; }
-.divider::after  { right: 0; }
+.separador::before { left: 0; }
+.separador::after  { right: 0; }
 
-/* Botón de Google */
+/* Botón Google */
 .btn-google {
     width: 100%;
     padding: 13px;
@@ -199,42 +212,48 @@ input:focus {
 }
 
 /* Enlace a registro */
-.register-link {
+.enlace-registro {
     text-align: center;
     font-size: 13px;
     color: var(--apagado);
     margin-top: 8px;
 }
 
-.register-link a {
+.enlace-registro a {
     color: var(--morado);
     text-decoration: none;
     font-weight: 700;
     transition: color 0.2s;
 }
 
-.register-link a:hover { color: var(--rojo); }
+.enlace-registro a:hover {
+    color: var(--rojo);
+}
 
 
 /* ============================================================
-   DERECHA — Imagen / decorativa
+   TARJETA INFO — columna derecha decorativa
    ============================================================ */
-.info-card {
+
+/* Columna con gradientes y texto alineado a la derecha */
+.tarjeta-info {
     background:
         radial-gradient(ellipse at 30% 30%, rgba(123, 47, 255, 0.25) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 80%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
         linear-gradient(180deg, #1c0d2a, #08050F);
-    padding: 60px 80px 60px;
+    padding: 60px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
     position: relative;
     overflow: hidden;
     min-height: 100vh;
 }
 
-/* Líneas de escaneo decorativas */
-.info-card::before {
+/* Líneas de escaneo */
+.tarjeta-info::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -248,7 +267,8 @@ input:focus {
     pointer-events: none;
 }
 
-.badge {
+/* Insignia novedad */
+.insignia {
     background: var(--grad-fuego);
     padding: 5px 14px;
     border-radius: 20px;
@@ -258,10 +278,12 @@ input:focus {
     text-transform: uppercase;
     width: fit-content;
     margin-bottom: 16px;
+    margin-left: auto;
     color: #fff;
 }
 
-.info-card h2 {
+/* Título */
+.tarjeta-info h2 {
     font-size: clamp(1.8rem, 3vw, 2.5rem);
     font-weight: 900;
     margin-bottom: 15px;
@@ -269,7 +291,8 @@ input:focus {
     line-height: 1.15;
 }
 
-.info-card p {
+/* Descripción */
+.tarjeta-info p {
     color: var(--apagado);
     max-width: 380px;
     font-size: 14px;
@@ -278,23 +301,24 @@ input:focus {
 
 
 /* ============================================================
-   RESPONSIVE — MÓVIL (≤ 768px)
+   RESPONSIVE — 768px
    ============================================================ */
 @media (max-width: 768px) {
-    .container {
+    /* Una sola columna — oculta la derecha */
+    .contenedor-login {
         display: block;
     }
 
-    .info-card {
+    .tarjeta-info {
         display: none;
     }
 
-    .login-card {
+    .tarjeta-login {
         padding: 60px 24px 40px;
         min-height: 100vh;
     }
 
-    .login-card h1 {
+    .tarjeta-login h1 {
         font-size: 26px;
     }
 }

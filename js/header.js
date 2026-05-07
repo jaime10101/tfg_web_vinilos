@@ -1,53 +1,46 @@
 /* ============================================================
    HEADER.JS — Carga automática de header y footer
-   Incluir este script en TODAS las páginas del proyecto.
-   Se encarga de:
+   Se incluye en TODAS las páginas del proyecto.
+   Gestiona:
      1. Inyectar components/header.html y components/footer.html
      2. Marcar el enlace activo según la URL actual
-     3. Menú hamburguesa (móvil)
-     4. Animación de entrada de la cabecera
+     3. Menú hamburguesa en móvil
+     4. Animación de entrada del header
      5. Botón "Volver arriba"
    ============================================================ */
 
 (function () {
 
-    /* ----------------------------------------------------------
-       Calcula la ruta relativa a la raíz del proyecto.
-       Funciona aunque la página esté en /pages/ o /pages/detalle/
-    ---------------------------------------------------------- */
+    /* Calcula la ruta relativa a la raíz del proyecto
+       — funciona desde /pages/ y /pages/detalle/ */
     function rutaBase() {
-        const profundidad = window.location.pathname.split('/').filter(Boolean).length;
-        // index.html está en la raíz → profundidad 0 o 1
+    const profundidad = window.location.pathname.split('/').filter(Boolean).length;
         if (profundidad <= 1) return './';
         return '../'.repeat(profundidad - 1);
     }
 
-    /* ----------------------------------------------------------
-       Inyecta el HTML de un componente en el elemento indicado
-    ---------------------------------------------------------- */
+    /* Inyecta el HTML de un componente antes del elemento indicado */
     async function cargarComponente(url, insertarAntes) {
         try {
             const res  = await fetch(url);
             const html = await res.text();
             const div  = document.createElement('div');
             div.innerHTML = html;
-            // Insertamos antes del primer hijo del body (o al final si no hay referencia)
-            document.body.insertBefore(div.firstElementChild, insertarAntes || null);
+            /* Inserta TODOS los hijos — necesario para el footer + btn-subir */
+            while (div.firstElementChild) {
+                document.body.insertBefore(div.firstElementChild, insertarAntes || null);
+            }
         } catch (e) {
             console.warn(`[header.js] No se pudo cargar ${url}`, e);
         }
     }
 
-    /* ----------------------------------------------------------
-       Marca como activo el enlace del menú que coincide con
-       la URL actual
-    ---------------------------------------------------------- */
+    /* Marca como activo el enlace del menú que coincide con la URL actual */
     function marcarEnlaceActivo() {
         const ruta = window.location.pathname;
         document.querySelectorAll('.menu a').forEach(a => {
             const href = a.getAttribute('href') || '';
-            // Coincidencia exacta o por segmento de ruta
-            if (
+                      if (
                 href === ruta ||
                 (href !== '/' && href !== '/index.html' && ruta.includes(href.replace('/index.html', '')))
             ) {
@@ -56,9 +49,7 @@
         });
     }
 
-    /* ----------------------------------------------------------
-       Menú hamburguesa para móvil
-    ---------------------------------------------------------- */
+    /* Menú hamburguesa — abre/cierra en móvil */
     function iniciarHamburguesa() {
         const btn  = document.getElementById('btnHamburguesa');
         const menu = document.getElementById('menu-nav');
@@ -69,7 +60,7 @@
             menu.classList.toggle('abierto');
         });
 
-        // Cierra al pulsar un enlace
+        /* Cierra al pulsar un enlace */
         menu.querySelectorAll('a').forEach(a => {
             a.addEventListener('click', () => {
                 btn.classList.remove('abierto');
@@ -77,7 +68,7 @@
             });
         });
 
-        // Cierra al pulsar fuera
+        /* Cierra al pulsar fuera del menú */
         document.addEventListener('click', e => {
             if (!btn.contains(e.target) && !menu.contains(e.target)) {
                 btn.classList.remove('abierto');
@@ -86,18 +77,14 @@
         });
     }
 
-    /* ----------------------------------------------------------
-       Animación de entrada del header
-    ---------------------------------------------------------- */
+    /* Animación de entrada del header */
     function animarHeader() {
         const cabecera = document.querySelector('.header-transparent');
         if (!cabecera) return;
         setTimeout(() => cabecera.classList.add('visible'), 200);
     }
 
-    /* ----------------------------------------------------------
-       Botón "Volver arriba"
-    ---------------------------------------------------------- */
+    /* Botón volver arriba — aparece al hacer scroll */
     function iniciarBtnSubir() {
         const btn = document.getElementById('btnSubir');
         if (!btn) return;
@@ -111,28 +98,27 @@
         });
     }
 
-    /* ----------------------------------------------------------
-       INICIALIZACIÓN PRINCIPAL
-       Carga header → footer → activa funcionalidades
-    ---------------------------------------------------------- */
+    /* ============================================================
+       INICIALIZACIÓN — header → footer → funcionalidades
+       ============================================================ */
     async function init() {
-        const base        = rutaBase();
-        const primerHijo  = document.body.firstElementChild;
+        const base       = rutaBase();
+        const primerHijo = document.body.firstElementChild;
 
-        // 1. Inyectar header al principio del body
+        /* 1. Header al inicio del body */
         await cargarComponente(`${base}components/header.html`, primerHijo);
 
-        // 2. Inyectar footer al final del body
+        /* 2. Footer al final del body — btn-subir viene dentro */
         await cargarComponente(`${base}components/footer.html`, null);
 
-        // 3. Activar funcionalidades tras inyectar el HTML
+        /* 3. Activar funcionalidades tras inyectar el HTML */
         marcarEnlaceActivo();
         iniciarHamburguesa();
         animarHeader();
         iniciarBtnSubir();
     }
 
-    // Ejecutar cuando el DOM esté listo
+    /* Ejecutar cuando el DOM esté listo */
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {

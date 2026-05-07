@@ -4,154 +4,416 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Cuenta — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/cuenta.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <main class="cuenta-contenedor">
+    <!-- Layout principal — sidebar + contenido -->
+    <div class="cuenta-wrapper">
 
-        <!-- SIDEBAR: navegación de cuenta -->
+        <!-- Sidebar — avatar, puntos y navegación -->
         <aside class="cuenta-sidebar">
-            <div class="cuenta-avatar">
-                <div class="avatar-circulo">
-                    <i class="fa-solid fa-user"></i>
+
+            <!-- Bloque usuario — avatar, nombre y nivel -->
+            <div class="sidebar-usuario">
+                <div class="avatar-wrap">
+                    <div class="avatar-iniciales" id="avatarIniciales">AR</div>
+                    <img class="avatar-img oculta" id="avatarImg" alt="Avatar">
+                    <!-- Botón cambiar foto -->
+                    <label class="btn-cambiar-foto" title="Cambiar foto" for="inputFoto">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+                    <input type="file" id="inputFoto" accept="image/*" style="display:none">
+                    <span class="avatar-online"></span>
                 </div>
-                <div class="cuenta-nombre">
-                    <span id="nombreUsuario">Usuario</span>
-                    <span class="cuenta-email" id="emailUsuario">usuario@email.com</span>
+                <div class="sidebar-info">
+                    <p class="sidebar-nombre" id="sidebarNombre">Alex Rodríguez</p>
+                    <p class="sidebar-email"  id="sidebarEmail">alex.music@ejemplo.com</p>
+                    <!-- Badge de nivel — color dinámico según puntos -->
+                    <span class="nivel-badge" id="sidebarNivel">
+                        <i class="fa-solid fa-crown"></i> Plata
+                    </span>
                 </div>
             </div>
 
-            <nav class="cuenta-nav">
-                <button class="cuenta-nav-btn activo" data-seccion="pedidos">
-                    <i class="fa-solid fa-box"></i> Mis Pedidos
+            <!-- Vinyl Points — barra de progreso y puntos actuales -->
+            <button class="sidebar-puntos" id="btnPuntos">
+                <div class="puntos-header">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Vinyl Points</span>
+                    <i class="fa-solid fa-chevron-right puntos-flecha"></i>
+                </div>
+                <div class="puntos-valor" id="sidebarPuntos">1.250</div>
+                <div class="puntos-barra-wrap">
+                    <div class="puntos-barra">
+                        <div class="puntos-fill" id="puntosFill" style="width:0%"></div>
+                    </div>
+                    <span class="puntos-meta" id="puntosMeta">250 pts para Oro</span>
+                </div>
+            </button>
+
+            <!-- Navegación — secciones de la cuenta -->
+            <nav class="sidebar-nav">
+                <button class="nav-item activo" data-sec="perfil">
+                    <i class="fa-regular fa-user"></i> Perfil
                 </button>
-                <button class="cuenta-nav-btn" data-seccion="favoritos">
-                    <i class="fa-solid fa-heart"></i> Favoritos
+                <button class="nav-item" data-sec="pedidos">
+                    <i class="fa-solid fa-bag-shopping"></i> Mis Pedidos
                 </button>
-                <button class="cuenta-nav-btn" data-seccion="perfil">
-                    <i class="fa-solid fa-pen"></i> Mi Perfil
+                <button class="nav-item" data-sec="devoluciones">
+                    <i class="fa-solid fa-rotate-left"></i> Devoluciones
                 </button>
-                <button class="cuenta-nav-btn" data-seccion="seguridad">
-                    <i class="fa-solid fa-lock"></i> Seguridad
-                </button>
-                <button class="cuenta-nav-btn btn-cerrar-sesion" id="btnCerrarSesion">
-                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                <button class="nav-item" data-sec="direcciones">
+                    <i class="fa-regular fa-map"></i> Direcciones
                 </button>
             </nav>
+
+            <div class="sidebar-sep"></div>
+
+            <!-- Cerrar sesión -->
+            <button class="nav-item nav-cerrar" id="btnCerrarSesion">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </button>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL -->
-        <div class="cuenta-contenido">
+        <!-- Contenido principal — secciones intercambiables -->
+        <main class="cuenta-main">
 
-            <!-- Sección: Mis Pedidos -->
-            <section class="seccion-cuenta activa" id="sec-pedidos">
-                <h2 class="cuenta-titulo">Mis Pedidos</h2>
-                <div class="pedidos-lista" id="listaPedidos">
-                    <!-- Pedido de ejemplo -->
-                    <div class="pedido-card">
-                        <div class="pedido-cabecera">
-                            <div>
-                                <span class="pedido-numero">#VS-4821</span>
-                                <span class="pedido-fecha">15 de marzo, 2026</span>
-                            </div>
-                            <span class="pedido-estado en-camino">
-                                <i class="fa-solid fa-truck"></i> En camino
-                            </span>
+            <!-- Sección perfil — datos personales -->
+            <section class="sec" id="sec-perfil">
+                <div class="sec-header">
+                    <div>
+                        <h2>Información de Perfil</h2>
+                        <p class="sec-sub">Gestiona tu información personal y preferencias de contacto.</p>
+                    </div>
+                </div>
+
+                <div class="panel-perfil">
+                    <!-- Fila foto — avatar, botón cambiar y hint -->
+                    <div class="perfil-foto-row">
+                        <div class="perfil-avatar-wrap">
+                            <div class="perfil-iniciales" id="perfilIniciales">AR</div>
+                            <img class="perfil-avatar oculta" id="perfilAvatar" alt="Avatar">
+                            <label class="btn-cambiar-overlay" for="inputFoto">
+                                <i class="fa-solid fa-camera"></i>
+                            </label>
                         </div>
-                        <div class="pedido-items">
-                            <div class="pedido-item">
-                                <div class="pedido-item-img" style="background:var(--superficie2)">
-                                    <i class="fa-solid fa-record-vinyl" style="color:var(--morado)"></i>
-                                </div>
-                                <div>
-                                    <p class="pedido-item-nombre">AM — Arctic Monkeys</p>
-                                    <p class="pedido-item-detalle">Vinilo LP · x1</p>
-                                </div>
-                                <span class="pedido-item-precio">€25,00</span>
-                            </div>
-                        </div>
-                        <div class="pedido-footer">
-                            <span class="pedido-total">Total: <strong>€29,95</strong></span>
-                            <button class="btn-pedido-detalle">Ver detalle</button>
+                        <div class="perfil-foto-info">
+                            <label class="btn-cambiar-foto-perfil" for="inputFoto">
+                                <i class="fa-solid fa-arrow-up-from-bracket"></i> Cambiar foto
+                            </label>
+                            <p class="foto-hint">JPG o PNG. Máx 2MB.</p>
                         </div>
                     </div>
 
-                    <div class="pedido-vacio" id="pedidosVacio" style="display:none">
-                        <i class="fa-solid fa-box-open"></i>
-                        <p>Aún no tienes pedidos</p>
-                        <a href="tienda.html" class="btn-ir-tienda">Explorar tienda</a>
+                    <!-- Campos del formulario de perfil -->
+                    <div class="perfil-grid">
+                        <div class="campo-grupo">
+                            <label>NOMBRE</label>
+                            <input type="text"  id="perfNombre"    value="Alex"                   class="campo-input">
+                        </div>
+                        <div class="campo-grupo">
+                            <label>APELLIDOS</label>
+                            <input type="text"  id="perfApellidos" value="Rodríguez"              class="campo-input">
+                        </div>
+                        <div class="campo-grupo">
+                            <label>CORREO ELECTRÓNICO</label>
+                            <input type="email" id="perfEmail"     value="alex.music@ejemplo.com" class="campo-input">
+                        </div>
+                        <div class="campo-grupo">
+                            <label>TELÉFONO</label>
+                            <input type="tel"   id="perfTelefono"  value="+34 600 000 000"        class="campo-input">
+                        </div>
+                    </div>
+
+                    <!-- Botón guardar cambios -->
+                    <div class="perfil-footer">
+                        <button class="btn-guardar" id="btnGuardarPerfil">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar Cambios
+                        </button>
                     </div>
                 </div>
             </section>
 
-            <!-- Sección: Favoritos -->
-            <section class="seccion-cuenta" id="sec-favoritos">
-                <h2 class="cuenta-titulo">Mis Favoritos</h2>
-                <div class="favoritos-vacio">
-                    <i class="fa-regular fa-heart"></i>
-                    <p>No tienes favoritos guardados</p>
-                    <a href="tienda.html" class="btn-ir-tienda">Explorar tienda</a>
+
+            <!-- Sección pedidos — historial de compras -->
+            <section class="sec oculta" id="sec-pedidos">
+                <div class="sec-header">
+                    <div>
+                        <h2>Mis Pedidos</h2>
+                        <p class="sec-sub">Gestiona tus compras recientes y revisa el estado de tus envíos.</p>
+                    </div>
+                    <!-- Indicador de conexión en tiempo real -->
+                    <div class="estado-conexion">
+                        <span class="punto-verde"></span>
+                        <span id="estadoConexion">Conectado · --:--:--</span>
+                        <button class="btn-actualizar" id="btnActualizar">
+                            <i class="fa-solid fa-rotate-right"></i> Actualizar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KPIs — pedidos en curso, devoluciones y puntos -->
+                <div class="kpi-row">
+                    <div class="kpi">
+                        <i class="fa-solid fa-truck kpi-icon"></i>
+                        <div>
+                            <div class="kpi-label">EN CURSO</div>
+                            <div class="kpi-valor" id="kpiEnCurso">—</div>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <i class="fa-solid fa-rotate-left kpi-icon"></i>
+                        <div>
+                            <div class="kpi-label">DEVOLUCIONES</div>
+                            <div class="kpi-valor" id="kpiDevoluciones">0 Activas</div>
+                        </div>
+                    </div>
+                    <!-- KPI puntos — abre modal Vinyl Points al clic -->
+                    <div class="kpi kpi-puntos" id="kpiPuntosBtn" title="Ver mis puntos">
+                        <i class="fa-solid fa-crown kpi-icon kpi-star"></i>
+                        <div>
+                            <div class="kpi-label">VINYL POINTS</div>
+                            <div class="kpi-valor" id="kpiPuntos">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="subtitulo-historial">Historial de Compras</h3>
+                <!-- Lista de pedidos generada por cuenta.js -->
+                <div id="listaPedidos"></div>
+            </section>
+
+
+            <!-- Sección devoluciones -->
+            <section class="sec oculta" id="sec-devoluciones">
+                <div class="sec-header">
+                    <div>
+                        <h2>Mis Devoluciones</h2>
+                        <p class="sec-sub">Consulta el estado de tus devoluciones o solicita una nueva.</p>
+                    </div>
+                </div>
+                <!-- Banner iniciar devolución -->
+                <div class="dev-cta">
+                    <div class="dev-cta-left">
+                        <i class="fa-solid fa-rotate-left" style="color:var(--rojo);font-size:1.3rem;"></i>
+                        <div>
+                            <strong>Iniciar una nueva devolución</strong>
+                            <p>Si no estás satisfecho, puedes solicitar una devolución en un plazo de 30 días.</p>
+                        </div>
+                    </div>
+                    <button class="btn-comenzar-dev" id="btnComenzarDev">Comenzar Devolución</button>
+                </div>
+                <!-- Estado vacío -->
+                <div class="dev-vacio">
+                    <i class="fa-solid fa-box-open"></i>
+                    <p>No tienes devoluciones activas</p>
+                    <span>Tus devoluciones pasadas y en curso aparecerán aquí.</span>
                 </div>
             </section>
 
-            <!-- Sección: Mi Perfil -->
-            <section class="seccion-cuenta" id="sec-perfil">
-                <h2 class="cuenta-titulo">Mi Perfil</h2>
-                <div class="perfil-form">
-                    <div class="campo-perfil">
-                        <label>Nombre</label>
-                        <input type="text" id="perfilNombre" placeholder="Tu nombre" class="input-perfil">
+
+            <!-- Sección direcciones — grid de tarjetas -->
+            <section class="sec oculta" id="sec-direcciones">
+                <div class="sec-header">
+                    <div>
+                        <h2>Mis Direcciones</h2>
+                        <p class="sec-sub">Gestiona tus direcciones de envío y facturación.</p>
                     </div>
-                    <div class="campo-perfil">
-                        <label>Apellidos</label>
-                        <input type="text" id="perfilApellidos" placeholder="Tus apellidos" class="input-perfil">
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Correo electrónico</label>
-                        <input type="email" id="perfilEmail" placeholder="tu@email.com" class="input-perfil">
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Teléfono</label>
-                        <input type="tel" id="perfilTelefono" placeholder="+34 600 000 000" class="input-perfil">
-                    </div>
-                    <button class="btn-guardar-perfil" id="btnGuardarPerfil">
-                        <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                    <button class="btn-añadir-dir" id="btnAñadirDir">
+                        <i class="fa-solid fa-plus"></i> Añadir Dirección
                     </button>
                 </div>
+                <!-- Grid de direcciones generado por cuenta.js -->
+                <div class="dir-grid" id="gridDirecciones"></div>
             </section>
 
-            <!-- Sección: Seguridad -->
-            <section class="seccion-cuenta" id="sec-seguridad">
-                <h2 class="cuenta-titulo">Seguridad</h2>
-                <div class="perfil-form">
-                    <div class="campo-perfil">
-                        <label>Contraseña actual</label>
-                        <input type="password" placeholder="••••••••" class="input-perfil">
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Nueva contraseña</label>
-                        <input type="password" placeholder="Mínimo 8 caracteres" class="input-perfil">
-                    </div>
-                    <div class="campo-perfil">
-                        <label>Confirmar nueva contraseña</label>
-                        <input type="password" placeholder="Repite la contraseña" class="input-perfil">
-                    </div>
-                    <button class="btn-guardar-perfil">
-                        <i class="fa-solid fa-lock"></i> Cambiar contraseña
-                    </button>
+        </main>
+    </div>
+
+
+    <!-- ═══════════════ MODALES ═══════════════ -->
+
+    <!-- Modal Vinyl Points — historial y beneficios por nivel -->
+    <div class="modal-overlay" id="modalPuntos">
+        <div class="modal modal-puntos">
+            <button class="modal-cerrar" data-modal="modalPuntos"><i class="fa-solid fa-xmark"></i></button>
+            <!-- Cabecera — total y nivel -->
+            <div class="modal-puntos-header">
+                <i class="fa-solid fa-crown modal-star"></i>
+                <h3>Vinyl Points</h3>
+                <div class="modal-pts-total" id="modalPtsTotal">1.250 pts</div>
+                <div class="modal-nivel" id="modalNivel">Nivel Plata</div>
+            </div>
+            <!-- Barra de progreso entre niveles -->
+            <div class="nivel-progress-wrap">
+                <div class="nivel-labels">
+                    <span>Bronce</span><span>Plata</span><span>Oro</span>
                 </div>
-            </section>
-
+                <div class="nivel-track">
+                    <div class="nivel-fill" id="modalNivelFill" style="width:0%"></div>
+                    <div class="nivel-marker" style="left:50%"></div>
+                </div>
+                <p class="nivel-hint" id="modalNivelHint">Te faltan 250 pts para Oro</p>
+            </div>
+            <!-- Historial de movimientos de puntos -->
+            <h4 class="modal-hist-titulo">Historial de puntos</h4>
+            <div class="modal-hist" id="modalHistPuntos"></div>
+            <!-- Beneficios por nivel -->
+            <div class="modal-puntos-footer">
+                <p>Ganas <strong>1 punto por cada €1</strong> que gastas en Vinyl Sounds.</p>
+                <div class="beneficios-niveles">
+                    <div class="beneficio-item">
+                        <span class="beneficio-nivel" style="color:#cd7f32">Bronce</span>
+                        <ul>
+                            <li>Acceso a novedades antes que nadie</li>
+                            <li>Descuento del 5% en tu cumpleaños</li>
+                        </ul>
+                    </div>
+                    <div class="beneficio-item">
+                        <span class="beneficio-nivel" style="color:#a8b8c8">Plata — 500 pts</span>
+                        <ul>
+                            <li>Todo lo anterior +</li>
+                            <li>Acceso anticipado a preventas exclusivas</li>
+                            <li>Descuento del 10% en ediciones limitadas</li>
+                            <li>Devoluciones gratuitas</li>
+                        </ul>
+                    </div>
+                    <div class="beneficio-item">
+                        <span class="beneficio-nivel" style="color:#f0b429">Oro — 1.500 pts</span>
+                        <ul>
+                            <li>Todo lo anterior +</li>
+                            <li>Envío gratis permanente</li>
+                            <li>Descuento del 15% en toda la tienda</li>
+                            <li>Acceso VIP a lanzamientos exclusivos</li>
+                            <li>Regalo sorpresa en cada pedido</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer inyectado por header.js -->
+    <!-- Modal seguimiento — timeline del envío -->
+    <div class="modal-overlay" id="modalSeguimiento">
+        <div class="modal modal-seguimiento">
+            <button class="modal-cerrar" data-modal="modalSeguimiento"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-truck"></i> Seguimiento del envío</h3>
+            <!-- Cabecera — pedido, transportista y número de seguimiento -->
+            <div class="seg-cabecera">
+                <div><span class="seg-label">Pedido</span><span class="seg-val" id="segPedidoId">—</span></div>
+                <div><span class="seg-label">Transportista</span><span class="seg-val">Correos Express</span></div>
+                <div><span class="seg-label">Nº seguimiento</span><span class="seg-val" id="segNumero">—</span></div>
+            </div>
+            <!-- Timeline de pasos del envío -->
+            <div class="seg-timeline" id="segTimeline"></div>
+            <!-- Enlace externo a Correos -->
+            <a class="btn-seguir-externo" id="btnSeguirExterno" href="#" target="_blank">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Rastrear en Correos Express
+            </a>
+        </div>
+    </div>
 
+    <!-- Modal detalle pedido — artículos y resumen económico -->
+    <div class="modal-overlay" id="modalDetalle">
+        <div class="modal modal-detalle">
+            <button class="modal-cerrar" data-modal="modalDetalle"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-list-ul"></i> Detalle del pedido <span id="detallePedidoId"></span></h3>
+            <div class="detalle-items"  id="detalleItems"></div>
+            <div class="detalle-resumen" id="detalleResumen"></div>
+        </div>
+    </div>
+
+    <!-- Modal factura PDF — vista previa e impresión -->
+    <div class="modal-overlay" id="modalFactura">
+        <div class="modal modal-factura">
+            <button class="modal-cerrar" data-modal="modalFactura"><i class="fa-solid fa-xmark"></i></button>
+            <div class="factura-preview" id="facturaPreview"></div>
+            <button class="btn-descargar-pdf" id="btnDescargarPdf">
+                <i class="fa-solid fa-file-arrow-down"></i> Descargar PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal devolución — formulario de solicitud -->
+    <div class="modal-overlay" id="modalDevolucion">
+        <div class="modal modal-devolucion">
+            <button class="modal-cerrar" data-modal="modalDevolucion"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-rotate-left"></i> Nueva devolución</h3>
+            <div class="campo-grupo">
+                <label>PEDIDO A DEVOLVER</label>
+                <select class="campo-input" id="devPedidoSel"></select>
+            </div>
+            <div class="campo-grupo">
+                <label>MOTIVO</label>
+                <select class="campo-input" id="devMotivo">
+                    <option value="">Selecciona un motivo…</option>
+                    <option>Producto defectuoso</option>
+                    <option>No es lo que esperaba</option>
+                    <option>Talla/formato incorrecto</option>
+                    <option>Llegó dañado</option>
+                    <option>Otro</option>
+                </select>
+            </div>
+            <div class="campo-grupo">
+                <label>DESCRIPCIÓN (opcional)</label>
+                <textarea class="campo-input" id="devDesc" rows="3" placeholder="Describe el problema…"></textarea>
+            </div>
+            <button class="btn-guardar" id="btnEnviarDevolucion">
+                <i class="fa-solid fa-paper-plane"></i> Enviar solicitud
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal dirección — añadir o editar -->
+    <div class="modal-overlay" id="modalDireccion">
+        <div class="modal modal-direccion">
+            <button class="modal-cerrar" data-modal="modalDireccion"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="modalDirTitulo"><i class="fa-solid fa-map-pin"></i> Nueva dirección</h3>
+            <div class="perfil-grid">
+                <div class="campo-grupo">
+                    <label>NOMBRE / EMPRESA</label>
+                    <input type="text" id="dirNombre" class="campo-input" placeholder="Nombre completo">
+                </div>
+                <div class="campo-grupo">
+                    <label>ETIQUETA</label>
+                    <input type="text" id="dirTitulo" class="campo-input" placeholder="Casa, Oficina…">
+                </div>
+                <div class="campo-grupo" style="grid-column:1/-1">
+                    <label>DIRECCIÓN</label>
+                    <input type="text" id="dirLinea1" class="campo-input" placeholder="Calle, número, piso…">
+                </div>
+                <div class="campo-grupo">
+                    <label>CIUDAD / CP</label>
+                    <input type="text" id="dirLinea2" class="campo-input" placeholder="28001 Madrid">
+                </div>
+                <div class="campo-grupo">
+                    <label>PAÍS</label>
+                    <input type="text" id="dirPais" class="campo-input" placeholder="España" value="España">
+                </div>
+            </div>
+            <button class="btn-guardar" id="btnGuardarDireccion">
+                <i class="fa-solid fa-floppy-disk"></i> Guardar dirección
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast — notificaciones de acción -->
+    <div class="toast" id="toast">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/cuenta.js"></script>

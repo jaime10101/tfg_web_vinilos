@@ -2,20 +2,17 @@
    REGISTER.JS — Lógica de la página de registro
    ============================================================ */
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* ----------------------------------------------------------
-       MOSTRAR / OCULTAR CONTRASEÑA
-       Maneja todos los campos .toggle-pass de la página
-    ---------------------------------------------------------- */
-    document.querySelectorAll('.toggle-pass').forEach(btn => {
+    /* Toggle mostrar / ocultar contraseña */
+    document.querySelectorAll('.toggle-contrasena').forEach(btn => {
         btn.addEventListener('click', () => {
             const input   = document.getElementById(btn.dataset.target);
             if (!input) return;
             const visible = input.type === 'text';
             input.type    = visible ? 'password' : 'text';
-
-            // Cambia el icono entre ojo abierto y tachado
+            /* Cambia icono entre ojo abierto y tachado */
             btn.innerHTML = visible
                 ? '<i class="fa-regular fa-eye"></i>'
                 : '<i class="fa-regular fa-eye-slash"></i>';
@@ -23,17 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    /* ----------------------------------------------------------
-       VALIDACIÓN Y ENVÍO DEL FORMULARIO
-       TODO (Supabase): reemplazar el console.log por:
-         const { data, error } = await supabase.auth.signUp({
-           email,
-           password,
-           options: { data: { nombre, apellido } }
-         });
-         if (error) { mostrarError(error.message); return; }
-         window.location.href = '../index.html';
-    ---------------------------------------------------------- */
+    /* ============================================================
+       ENVÍO DEL FORMULARIO — validaciones básicas
+       TODO (Spring Boot): POST /api/auth/register { nombre, apellido, email, password }
+       TODO (Supabase): supabase.auth.signUp({ email, password, options: { data: { nombre, apellido } } })
+       ============================================================ */
     const formRegister = document.getElementById('formRegister');
 
     if (formRegister) {
@@ -47,45 +38,47 @@ document.addEventListener('DOMContentLoaded', () => {
             const pass2    = document.getElementById('pass2').value;
             const terminos = document.getElementById('terminos').checked;
 
-            // Validaciones básicas
+            /* Validación — campos vacíos */
             if (!nombre || !apellido || !email || !pass1 || !pass2) {
                 alert('Por favor, completa todos los campos.');
                 return;
             }
 
+            /* Validación — contraseña mínimo 8 caracteres */
             if (pass1.length < 8) {
                 alert('La contraseña debe tener al menos 8 caracteres.');
                 return;
             }
 
+            /* Validación — contraseñas coincidentes */
             if (pass1 !== pass2) {
                 alert('Las contraseñas no coinciden.');
                 return;
             }
 
+            /* Validación — términos aceptados */
             if (!terminos) {
                 alert('Debes aceptar los Términos y Condiciones.');
                 return;
             }
 
-            // Placeholder hasta conectar Supabase
-            console.log('Registro con:', { nombre, apellido, email });
-            // TODO: llamada a Supabase aquí
+            /* TODO (Spring Boot): POST /api/auth/register */
+            /* TODO (Supabase): supabase.auth.signUp() */
         });
     }
 
 
-    /* ----------------------------------------------------------
+    /* ============================================================
        BOTÓN GOOGLE
-       TODO (Supabase): reemplazar por:
-         supabase.auth.signInWithOAuth({ provider: 'google' })
-    ---------------------------------------------------------- */
+       TODO (Spring Boot): OAuth2 Google register
+       TODO (Supabase): supabase.auth.signInWithOAuth({ provider: 'google' })
+       ============================================================ */
     const btnGoogle = document.getElementById('btnGoogle');
 
     if (btnGoogle) {
         btnGoogle.addEventListener('click', () => {
-            console.log('Registro con Google — pendiente de Supabase');
-            // TODO: supabase.auth.signInWithOAuth({ provider: 'google' })
+            /* TODO (Spring Boot): OAuth2 Google register */
+            /* TODO (Supabase): supabase.auth.signInWithOAuth({ provider: 'google' }) */
         });
     }
 

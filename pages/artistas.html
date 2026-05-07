@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistas — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/artistas.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- HERO -->
+
+    <!-- Hero — título, estadísticas y tira de fotos -->
     <section class="hero-artistas">
         <div class="hero-fondo">
             <div class="hero-orbe orbe-1"></div>
@@ -20,8 +25,10 @@
             <div class="hero-scanlines"></div>
         </div>
 
+        <!-- Tira de fotos decorativa — generada por artistas.js -->
         <div class="tira-fotos" id="tiraFotos" aria-hidden="true"></div>
 
+        <!-- Contenido del hero — etiqueta, título y estadísticas -->
         <div class="hero-contenido">
             <span class="hero-etiqueta">
                 <i class="fa-solid fa-microphone-lines"></i>
@@ -36,6 +43,8 @@
                 Desde leyendas del rock hasta las nuevas voces del indie.
                 Encuentra vinilos y merch oficial de tus músicos favoritos.
             </p>
+
+            <!-- Estadísticas — artistas, géneros y vinilos -->
             <div class="hero-estadisticas">
                 <div class="hero-estadistica">
                     <span class="estadistica-numero">120+</span>
@@ -55,14 +64,18 @@
         </div>
     </section>
 
-    <!-- EXPLORAR ARTISTAS -->
+
+    <!-- Sección explorar — búsqueda, filtros y rejilla -->
     <section class="seccion-explorar" style="padding-top: 80px;">
         <div class="contenedor">
+
+            <!-- Barra superior — búsqueda, filtros de género y orden -->
             <div class="barra-superior">
                 <div class="campo-busqueda">
                     <i class="fa-solid fa-search icono-busqueda"></i>
                     <input type="text" id="campoBusqueda" placeholder="Buscar artista…" autocomplete="off">
                 </div>
+                <!-- Filtros de género -->
                 <div class="filtros-genero" id="filtrosGenero">
                     <button class="btn-genero activo" data-genre="all">Todos</button>
                     <button class="btn-genero" data-genre="rock">Rock</button>
@@ -71,6 +84,7 @@
                     <button class="btn-genero" data-genre="jazz">Jazz</button>
                     <button class="btn-genero" data-genre="electronica">Electrónica</button>
                 </div>
+                <!-- Selector de ordenación -->
                 <select class="selector-orden" id="selectOrden">
                     <option value="popularity">Popularidad</option>
                     <option value="name">Nombre A–Z</option>
@@ -78,17 +92,22 @@
                 </select>
             </div>
 
+            <!-- Contador de resultados -->
             <div class="info-resultados">
                 <span id="contadorArtistas">0 artistas</span>
             </div>
+
+            <!-- Rejilla de artistas — generada por artistas.js -->
             <div class="rejilla-artistas" id="rejilla"></div>
 
+            <!-- Estado vacío -->
             <div class="sin-resultados" id="sinResultados" style="display: none;">
                 <i class="fa-solid fa-user-slash"></i>
                 <p>No se encontraron artistas</p>
                 <span>Prueba con otro término o género</span>
             </div>
 
+            <!-- Botón cargar más -->
             <div class="zona-cargar-mas" id="zonaCargarMas">
                 <button class="btn-cargar-mas" id="btnCargarMas">
                     <i class="fa-solid fa-chevron-down"></i>
@@ -98,7 +117,8 @@
         </div>
     </section>
 
-    <!-- GÉNEROS -->
+
+    <!-- Sección géneros — tarjetas por estilo musical -->
     <section class="seccion-generos">
         <div class="contenedor">
             <div class="seccion-cabecera">
@@ -107,12 +127,16 @@
                     <p class="seccion-subtitulo">Encuentra artistas según tu estilo favorito</p>
                 </div>
             </div>
+            <!-- Grid de géneros — generado por artistas.js -->
             <div class="cuadricula-generos" id="gridGeneros"></div>
         </div>
     </section>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/artistas.js"></script>

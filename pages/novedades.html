@@ -4,46 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novedades — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/novedades.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- PORTADA -->
     <div class="contenedor">
+
+        <!-- Portada — lanzamiento destacado de la semana -->
         <div class="portada">
             <div class="etiqueta-lanzamiento">
                 <i class="fas fa-bolt"></i>
                 Lanzamiento de la semana
             </div>
             <h1>
-                The Weeknd
-                <span class="titulo-destacado">After Hours</span>
+                Lanzamiento Destacado
+                <span class="titulo-destacado">Edición Limitada</span>
             </h1>
             <p class="portada-descripcion">
                 Edición Deluxe Limitada en vinilo "Blood Red" splatter. Incluye póster exclusivo y arte conceptual inédito.
             </p>
-            <div class="portada-botones">
-                <button class="btn btn-principal">
-                    <i class="fas fa-shopping-cart"></i>
-                    Comprar Exclusivo
-                </button>
-                <button class="btn btn-secundario">
-                    <i class="fas fa-play"></i>
-                    Escuchar Preview
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- SECCIÓN PRODUCTOS -->
-    <div class="contenedor">
+        <div class="contenedor">
+
+        <!-- Sección productos — filtros y rejilla -->
         <div class="seccion-productos">
             <div class="cabecera-seccion">
                 <h2 class="titulo-seccion">Últimas Llegadas</h2>
+
+                <!-- Filtros por tipo y selector de orden -->
                 <div class="zona-filtros">
                     <button class="btn-filtro activo" data-filter="all">Todos</button>
                     <button class="btn-filtro" data-filter="vinyl">
@@ -65,8 +63,10 @@
                 </div>
             </div>
 
+            <!-- Rejilla de productos — generada por novedades.js -->
             <div class="rejilla-productos" id="rejillaProductos"></div>
 
+            <!-- Botón cargar más -->
             <div class="zona-cargar-mas">
                 <button class="btn-cargar-mas" id="btnCargarMas">
                     Cargar Más Novedades
@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <!-- Newsletter -->
+        <!-- Newsletter — suscripción a drops y lanzamientos -->
         <div class="newsletter">
             <h2>No te pierdas ningún <span>Drop</span></h2>
             <p>Recibe notificaciones sobre lanzamientos limitados, preventas y descuentos exclusivos directamente en tu email.</p>
@@ -87,8 +87,9 @@
         </div>
     </div>
 
-    <!-- Footer inyectado por header.js -->
+    <!-- Footer -->
 
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/novedades.js"></script>

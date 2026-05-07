@@ -1,9 +1,10 @@
 /* ============================================================
-   INICIO.CSS — Estilos específicos de la página principal
-   Los estilos del header, footer y variables están en global.css
+   INICIO.CSS — Estilos de la página principal
+   Header, footer y variables en global.css
    ============================================================ */
 
-/* Fondos específicos por sección */
+
+/* Variables de fondo por sección */
 :root {
     --seccion-categorias: #08050F;
     --seccion-novedades:  #0D0820;
@@ -11,13 +12,15 @@
     --seccion-merch:      #110D2A;
 }
 
+
+/* Body — fondo con gradientes y animación de entrada */
 body {
     background:
         radial-gradient(ellipse at 30% 20%, rgba(123, 47, 255, 0.18) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 80%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
         #08050F;
     background-attachment: fixed;
-    padding-top: 100px; /* Espacio para la cabecera fija */
+    padding-top: 100px;
     animation: aparecerPagina 1.5s ease-out forwards;
 }
 
@@ -30,6 +33,8 @@ body {
 /* ============================================================
    PORTADA
    ============================================================ */
+
+/* Portada — hero principal a pantalla completa */
 .portada {
     display: flex;
     justify-content: left;
@@ -46,7 +51,7 @@ body {
     transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Líneas de escaneo */
+/* Líneas de escaneo decorativas */
 .portada::before {
     content: '';
     position: absolute;
@@ -62,7 +67,7 @@ body {
     z-index: 1;
 }
 
-/* Luz de fondo */
+/* Luz de fondo morada */
 .portada::after {
     content: '';
     position: absolute;
@@ -75,12 +80,14 @@ body {
     z-index: 0;
 }
 
+/* Estado visible — activado por JS */
 .portada.visible {
     opacity: 1;
     filter: blur(0);
     transform: scale(1);
 }
 
+/* Interior — dos columnas: texto y ruleta */
 .portada-interior {
     display: flex;
     align-items: center;
@@ -92,6 +99,7 @@ body {
     z-index: 2;
 }
 
+/* Columna de texto */
 .portada-texto {
     flex: 1;
     z-index: 10;
@@ -102,12 +110,13 @@ body {
     transition: all 1s ease-out 0.8s;
 }
 
+/* Texto visible cuando portada tiene clase .visible */
 .portada.visible .portada-texto {
     opacity: 1;
     transform: translateX(0);
 }
 
-/* Badge pulsante */
+/* Badge pulsante — nueva colección */
 .etiqueta {
     color: var(--rojo);
     border: 1px solid rgba(255, 0, 110, 0.4);
@@ -123,6 +132,7 @@ body {
     text-transform: uppercase;
 }
 
+/* Punto rojo pulsante */
 .etiqueta::before {
     content: '';
     display: inline-block;
@@ -134,10 +144,17 @@ body {
 }
 
 @keyframes pulso {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(0.7); }
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.7);
+    }
 }
 
+/* Título principal */
 .portada-texto h1 {
     font-size: clamp(2rem, 4vw, 3.5rem);
     line-height: 1.1;
@@ -145,6 +162,7 @@ body {
     color: var(--texto);
 }
 
+/* Palabra en degradado UV */
 .portada-texto h1 span {
     background: var(--grad-uv);
     -webkit-background-clip: text;
@@ -152,6 +170,7 @@ body {
     background-clip: text;
 }
 
+/* Párrafo descriptivo */
 .portada-texto p {
     color: var(--apagado);
     font-size: 14px;
@@ -159,8 +178,13 @@ body {
     margin-bottom: 30px;
 }
 
-.portada-botones { display: flex; gap: 15px; }
+/* Fila de botones */
+.portada-botones {
+    display: flex;
+    gap: 15px;
+}
 
+/* Botón principal — degradado fuego */
 .btn-principal {
     background: var(--grad-fuego);
     color: white;
@@ -175,6 +199,7 @@ body {
     box-shadow: 0 4px 24px rgba(255, 0, 110, 0.35);
 }
 
+/* Botón secundario — cian transparente */
 .btn-secundario {
     background: rgba(0, 212, 255, 0.08);
     border: 1px solid rgba(0, 212, 255, 0.3);
@@ -189,6 +214,7 @@ body {
     transition: 0.3s;
 }
 
+/* Hover botones */
 .btn-principal:hover {
     box-shadow: 0 6px 32px rgba(255, 107, 0, 0.5);
     transform: translateY(-3px);
@@ -204,6 +230,8 @@ body {
 /* ============================================================
    RULETA DE DISCOS 3D
    ============================================================ */
+
+/* Contenedor con perspectiva 3D */
 .ruleta-discos {
     flex: 1;
     display: flex;
@@ -213,6 +241,7 @@ body {
     height: 350px;
 }
 
+/* Ruleta giratoria */
 .ruleta {
     width: 140px;
     height: 140px;
@@ -227,14 +256,19 @@ body {
     to   { transform: perspective(1000px) rotateX(-12deg) rotateY(360deg); }
 }
 
-.ruleta:hover { animation-play-state: paused; }
+/* Pausa al hover */
+.ruleta:hover {
+    animation-play-state: paused;
+}
 
+/* Disco — posicionado por variable --pos */
 .disco {
     position: absolute;
     inset: 0;
     transform: rotateY(calc((var(--pos) - 1) * (360deg / var(--cantidad)))) translateZ(280px);
 }
 
+/* Imagen del disco con reflejo */
 .disco img {
     width: 100%;
     height: 100%;
@@ -246,6 +280,7 @@ body {
     transition: all 0.3s ease;
 }
 
+/* Hover disco individual */
 .disco img:hover {
     filter: brightness(1.2);
     transform: scale(1.1);
@@ -257,12 +292,15 @@ body {
 /* ============================================================
    CONTENEDOR GENÉRICO
    ============================================================ */
+
+/* Contenedor centrado */
 .contenedor {
     width: 95%;
     max-width: 1300px;
     margin: 0 auto;
 }
 
+/* Título de sección */
 .titulo-bloque {
     color: var(--texto);
     font-size: 24px;
@@ -271,6 +309,7 @@ body {
     padding-left: 5px;
 }
 
+/* Subtítulo descriptivo */
 .subtitulo {
     color: var(--apagado);
     font-size: 14px;
@@ -279,8 +318,10 @@ body {
 
 
 /* ============================================================
-   SECCIÓN: CATEGORÍAS
+   SECCIÓN CATEGORÍAS
    ============================================================ */
+
+/* Sección — fondo oscuro con borde superior */
 .seccion-categorias {
     background: var(--seccion-categorias);
     padding: 60px 0;
@@ -288,6 +329,7 @@ body {
     border-top: 1px solid var(--borde);
 }
 
+/* Cabecera — título y subtítulo */
 .categorias-cabecera {
     display: flex;
     justify-content: space-between;
@@ -296,12 +338,14 @@ body {
     padding: 0 5px;
 }
 
+/* Grid de 4 columnas */
 .grid-categorias {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
+/* Tarjeta de categoría */
 .tarjeta-categoria {
     position: relative;
     border-radius: 16px;
@@ -315,13 +359,18 @@ body {
     animation: subirFadeIn 0.5s ease both;
 }
 
+/* Hover tarjeta — sube con sombra */
 .tarjeta-categoria:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(123, 47, 255, 0.1);
     border-color: rgba(0, 212, 255, 0.3);
 }
 
-.imagen-categoria { position: absolute; inset: 0; }
+/* Imagen que cubre toda la tarjeta */
+.imagen-categoria {
+    position: absolute;
+    inset: 0;
+}
 
 .imagen-categoria img {
     width: 100%;
@@ -331,22 +380,36 @@ body {
     filter: saturate(0.85);
 }
 
+/* Hover imagen — zoom y saturación */
 .tarjeta-categoria:hover .imagen-categoria img {
     transform: scale(1.06);
     filter: saturate(1.1);
 }
 
+/* Overlay — degradado de abajo hacia arriba */
 .overlay-categoria {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(8, 5, 15, 0.92) 0%, rgba(8, 5, 15, 0.3) 55%, transparent 100%);
+    background: linear-gradient(
+        to top,
+        rgba(8, 5, 15, 0.92) 0%,
+        rgba(8, 5, 15, 0.3) 55%,
+        transparent 100%
+    );
     transition: background 0.3s;
 }
 
+/* Overlay más oscuro al hover */
 .tarjeta-categoria:hover .overlay-categoria {
-    background: linear-gradient(to top, rgba(8, 5, 15, 0.95) 0%, rgba(8, 5, 15, 0.4) 55%, rgba(123, 47, 255, 0.06) 100%);
+    background: linear-gradient(
+        to top,
+        rgba(8, 5, 15, 0.95) 0%,
+        rgba(8, 5, 15, 0.4) 55%,
+        rgba(123, 47, 255, 0.06) 100%
+    );
 }
 
+/* Texto en la parte inferior de la tarjeta */
 .info-categoria {
     position: absolute;
     bottom: 0;
@@ -356,6 +419,7 @@ body {
     z-index: 1;
 }
 
+/* Etiqueta verde pequeña */
 .etiqueta-categoria {
     font-size: 10px;
     font-weight: 800;
@@ -366,6 +430,7 @@ body {
     margin-bottom: 6px;
 }
 
+/* Nombre grande de la categoría */
 .nombre-categoria {
     font-size: 1.4rem;
     font-weight: 800;
@@ -374,6 +439,7 @@ body {
     line-height: 1.1;
 }
 
+/* Descripción — aparece al hover */
 .desc-categoria {
     font-size: 0.82rem;
     color: rgba(240, 235, 255, 0.75);
@@ -393,8 +459,10 @@ body {
 
 
 /* ============================================================
-   SECCIÓN: NOVEDADES
+   SECCIÓN NOVEDADES
    ============================================================ */
+
+/* Sección — fondo con gradientes radiales */
 .seccion-novedades {
     background:
         radial-gradient(ellipse at 20% 50%, rgba(123, 47, 255, 0.12) 0%, transparent 60%),
@@ -406,6 +474,7 @@ body {
     align-items: center;
 }
 
+/* Cabecera — título y enlace ver todo */
 .novedades-cabecera {
     display: flex;
     align-items: flex-start;
@@ -415,12 +484,14 @@ body {
     margin-bottom: 30px;
 }
 
+/* Bloque de título */
 .novedades-titulo-bloque {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
+/* Título principal */
 .titulo-seccion {
     font-size: 1.6rem;
     font-weight: 800;
@@ -429,6 +500,7 @@ body {
     margin: 0;
 }
 
+/* Subtítulo en gris */
 .subtitulo-seccion {
     color: var(--apagado);
     font-size: 12px;
@@ -436,6 +508,7 @@ body {
     margin: 0;
 }
 
+/* Enlace ver todo */
 .enlace-ver-todo {
     color: var(--cian);
     font-size: 13px;
@@ -449,12 +522,18 @@ body {
     white-space: nowrap;
 }
 
-.enlace-ver-todo:hover { gap: 10px; opacity: 0.8; }
+/* Hover — separa la flecha */
+.enlace-ver-todo:hover {
+    gap: 10px;
+    opacity: 0.8;
+}
 
 
 /* ============================================================
    CARRUSEL
    ============================================================ */
+
+/* Contenedor del carrusel con botones posicionados */
 .carrusel-externo {
     width: 90%;
     max-width: 1300px;
@@ -462,11 +541,13 @@ body {
     padding: 0 30px;
 }
 
+/* Máscara que oculta las tarjetas fuera de vista */
 .carrusel-pista-envoltorio {
     overflow: hidden;
     width: 100%;
 }
 
+/* Fila de tarjetas desplazada por translateX */
 .rejilla-productos {
     display: flex;
     gap: 24px;
@@ -478,6 +559,8 @@ body {
 /* ============================================================
    TARJETA DE PRODUCTO
    ============================================================ */
+
+/* Tarjeta — 4 visibles en escritorio */
 .tarjeta-producto {
     min-width: calc(25% - 18px);
     max-width: calc(25% - 18px);
@@ -496,23 +579,33 @@ body {
     color: inherit;
 }
 
-.tarjeta-producto:nth-child(1) { animation-delay: 0.05s; }
-.tarjeta-producto:nth-child(2) { animation-delay: 0.13s; }
-.tarjeta-producto:nth-child(3) { animation-delay: 0.21s; }
-.tarjeta-producto:nth-child(4) { animation-delay: 0.29s; }
+/* Delays escalonados para entrada animada */
+.tarjeta-producto:nth-child(1)   { animation-delay: 0.05s; }
+.tarjeta-producto:nth-child(2)   { animation-delay: 0.13s; }
+.tarjeta-producto:nth-child(3)   { animation-delay: 0.21s; }
+.tarjeta-producto:nth-child(4)   { animation-delay: 0.29s; }
 .tarjeta-producto:nth-child(n+5) { animation-delay: 0.37s; }
 
+/* Animación de entrada — sube desde abajo */
 @keyframes subirFadeIn {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Hover tarjeta */
 .tarjeta-producto:hover {
     transform: translateY(-5px);
     border-color: rgba(0, 212, 255, 0.3);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.07);
 }
 
+/* Área de imagen */
 .imagen-producto {
     width: 100%;
     aspect-ratio: 3 / 3.5;
@@ -529,8 +622,12 @@ body {
     display: block;
 }
 
-.tarjeta-producto:hover .imagen-producto img { transform: scale(1.06); }
+/* Zoom de imagen al hover */
+.tarjeta-producto:hover .imagen-producto img {
+    transform: scale(1.06);
+}
 
+/* Capa hover — botón añadir al carrito */
 .capa-hover {
     position: absolute;
     bottom: 12px;
@@ -546,6 +643,7 @@ body {
     transform: scale(1) translateY(0);
 }
 
+/* Botón circular añadir al carrito */
 .btn-anadir-rapido {
     width: 40px;
     height: 40px;
@@ -567,6 +665,7 @@ body {
     transform: scale(1.1);
 }
 
+/* Insignia — esquina superior izquierda */
 .insignia {
     position: absolute;
     top: 12px;
@@ -581,10 +680,12 @@ body {
     color: #fff;
 }
 
+/* Variantes de insignia */
 .insignia-nuevo    { background: var(--grad-fuego); box-shadow: 0 2px 10px rgba(255, 0, 110, 0.4); }
 .insignia-limitado { background: linear-gradient(135deg, #FF6B00, #FFE600); color: #08050F; }
 .insignia-restock  { background: linear-gradient(135deg, #00D4FF, #7B2FFF); }
 
+/* Información textual */
 .info-producto {
     padding: 14px 16px 16px;
     display: flex;
@@ -592,6 +693,7 @@ body {
     gap: 4px;
 }
 
+/* Nombre del artista */
 .info-producto .artista {
     font-size: 10px;
     font-weight: 700;
@@ -600,6 +702,7 @@ body {
     color: var(--apagado);
 }
 
+/* Título del producto */
 .info-producto h3 {
     font-size: 16px;
     font-weight: 700;
@@ -608,6 +711,7 @@ body {
     line-height: 1.2;
 }
 
+/* Fila precio + tag */
 .pie-info {
     display: flex;
     align-items: center;
@@ -615,6 +719,7 @@ body {
     margin-top: 8px;
 }
 
+/* Precio — degradado fuego */
 .precio {
     background: var(--grad-fuego);
     -webkit-background-clip: text;
@@ -624,6 +729,7 @@ body {
     font-size: 16px;
 }
 
+/* Tag de formato — VINILO / MERCH / POSTER */
 .tag-formato {
     padding: 3px 8px;
     border-radius: 5px;
@@ -633,11 +739,18 @@ body {
     text-transform: uppercase;
 }
 
-.tag-vinilo { background: rgba(255, 0, 110, 0.12);  color: var(--rojo);    border: 1px solid rgba(255, 0, 110, 0.28); }
-.tag-merch  { background: rgba(123, 47, 255, 0.14); color: #A87BFF;        border: 1px solid rgba(123, 47, 255, 0.28); }
-.tag-poster { background: rgba(255, 230, 0, 0.1);   color: var(--amarillo); border: 1px solid rgba(255, 230, 0, 0.22); }
+/* Colores por tipo */
+.tag-vinilo { background: rgba(255, 0, 110, 0.12);  
+    color: var(--rojo);     
+    border: 1px solid rgba(255, 0, 110, 0.28); }
+.tag-merch  { background: rgba(123, 47, 255, 0.14); 
+    color: #A87BFF;         
+    border: 1px solid rgba(123, 47, 255, 0.28); }
+.tag-poster { background: rgba(255, 230, 0, 0.1);  
+     color: var(--amarillo); 
+     border: 1px solid rgba(255, 230, 0, 0.22); }
 
-/* Botones anterior / siguiente */
+/* Botones anterior / siguiente del carrusel */
 .btn-nav {
     position: absolute;
     top: 50%;
@@ -665,15 +778,18 @@ body {
     transform: translateY(-50%) scale(1.1);
 }
 
+/* Desactivado — primer o último slide */
 .btn-nav.desactivado {
     opacity: 0.3;
     cursor: not-allowed;
     pointer-events: none;
 }
 
+/* Posición de los botones */
 .anterior { left: -10px; }
 .siguiente { right: -10px; }
 
+/* Puntos indicadores */
 .puntos-carrusel {
     display: flex;
     gap: 8px;
@@ -681,6 +797,7 @@ body {
     margin-top: 30px;
 }
 
+/* Punto inactivo */
 .punto {
     width: 6px;
     height: 6px;
@@ -690,6 +807,7 @@ body {
     transition: all 0.3s ease;
 }
 
+/* Punto activo — se alarga */
 .punto.activo {
     background: var(--grad-fuego);
     width: 24px;
@@ -699,14 +817,17 @@ body {
 
 
 /* ============================================================
-   SECCIÓN: MÁS VENDIDOS
+   SECCIÓN MÁS VENDIDOS
    ============================================================ */
+
+/* Sección */
 .seccion-mas-vendidos {
     background: var(--fondo);
     padding: 60px 0;
     width: 100%;
 }
 
+/* Grid de tarjetas horizontales */
 .grid-vendidos {
     display: flex;
     flex-wrap: wrap;
@@ -715,6 +836,7 @@ body {
     justify-content: center;
 }
 
+/* Tarjeta horizontal */
 .tarjeta-vendido {
     flex: 1 1 calc(33.333% - 20px);
     min-width: 300px;
@@ -735,6 +857,7 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.06);
 }
 
+/* Imagen cuadrada del producto */
 .imagen-vendido {
     width: 110px;
     height: 110px;
@@ -751,6 +874,7 @@ body {
     object-fit: cover;
 }
 
+/* Columna de información */
 .info-vendido {
     flex-grow: 1;
     display: flex;
@@ -758,6 +882,7 @@ body {
     justify-content: space-between;
 }
 
+/* Fila nombre + badge ranking */
 .fila-titulo {
     display: flex;
     justify-content: space-between;
@@ -765,6 +890,7 @@ body {
     width: 100%;
 }
 
+/* Nombre del producto */
 .info-vendido h4 {
     color: var(--texto);
     font-size: 15px;
@@ -772,6 +898,7 @@ body {
     font-weight: 600;
 }
 
+/* Badge ranking #1 #2 #3 */
 .insignia-rango {
     flex-shrink: 0;
     margin-left: 10px;
@@ -781,12 +908,19 @@ body {
     border-radius: 4px;
 }
 
+/* Colores por posición */
 .tarjeta-vendido:nth-child(1) .insignia-rango { background: var(--amarillo); color: #08050F; }
 .tarjeta-vendido:nth-child(2) .insignia-rango { background: var(--apagado);  color: var(--texto); }
 .tarjeta-vendido:nth-child(3) .insignia-rango { background: var(--cian);     color: #08050F; }
 
-.info-vendido p { color: var(--apagado); font-size: 13px; margin: 5px 0; }
+/* Nombre artista */
+.info-vendido p {
+    color: var(--apagado);
+    font-size: 13px;
+    margin: 5px 0;
+}
 
+/* Fila precio + tag tipo */
 .fila-precio {
     display: flex;
     justify-content: space-between;
@@ -794,6 +928,7 @@ body {
     margin-top: 10px;
 }
 
+/* Precio — degradado fuego */
 .precio-vendido {
     background: var(--grad-fuego);
     -webkit-background-clip: text;
@@ -803,6 +938,7 @@ body {
     font-size: 18px;
 }
 
+/* Tag tipo de producto */
 .tag-tipo {
     padding: 3px 10px;
     border-radius: 6px;
@@ -815,8 +951,10 @@ body {
 
 
 /* ============================================================
-   SECCIÓN: MERCH
+   SECCIÓN MERCH
    ============================================================ */
+
+/* Sección — fondo con gradientes */
 .seccion-merch {
     width: 100%;
     display: flex;
@@ -829,6 +967,7 @@ body {
     border-top: 1px solid rgba(123, 47, 255, 0.2);
 }
 
+/* Tarjeta merch — dos columnas */
 .tarjeta-merch {
     display: flex;
     width: 100%;
@@ -839,6 +978,7 @@ body {
     border: 1px solid var(--borde);
 }
 
+/* Columna de texto */
 .merch-texto {
     flex: 1;
     padding: 60px;
@@ -847,6 +987,7 @@ body {
     justify-content: center;
 }
 
+/* Etiqueta verde con línea decorativa */
 .merch-etiqueta {
     color: var(--verde);
     font-weight: 900;
@@ -867,6 +1008,7 @@ body {
     background: var(--verde);
 }
 
+/* Título merch */
 .merch-titulo {
     color: var(--texto);
     font-size: clamp(2.5rem, 4vw, 3.5rem);
@@ -875,6 +1017,7 @@ body {
     margin: 0 0 20px 0;
 }
 
+/* Descripción merch */
 .merch-descripcion {
     color: var(--apagado);
     font-size: 1rem;
@@ -883,6 +1026,7 @@ body {
     margin-bottom: 35px;
 }
 
+/* Botón merch */
 .btn-merch {
     background: var(--grad-fuego);
     color: #fff;
@@ -904,6 +1048,7 @@ body {
     transform: scale(1.05);
 }
 
+/* Columna imagen con brillo */
 .merch-imagen {
     flex: 1;
     background: radial-gradient(circle at 50%, rgba(123, 47, 255, 0.2) 0%, transparent 60%), var(--superficie);
@@ -914,6 +1059,7 @@ body {
     align-items: center;
 }
 
+/* Líneas de escaneo sobre imagen */
 .merch-imagen::before {
     content: '';
     position: absolute;
@@ -929,6 +1075,7 @@ body {
     z-index: 2;
 }
 
+/* Imagen del producto */
 .img-merch {
     max-width: 85%;
     max-height: 85%;
@@ -938,8 +1085,12 @@ body {
     transition: transform 0.6s ease;
 }
 
-.tarjeta-merch:hover .img-merch { transform: scale(1.1); }
+/* Zoom imagen al hover */
+.tarjeta-merch:hover .img-merch {
+    transform: scale(1.1);
+}
 
+/* Círculo de brillo — posición gestionada por JS */
 .brillo-merch {
     position: absolute;
     width: 500px;
@@ -955,8 +1106,10 @@ body {
 
 
 /* ============================================================
-   RESPONSIVE — TABLET (≤ 900px)
+   RESPONSIVE
    ============================================================ */
+
+/* Tablet — 900px */
 @media (max-width: 900px) {
     .tarjeta-producto { min-width: calc(50% - 12px); max-width: calc(50% - 12px); }
     .grid-categorias  { grid-template-columns: repeat(2, 1fr); }
@@ -966,9 +1119,7 @@ body {
     .tarjeta-vendido  { flex: 1 1 calc(50% - 20px); }
 }
 
-/* ============================================================
-   RESPONSIVE — MÓVIL (≤ 768px)
-   ============================================================ */
+/* Móvil — 768px */
 @media (max-width: 768px) {
     .portada {
         height: auto;
@@ -980,26 +1131,29 @@ body {
     .portada-interior { flex-direction: column; gap: 40px; align-items: flex-start; width: 100%; }
     .portada-texto    { padding-right: 0; max-width: 100%; }
     .portada-texto h1 { font-size: 2.4rem; }
-
-    .portada-botones { flex-direction: column; width: 100%; }
+    .portada-botones  { flex-direction: column; width: 100%; }
 
     .btn-principal,
-    .btn-secundario { width: 100%; justify-content: center; }
+    .btn-secundario   { width: 100%; justify-content: center; }
 
+    /* Ruleta más pequeña */
     .ruleta-discos { display: flex; width: 100%; height: 220px; justify-content: center; align-items: center; }
     .ruleta        { width: 100px; height: 100px; }
     .disco         { transform: rotateY(calc((var(--pos) - 1) * (360deg / var(--cantidad)))) translateZ(160px); }
 }
 
+/* Más vendidos en columna completa */
 @media (max-width: 700px) {
     .tarjeta-vendido { flex: 1 1 100%; }
 }
 
+/* Móvil pequeño — 500px */
 @media (max-width: 500px) {
     .tarjeta-producto { min-width: 100%; max-width: 100%; }
     .grid-categorias  { grid-template-columns: 1fr; }
 }
 
+/* Ajuste de fuente */
 @media (max-width: 480px) {
     .portada-texto h1  { font-size: 2rem; }
     .iconos-nav .icono { font-size: 16px; }

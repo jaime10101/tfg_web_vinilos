@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merch — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/merch.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- PORTADA -->
+
     <div class="contenedor">
+
+        <!-- Portada — colección oficial -->
         <div class="portada">
             <div class="etiqueta-portada">COLECCIÓN OFICIAL</div>
             <h1>Merch &amp; Accesorios</h1>
@@ -21,15 +27,19 @@
         </div>
     </div>
 
-    <!-- CONTROLES -->
+
     <div class="contenedor">
+
+        <!-- Barra de controles — pestañas y selector de orden -->
         <div class="barra-controles">
+            <!-- Pestañas de filtro rápido -->
             <div class="pestañas">
                 <button class="pestaña activa" data-filter="all">Todos</button>
                 <button class="pestaña" data-filter="new">Novedades</button>
                 <button class="pestaña" data-filter="tour">Tour 2026</button>
                 <button class="pestaña" data-filter="limited">Edición Limitada</button>
             </div>
+            <!-- Selector de ordenación -->
             <div class="zona-orden">
                 <label>Ordenar por:</label>
                 <select class="selector-orden" id="selectorOrden">
@@ -41,20 +51,26 @@
             </div>
         </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
+
+        <!-- Contenido principal — panel de filtros + rejilla -->
         <div class="contenido-principal">
 
+            <!-- Botón toggle filtros — visible en móvil -->
             <button class="btn-toggle-filtros" id="btnToggleFiltros">
                 <i class="fas fa-sliders-h"></i>
                 Filtros
             </button>
 
-            <!-- SIDEBAR FILTROS -->
+            <!-- Panel de filtros — búsqueda, categoría, artistas y precio -->
             <aside class="panel-filtros" id="panelFiltros">
+
+                <!-- Búsqueda por artista o producto -->
                 <div class="campo-busqueda">
                     <input type="text" placeholder="Artista o producto..." id="campoBusqueda">
                     <i class="fas fa-search"></i>
                 </div>
+
+                <!-- Filtro por categoría -->
                 <div class="grupo-filtro">
                     <div class="grupo-titulo">CATEGORÍA <span>▼</span></div>
                     <label class="opcion-check"><input type="checkbox" id="cat-all" checked> Ver Todo</label>
@@ -63,6 +79,8 @@
                     <label class="opcion-check"><input type="checkbox" id="cat-accessories"> Gorras &amp; Accesorios</label>
                     <label class="opcion-check"><input type="checkbox" id="cat-posters"> Posters</label>
                 </div>
+
+                <!-- Filtro por artista -->
                 <div class="grupo-filtro">
                     <div class="grupo-titulo">ARTISTAS <span>▼</span></div>
                     <label class="opcion-check"><input type="checkbox" id="art-rosalia"> Rosalía</label>
@@ -71,6 +89,8 @@
                     <label class="opcion-check"><input type="checkbox" id="art-bad"> Bad Bunny</label>
                     <label class="opcion-check"><input type="checkbox" id="art-weeknd"> The Weeknd</label>
                 </div>
+
+                <!-- Filtro por precio máximo -->
                 <div class="grupo-filtro">
                     <div class="grupo-titulo">PRECIO</div>
                     <div class="rango-precio">
@@ -83,7 +103,7 @@
                 </div>
             </aside>
 
-            <!-- REJILLA PRODUCTOS -->
+            <!-- Zona de productos — rejilla y paginación generadas por merch.js -->
             <div class="zona-productos">
                 <div class="rejilla-productos" id="rejillaProductos"></div>
                 <div class="paginacion" id="paginacion"></div>
@@ -91,8 +111,11 @@
         </div>
     </div>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/merch.js"></script>

@@ -1,12 +1,12 @@
 /* ============================================================
-   ARTISTAS.JS — Lógica específica de la página de artistas
-   Nota: header, footer, hamburguesa y btn-subir los gestiona header.js
+   ARTISTAS.JS — Lógica de la página de artistas
+   Header, footer y btn-subir los gestiona header.js
    ============================================================ */
 
+
 /* ============================================================
-   DATOS: ARTISTAS
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase.from('artistas').select('*');
+   DATOS
+   TODO (Spring Boot): GET /api/artistas
    ============================================================ */
 const TODOS_LOS_ARTISTAS = [
     { id: 1,  nombre: "The Beatles",    albums: 14, genero: "rock",        pop: 98, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Beatles_ad_1965_just_the_beatles_crop.jpg/400px-Beatles_ad_1965_just_the_beatles_crop.jpg" },
@@ -31,6 +31,7 @@ const TODOS_LOS_ARTISTAS = [
     { id: 20, nombre: "Extremoduro",    albums: 9,  genero: "rock",        pop: 78, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Extremoduro_-_Robe_%282%29.jpg/400px-Extremoduro_-_Robe_%282%29.jpg" },
 ];
 
+/* Metadatos de géneros — iconos, colores y nombre */
 const GENEROS_META = [
     { id: "rock",        nombre: "Rock",        icono: "fa-solid fa-guitar",       color: "linear-gradient(135deg,#FF006E,#FF6B00)" },
     { id: "pop",         nombre: "Pop",         icono: "fa-solid fa-microphone",   color: "linear-gradient(135deg,#7B2FFF,#FF006E)" },
@@ -39,11 +40,13 @@ const GENEROS_META = [
     { id: "electronica", nombre: "Electrónica", icono: "fa-solid fa-headphones",   color: "linear-gradient(135deg,#00FF94,#00D4FF)" },
 ];
 
+/* Imagen placeholder si falla la carga */
 const imagenFallback = (nombre) =>
     `https://via.placeholder.com/300x300/12103A/7B2FFF?text=${encodeURIComponent(nombre)}`;
 
 const POR_PAGINA = 12;
 
+/* Estado global de filtros */
 let state = {
     genero:   'all',
     orden:    'popularity',
@@ -51,27 +54,32 @@ let state = {
     pagina:   POR_PAGINA,
 };
 
-/* ============================================================
-   FILTRAR Y ORDENAR
-   ============================================================ */
+
+/* Filtra y ordena el array de artistas según el estado */
 function getFiltrados() {
     let lista = [...TODOS_LOS_ARTISTAS];
+
     if (state.genero !== 'all') lista = lista.filter(a => a.genero === state.genero);
-    if (state.busqueda) lista = lista.filter(a => a.nombre.toLowerCase().includes(state.busqueda.toLowerCase()));
-    if (state.orden === 'name')   lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    if (state.busqueda)         lista = lista.filter(a => a.nombre.toLowerCase().includes(state.busqueda.toLowerCase()));
+
+    /* Ordenación */
+    if (state.orden === 'name')        lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
     else if (state.orden === 'albums') lista.sort((a, b) => b.albums - a.albums);
-    else lista.sort((a, b) => b.pop - a.pop);
+    else                               lista.sort((a, b) => b.pop - a.pop);
+
     return lista;
 }
 
-/* ============================================================
-   TIRA DE FOTOS DEL HERO
-   ============================================================ */
+
+/* Genera la tira de fotos animada del hero */
 function renderTira() {
     const contenedor = document.getElementById('tiraFotos');
     if (!contenedor) return;
+
     const imagenes = TODOS_LOS_ARTISTAS.map(a => a.img);
     contenedor.innerHTML = '';
+
+    /* 3 columnas con velocidades distintas */
     for (let col = 0; col < 3; col++) {
         const columna = document.createElement('div');
         columna.className = 'tira-col';
@@ -88,9 +96,8 @@ function renderTira() {
     }
 }
 
-/* ============================================================
-   REJILLA DE ARTISTAS
-   ============================================================ */
+
+/* Pinta las tarjetas de artistas en la rejilla */
 function renderRejilla() {
     const rejilla       = document.getElementById('rejilla');
     const sinResultados = document.getElementById('sinResultados');
@@ -102,6 +109,7 @@ function renderRejilla() {
 
     contador.innerHTML = `Mostrando <strong>${listaVisible.length}</strong> de <strong>${listaFiltrada.length}</strong> artistas`;
 
+    /* Sin resultados */
     if (listaFiltrada.length === 0) {
         rejilla.innerHTML = '';
         sinResultados.style.display = 'block';
@@ -119,6 +127,7 @@ function renderRejilla() {
             <div class="imagen-artista">
                 <img src="${artista.img}" alt="${artista.nombre}" loading="lazy"
                      onerror="this.src='${imagenFallback(artista.nombre)}'">
+                <!-- Overlay con icono al hover -->
                 <div class="overlay-play">
                     <i class="fa-solid fa-record-vinyl"></i>
                 </div>
@@ -128,26 +137,26 @@ function renderRejilla() {
                 <span class="tag-genero">${artista.genero}</span>
                 <span class="albums-count">${artista.albums} álbumes</span>
             </div>
+            <!-- Barra de popularidad -->
             <div class="barra-pop">
                 <div class="fill-pop" style="width: ${artista.pop}%"></div>
             </div>
         </div>
     `).join('');
 
+    /* Mostrar / ocultar botón cargar más */
     zonaCargarMas.style.display = listaFiltrada.length > state.pagina ? 'block' : 'none';
 }
 
-/* ============================================================
-   NAVEGAR A TIENDA
-   ============================================================ */
+
+/* Navega a la tienda filtrada por el artista seleccionado */
 function irATienda(nombreCodificado) {
     const nombre = decodeURIComponent(nombreCodificado);
     window.location.href = `tienda.html?artista=${encodeURIComponent(nombre)}`;
 }
 
-/* ============================================================
-   SECCIÓN DE GÉNEROS
-   ============================================================ */
+
+/* Genera las tarjetas de la sección de géneros */
 function renderGeneros() {
     const cuadricula = document.getElementById('gridGeneros');
     if (!cuadricula) return;
@@ -165,6 +174,7 @@ function renderGeneros() {
         </div>`;
     }).join('');
 
+    /* Clic en tarjeta de género — filtra la rejilla y hace scroll */
     cuadricula.querySelectorAll('.tarjeta-genero').forEach(tarjeta => {
         tarjeta.addEventListener('click', () => {
             state.genero = tarjeta.dataset.genero;
@@ -178,24 +188,26 @@ function renderGeneros() {
     });
 }
 
+/* Resetea la paginación y re-renderiza */
 function resetearPagina() {
     state.pagina = POR_PAGINA;
     renderRejilla();
 }
 
-/* ============================================================
-   INICIALIZACIÓN
-   ============================================================ */
+
+/* Eventos e inicialización */
 document.addEventListener('DOMContentLoaded', () => {
     renderTira();
     renderRejilla();
     renderGeneros();
 
+    /* Búsqueda por nombre */
     document.getElementById('campoBusqueda').addEventListener('input', function () {
         state.busqueda = this.value.trim();
         resetearPagina();
     });
 
+    /* Filtros de género */
     document.getElementById('filtrosGenero').addEventListener('click', evento => {
         const boton = evento.target.closest('.btn-genero');
         if (!boton) return;
@@ -205,11 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
         resetearPagina();
     });
 
+    /* Selector de orden */
     document.getElementById('selectOrden').addEventListener('change', function () {
         state.orden = this.value;
         resetearPagina();
     });
 
+    /* Botón cargar más */
     document.getElementById('btnCargarMas').addEventListener('click', function () {
         state.pagina += POR_PAGINA;
         this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando...';

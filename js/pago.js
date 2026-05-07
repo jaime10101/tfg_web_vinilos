@@ -145,6 +145,7 @@ function selectShipping(type, userAction = false) {
 }
 
 function goToPayment() {
+    if (!validarEnvio()) return;
     shipData = {
         name:    (document.getElementById('sh-name').value + ' ' + document.getElementById('sh-surname').value).trim() || 'Cliente',
         email:   document.getElementById('sh-email').value  || 'usuario@ejemplo.com',
@@ -188,32 +189,143 @@ function renderSidebarSummary(which) {
     }
 }
 
-/* ── Validación tarjeta ── */
+/* ═══════════════════════════════════════════════════════
+   VALIDACIONES DE FORMULARIO — PASO 2 (ENVÍO)
+   ═══════════════════════════════════════════════════════ */
+
+/* Nombre y apellidos: solo letras, espacios, acentos y guiones */
+function chkNombre(el) {
+    el.value = el.value.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']/g, '');
+}
+
+/* Email: bloquea espacios y valida formato con @  */
+function chkEmail(el) {
+    el.value = el.value.replace(/\s/g, '');
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value);
+    setFieldState('wrap-email', ok, el.value.length > 0);
+}
+
+/* Teléfono: solo dígitos, espacios y + al inicio, máx 15 dígitos */
+function chkTelefono(el) {
+    // Permitir + solo al inicio, luego solo números y espacios
+    let v = el.value;
+    const hasPlus = v.startsWith('+');
+    v = v.replace(/[^\d\s]/g, '');
+    if (hasPlus) v = '+' + v;
+    // Máximo 15 dígitos (estándar E.164)
+    const digits = v.replace(/\D/g, '');
+    if (digits.length > 15) return;
+    el.value = v;
+    setFieldState('wrap-telefono', digits.length >= 9, v.length > 0);
+}
+
+/* Código postal: solo 5 dígitos */
+function chkCP(el) {
+    el.value = el.value.replace(/\D/g, '').slice(0, 5);
+}
+
+/* Helper: marca campo como válido, inválido o neutro */
+function setFieldState(wrapId, isValid, hasContent) {
+    const wrap = document.getElementById(wrapId);
+    if (!wrap) return;
+    wrap.classList.toggle('valid',   isValid && hasContent);
+    wrap.classList.toggle('invalid', !isValid && hasContent);
+}
+
+/* Validar todo el formulario de envío antes de continuar */
+function validarEnvio() {
+    const nombre   = document.getElementById('sh-name').value.trim();
+    const apellido = document.getElementById('sh-surname').value.trim();
+    const email    = document.getElementById('sh-email').value.trim();
+    const telefono = document.getElementById('sh-phone').value.replace(/\D/g, '');
+    const calle    = document.getElementById('sh-street').value.trim();
+    const ciudad   = document.getElementById('sh-city').value.trim();
+    const cp       = document.getElementById('sh-cp').value.trim();
+
+    if (!nombre || !/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']+$/.test(nombre)) {
+        showToast('fa-triangle-exclamation', 'El nombre solo puede contener letras'); return false;
+    }
+    if (!apellido || !/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']+$/.test(apellido)) {
+        showToast('fa-triangle-exclamation', 'Los apellidos solo pueden contener letras'); return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        showToast('fa-triangle-exclamation', 'Introduce un email válido con @'); return false;
+    }
+    if (telefono.length < 9) {
+        showToast('fa-triangle-exclamation', 'El teléfono debe tener al menos 9 dígitos'); return false;
+    }
+    if (!calle) {
+        showToast('fa-triangle-exclamation', 'Introduce la dirección'); return false;
+    }
+    if (!ciudad) {
+        showToast('fa-triangle-exclamation', 'Introduce la ciudad'); return false;
+    }
+    if (cp.length !== 5) {
+        showToast('fa-triangle-exclamation', 'El código postal debe tener 5 dígitos'); return false;
+    }
+    return true;
+}
+
+/* ═══════════════════════════════════════════════════════
+   VALIDACIONES DE FORMULARIO — PASO 3 (PAGO)
+   ═══════════════════════════════════════════════════════ */
+
+/* Número de tarjeta: solo dígitos, formato 0000 0000 0000 0000 */
 function fmtCard(el) {
     let v = el.value.replace(/\D/g, '').slice(0, 16);
     el.value = v.replace(/(.{4})/g, '$1 ').trim();
     document.getElementById('wrap-cn').classList.toggle('valid', v.length === 16);
 }
-function chkHolder(el) { document.getElementById('wrap-ch').classList.toggle('valid', el.value.trim().length > 2); }
+
+/* Titular: solo letras y espacios, sin números ni símbolos */
+function chkHolder(el) {
+    el.value = el.value.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']/g, '');
+    document.getElementById('wrap-ch').classList.toggle('valid', el.value.trim().length > 2);
+}
+
+/* Caducidad: solo números, formato MM / AA con validación de mes */
 function fmtExp(el) {
     let v = el.value.replace(/\D/g, '').slice(0, 4);
     if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
     el.value = v;
-    document.getElementById('wrap-ex').classList.toggle('valid', v.replace(/\D/g, '').length === 4);
+    const digits = v.replace(/\D/g, '');
+    // Validar que el mes esté entre 01 y 12
+    const mes = parseInt(digits.slice(0, 2), 10);
+    const ok  = digits.length === 4 && mes >= 1 && mes <= 12;
+    document.getElementById('wrap-ex').classList.toggle('valid', ok);
 }
+
+/* CVV: solo 3 o 4 dígitos numéricos */
 function chkCVV(el) {
     el.value = el.value.replace(/\D/g, '').slice(0, 4);
     document.getElementById('wrap-cv').classList.toggle('valid', el.value.length >= 3);
 }
-function toggleBill() { billingOn = !billingOn; document.getElementById('bill-toggle').classList.toggle('off', !billingOn); }
 
+function toggleBill() {
+    billingOn = !billingOn;
+    document.getElementById('bill-toggle').classList.toggle('off', !billingOn);
+}
+
+/* Validar pago completo */
 function processPay() {
-    const num = document.getElementById('card-num').value.replace(/\s/g, '');
-    if (num.length < 16)                                                          { showToast('fa-triangle-exclamation', 'Introduce un número de tarjeta válido'); return; }
-    if (!document.getElementById('card-holder').value.trim())                    { showToast('fa-triangle-exclamation', 'Introduce el nombre del titular'); return; }
-    if (document.getElementById('card-exp').value.replace(/\D/g, '').length < 4) { showToast('fa-triangle-exclamation', 'Introduce la fecha de caducidad'); return; }
-    if (document.getElementById('card-cvv').value.length < 3)                    { showToast('fa-triangle-exclamation', 'Introduce el CVV'); return; }
-    cardData = { last4: num.slice(-4), holder: document.getElementById('card-holder').value };
+    const num    = document.getElementById('card-num').value.replace(/\s/g, '');
+    const holder = document.getElementById('card-holder').value.trim();
+    const exp    = document.getElementById('card-exp').value.replace(/\D/g, '');
+    const cvv    = document.getElementById('card-cvv').value;
+    const mes    = parseInt(exp.slice(0, 2), 10);
+
+    if (num.length < 16)
+        { showToast('fa-triangle-exclamation', 'El número de tarjeta debe tener 16 dígitos'); return; }
+    if (!/^\d+$/.test(num))
+        { showToast('fa-triangle-exclamation', 'El número de tarjeta solo admite dígitos'); return; }
+    if (!holder || !/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']+$/.test(holder))
+        { showToast('fa-triangle-exclamation', 'El titular solo puede contener letras'); return; }
+    if (exp.length < 4 || mes < 1 || mes > 12)
+        { showToast('fa-triangle-exclamation', 'Introduce una fecha de caducidad válida (MM/AA)'); return; }
+    if (cvv.length < 3)
+        { showToast('fa-triangle-exclamation', 'El CVV debe tener 3 o 4 dígitos'); return; }
+
+    cardData = { last4: num.slice(-4), holder };
     goTo(4);
     showToast('fa-circle-check', '¡Pedido confirmado!');
 }

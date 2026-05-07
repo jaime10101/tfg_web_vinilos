@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda de Vinilos — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/tienda.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- PORTADA HERO -->
+
+    <!-- Portada hero — título, stats y álbumes flotantes -->
     <section class="portada-hero">
         <div class="portada-fondo"></div>
+
+        <!-- Contenido izquierdo — etiqueta, título, descripción y stats -->
         <div class="portada-contenido">
             <span class="portada-etiqueta">
                 <i class="fa-solid fa-record-vinyl"></i>
@@ -25,15 +32,27 @@
                 <span class="titulo-brillo">cuenta una historia</span>
             </h1>
             <p>Más de 500 vinilos curados. Clásicos atemporales, lanzamientos exclusivos y ediciones limitadas.</p>
+
+            <!-- Stats — vinilos, artistas y envío -->
             <div class="portada-stats">
-                <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Vinilos</span></div>
+                <div class="stat">
+                    <span class="stat-num">500+</span>
+                    <span class="stat-label">Vinilos</span>
+                </div>
                 <div class="stat-sep"></div>
-                <div class="stat"><span class="stat-num">120+</span><span class="stat-label">Artistas</span></div>
+                <div class="stat">
+                    <span class="stat-num">120+</span>
+                    <span class="stat-label">Artistas</span>
+                </div>
                 <div class="stat-sep"></div>
-                <div class="stat"><span class="stat-num">24h</span><span class="stat-label">Envío</span></div>
+                <div class="stat">
+                    <span class="stat-num">24h</span>
+                    <span class="stat-label">Envío</span>
+                </div>
             </div>
         </div>
 
+        <!-- Álbumes flotantes decorativos -->
         <div class="hero-albums">
             <div class="album-flotante a1"><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&q=80" alt=""></div>
             <div class="album-flotante a2"><img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&q=80" alt=""></div>
@@ -43,7 +62,8 @@
         </div>
     </section>
 
-    <!-- BARRA DE GÉNEROS -->
+
+    <!-- Barra de géneros — filtro sticky -->
     <div class="barra-generos" id="barraGeneros">
         <div class="generos-interior">
             <span class="generos-label">GÉNERO</span>
@@ -61,16 +81,20 @@
         </div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL -->
+
+    <!-- Contenido principal — panel lateral + zona resultados -->
     <div class="contenido-tienda">
 
-        <!-- PANEL LATERAL -->
+        <!-- Panel lateral — búsqueda y filtros -->
         <aside class="panel-lateral">
+
+            <!-- Búsqueda — por vinilo o artista -->
             <div class="bloque-busqueda">
                 <i class="fa-solid fa-search icono-busqueda"></i>
                 <input type="text" id="campoBusqueda" placeholder="Buscar vinilo o artista...">
             </div>
 
+            <!-- Filtro — formato -->
             <div class="bloque-filtro">
                 <h4 class="filtro-titulo"><i class="fa-solid fa-record-vinyl"></i> Formato</h4>
                 <label class="opcion-check"><input type="checkbox" data-formato="LP"> LP (33 rpm)</label>
@@ -79,6 +103,7 @@
                 <label class="opcion-check"><input type="checkbox" data-formato="Color"> Vinilo de Color</label>
             </div>
 
+            <!-- Filtro — precio máximo con slider -->
             <div class="bloque-filtro">
                 <h4 class="filtro-titulo"><i class="fa-solid fa-tag"></i> Precio máximo</h4>
                 <div class="control-precio">
@@ -90,6 +115,7 @@
                 </div>
             </div>
 
+            <!-- Filtro — época -->
             <div class="bloque-filtro">
                 <h4 class="filtro-titulo"><i class="fa-solid fa-calendar"></i> Época</h4>
                 <label class="opcion-check"><input type="checkbox" data-epoca="nuevo"> 2020 — Hoy</label>
@@ -100,6 +126,7 @@
                 <label class="opcion-check"><input type="checkbox" data-epoca="clasico"> Clásicos</label>
             </div>
 
+            <!-- Filtro — especiales con toggles -->
             <div class="bloque-filtro">
                 <h4 class="filtro-titulo"><i class="fa-solid fa-star"></i> Especiales</h4>
                 <label class="opcion-toggle">
@@ -120,14 +147,19 @@
             </div>
         </aside>
 
-        <!-- ZONA RESULTADOS -->
+
+        <!-- Zona resultados — contador, orden, vista y rejilla -->
         <div class="zona-resultados">
+
+            <!-- Barra superior — contador, filtros activos, orden y vista -->
             <div class="barra-resultados">
                 <div class="info-resultados">
                     <span class="contador-resultados" id="contadorResultados">Mostrando <strong>0</strong> vinilos</span>
+                    <!-- Etiquetas de filtros activos — generadas por tienda.js -->
                     <div class="filtros-activos" id="filtrosActivos"></div>
                 </div>
                 <div class="controles-vista">
+                    <!-- Selector de orden -->
                     <select class="selector-orden" id="selectorOrden">
                         <option value="recientes">Más recientes</option>
                         <option value="precio-asc">Precio: menor a mayor</option>
@@ -135,6 +167,7 @@
                         <option value="nombre">Nombre A-Z</option>
                         <option value="popularidad">Popularidad</option>
                     </select>
+                    <!-- Botones vista rejilla / lista -->
                     <div class="botones-vista">
                         <button class="btn-vista activo" id="vistaRejilla" title="Rejilla"><i class="fa-solid fa-th"></i></button>
                         <button class="btn-vista" id="vistaLista" title="Lista"><i class="fa-solid fa-list"></i></button>
@@ -142,14 +175,17 @@
                 </div>
             </div>
 
+            <!-- Rejilla de vinilos — generada por tienda.js -->
             <div class="rejilla-vinilos" id="rejillaVinilos"></div>
 
+            <!-- Estado vacío — sin resultados -->
             <div class="sin-resultados" id="sinResultados" style="display:none">
                 <i class="fa-solid fa-record-vinyl icono-vacio"></i>
                 <p>No se encontraron vinilos</p>
                 <span>Prueba a ajustar los filtros</span>
             </div>
 
+            <!-- Botón cargar más -->
             <div class="zona-cargar-mas" id="zonaCargarMas">
                 <button class="btn-cargar-mas" id="btnCargarMas">
                     <i class="fa-solid fa-chevron-down"></i>
@@ -159,16 +195,20 @@
         </div>
     </div>
 
-    <!-- BANNER NEWSLETTER -->
+
+    <!-- Banner newsletter — suscripción al final de la página -->
     <div class="banner-newsletter">
         <div class="banner-newsletter-interior">
+            <!-- Icono decorativo -->
             <div class="banner-newsletter-icono">
                 <i class="fa-solid fa-envelope-open-text"></i>
             </div>
+            <!-- Texto — título y descripción -->
             <div class="banner-newsletter-texto">
                 <h2>No te pierdas ningún lanzamiento</h2>
                 <p>Recibe alertas de nuevas llegadas, preventas y ofertas exclusivas directamente en tu correo.</p>
             </div>
+            <!-- Formulario — input email y botón suscribir -->
             <div class="banner-newsletter-form">
                 <input type="email" placeholder="tu@email.com" id="emailBanner">
                 <button type="button" id="btnSuscribirBanner">Suscribirme</button>
@@ -176,8 +216,11 @@
         </div>
     </div>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/tienda.js"></script>

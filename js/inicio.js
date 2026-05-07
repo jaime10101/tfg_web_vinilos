@@ -1,13 +1,4 @@
-/* ============================================================
-   INICIO.JS — Lógica específica de la página principal
-   Nota: header, footer, hamburguesa y btn-subir los gestiona header.js
-   ============================================================ */
-
-
-/* ============================================================
-   ANIMACIÓN DE ENTRADA DE LA PORTADA
-   header.js ya anima el header; aquí animamos solo la portada
-   ============================================================ */
+/* Animación de entrada de la portada */
 document.addEventListener('DOMContentLoaded', () => {
     const portada = document.querySelector('.portada');
     setTimeout(() => {
@@ -16,14 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* ============================================================
-   EFECTO BRILLO — sección merch
-   El círculo de luz sigue al cursor dentro de la zona de imagen
-   ============================================================ */
+/* Efecto brillo — sección merch */
 const zonaMerch   = document.getElementById('zonaInteractivaMerch');
 const brilloMerch = document.getElementById('brilloMerch');
 
 if (zonaMerch && brilloMerch) {
+    /* Mover brillo con el cursor */
     zonaMerch.addEventListener('mousemove', (e) => {
         const rect = zonaMerch.getBoundingClientRect();
         brilloMerch.style.opacity = '1';
@@ -31,6 +20,7 @@ if (zonaMerch && brilloMerch) {
         brilloMerch.style.top     = `${e.clientY - rect.top}px`;
     });
 
+    /* Ocultar brillo al salir */
     zonaMerch.addEventListener('mouseleave', () => {
         brilloMerch.style.opacity = '0';
     });
@@ -38,10 +28,8 @@ if (zonaMerch && brilloMerch) {
 
 
 /* ============================================================
-   DATOS: CATEGORÍAS
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase.from('categorias').select('*');
-     renderCategorias(data);
+   CATEGORÍAS
+   TODO (Spring Boot): GET /api/categorias
    ============================================================ */
 const CATEGORIAS = [
     {
@@ -74,6 +62,7 @@ const CATEGORIAS = [
     }
 ];
 
+/* Genera las tarjetas de categoría en el grid */
 function renderCategorias() {
     const grid = document.getElementById('gridCategorias');
     if (!grid) return;
@@ -95,14 +84,8 @@ function renderCategorias() {
 
 
 /* ============================================================
-   DATOS: MÁS VENDIDOS
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase
-       .from('productos')
-       .select('*')
-       .order('ventas', { ascending: false })
-       .limit(3);
-     renderVendidos(data);
+   MÁS VENDIDOS
+   TODO (Spring Boot): GET /api/productos?orden=ventas&limite=3
    ============================================================ */
 const MAS_VENDIDOS = [
     {
@@ -134,10 +117,12 @@ const MAS_VENDIDOS = [
     }
 ];
 
+/* Etiquetas y clases por tipo de producto */
 const TIPO_LABEL  = { vinilo: 'VINILO', merch: 'MERCH', poster: 'POSTER' };
 const TIPO_CLASE  = { vinilo: 'tag-vinilo', merch: 'tag-merch', poster: 'tag-poster' };
 const RANGO_CLASE = ['rango-oro', 'rango-plata', 'rango-bronce'];
 
+/* Genera las tarjetas de más vendidos */
 function renderVendidos() {
     const grid = document.getElementById('gridVendidos');
     if (!grid) return;
@@ -165,15 +150,8 @@ function renderVendidos() {
 
 
 /* ============================================================
-   DATOS: NOVEDADES (carrusel)
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase
-       .from('productos')
-       .select('*')
-       .order('created_at', { ascending: false })
-       .limit(10);
-     catalogo.todos = data;
-     mostrarProductos();
+   NOVEDADES — carrusel
+   TODO (Spring Boot): GET /api/productos?orden=reciente&limite=10
    ============================================================ */
 const NOVEDADES = [
     { titulo: 'After Hours',         artista: 'The Weeknd',     precio: '€35,00', insignia: 'limitado', tipo: 'vinilo', enlace: 'pages/detalle/detalle_vinilo.html?id=5',  img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80' },
@@ -182,19 +160,20 @@ const NOVEDADES = [
     { titulo: 'Eras Tour Hoodie',    artista: 'Taylor Swift',   precio: '€65,00', insignia: 'nuevo',    tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=20',   img: 'https://images.unsplash.com/photo-1578681994506-b8f463449011?w=400&q=80' },
     { titulo: 'Blinding Lights Tee', artista: 'The Weeknd',     precio: '€35,00', insignia: null,       tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=22',   img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&q=80' },
     { titulo: 'The Car Tour Tee',    artista: 'Arctic Monkeys', precio: '€35,00', insignia: 'restock',  tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=3',    img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80' },
-    { titulo: 'The Dark Side',       artista: 'Pink Floyd',     precio: '€5,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=1',        img: 'img/post1.png' },
-    { titulo: 'Nevermind',           artista: 'Nirvana',        precio: '€4,99',  insignia: 'limitado', tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=2',        img: 'img/post2.png' },
-    { titulo: 'AM Poster',           artista: 'Arctic Monkeys', precio: '€6,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=4',        img: 'img/post4.png' },
-    { titulo: 'To Pimp a Butterfly', artista: 'Kendrick Lamar', precio: '€42,00', insignia: 'limitado', tipo: 'vinilo', enlace: 'pages/detalle/detalle_vinilo.html?id=13', img: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80' },
+    { titulo: 'The Dark Side',       artista: 'Pink Floyd',     precio: '€5,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=1',          img: 'img/post1.png' },
+    { titulo: 'Nevermind',           artista: 'Nirvana',        precio: '€4,99',  insignia: 'limitado', tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=2',          img: 'img/post2.png' },
+    { titulo: 'AM Poster',           artista: 'Arctic Monkeys', precio: '€6,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle.html?id=4',          img: 'img/post4.png' },
+    { titulo: 'To Pimp a Butterfly', artista: 'Kendrick Lamar', precio: '€42,00', insignia: 'limitado', tipo: 'vinilo', enlace: 'pages/detalle/detalle_vinilo.html?id=13',  img: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80' },
 ];
 
+/* Clases de insignias y tags */
 const ETIQUETAS_INSIGNIA = { nuevo: 'insignia-nuevo', limitado: 'insignia-limitado', restock: 'insignia-restock' };
-const TAG_CLASE = { vinilo: 'tag-vinilo', merch: 'tag-merch', poster: 'tag-poster' };
-const TAG_TEXTO = { vinilo: 'Vinilo',     merch: 'Merch',     poster: 'Poster' };
+const TAG_CLASE          = { vinilo: 'tag-vinilo', merch: 'tag-merch', poster: 'tag-poster' };
+const TAG_TEXTO          = { vinilo: 'Vinilo',     merch: 'Merch',     poster: 'Poster' };
 
 
 /* ============================================================
-   CARRUSEL DE NOVEDADES
+   CARRUSEL — slides, puntos y navegación táctil
    ============================================================ */
 const rejillaProductos = document.getElementById('rejillaProductos');
 const btnSiguiente     = document.getElementById('btnSiguiente');
@@ -205,6 +184,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
 
     let slideActual = 0;
 
+    /* Crea el HTML de una tarjeta de producto */
     function crearTarjeta(item) {
         const htmlInsignia = item.insignia
             ? `<span class="insignia ${ETIQUETAS_INSIGNIA[item.insignia]}">${item.insignia.toUpperCase().replace('RESTOCK', 'RE-STOCK')}</span>`
@@ -235,6 +215,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         `;
     }
 
+    /* Pinta todas las tarjetas en el carrusel */
     function mostrarProductos() {
         rejillaProductos.innerHTML = NOVEDADES.map(crearTarjeta).join('');
         rejillaProductos.querySelectorAll('.tarjeta-producto').forEach((tarjeta, i) => {
@@ -242,11 +223,13 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         });
     }
 
+    /* Ancho de una tarjeta + gap */
     function anchoCarta() {
         const tarjeta = rejillaProductos.querySelector('.tarjeta-producto');
         return tarjeta ? tarjeta.offsetWidth + 24 : 0;
     }
 
+    /* Total de slides disponibles */
     function totalSlides() {
         const cantidad = NOVEDADES.length;
         const ancho    = anchoCarta();
@@ -255,6 +238,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         return Math.max(1, cantidad - visibles + 1);
     }
 
+    /* Crea los puntos indicadores */
     function crearPuntos() {
         if (!puntosCarrusel) return;
         puntosCarrusel.innerHTML = '';
@@ -266,6 +250,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         }
     }
 
+    /* Actualiza el punto activo */
     function actualizarPuntos() {
         if (!puntosCarrusel) return;
         puntosCarrusel.querySelectorAll('.punto').forEach((punto, i) => {
@@ -273,11 +258,13 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         });
     }
 
+    /* Activa o desactiva los botones en los extremos */
     function actualizarBotones() {
         btnAnterior.classList.toggle('desactivado', slideActual === 0);
         btnSiguiente.classList.toggle('desactivado', slideActual >= totalSlides() - 1);
     }
 
+    /* Mueve el carrusel al slide indicado */
     function irASlide(index) {
         slideActual = Math.max(0, Math.min(index, totalSlides() - 1));
         rejillaProductos.style.transform = `translateX(-${slideActual * anchoCarta()}px)`;
@@ -285,10 +272,11 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         actualizarPuntos();
     }
 
+    /* Botones de navegación */
     btnSiguiente.addEventListener('click', () => irASlide(slideActual + 1));
     btnAnterior.addEventListener('click',  () => irASlide(slideActual - 1));
 
-    // Soporte táctil
+    /* Soporte táctil — swipe izquierda/derecha */
     let inicioX = 0;
     rejillaProductos.addEventListener('touchstart', e => { inicioX = e.touches[0].clientX; });
     rejillaProductos.addEventListener('touchend', e => {
@@ -298,6 +286,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
         }
     });
 
+    /* Inicializar al cargar la página */
     window.addEventListener('load', () => {
         mostrarProductos();
         setTimeout(() => {
@@ -308,9 +297,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
 }
 
 
-/* ============================================================
-   INICIALIZACIÓN
-   ============================================================ */
+/* Inicialización — renderiza categorías y más vendidos */
 document.addEventListener('DOMContentLoaded', () => {
     renderCategorias();
     renderVendidos();

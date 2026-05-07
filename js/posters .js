@@ -1,11 +1,12 @@
 /* ============================================================
    POSTERS.JS — Lógica de la página de posters
+   Header, footer y btn-subir los gestiona header.js
    ============================================================ */
+
 
 /* ============================================================
    DATOS
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase.from('posters').select('*');
+   TODO (Spring Boot): GET /api/productos?categoria=poster
    ============================================================ */
 const POSTERS = [
     { id: 1,  name: "Nirvana - Smiley Squares",   artist: "Nirvana",        price: 5.99,  oldPrice: null, style: "Album Art",    sizes: ["A1","A2","A3","50x70cm"], isNew: false, isSoldOut: false, img: "../img/post1.png" },
@@ -29,13 +30,23 @@ const POSTERS = [
     { id: 19, name: "Poster Taylor Swift",         artist: "Taylor Swift",   price: 22,    oldPrice: null, style: "Photography",  sizes: ["A2","A3","50x70cm"],      isNew: true,  isSoldOut: false, img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80" }
 ];
 
-const artists = [...new Set(POSTERS.map(p => p.artist))].sort();
-const styles  = [...new Set(POSTERS.map(p => p.style))].sort();
-const sizes   = ["A1", "A2", "A3", "50x70cm"];
+/* Listas únicas de artistas, estilos y tamaños */
+const artistas = [...new Set(POSTERS.map(p => p.artist))].sort();
+const estilos  = [...new Set(POSTERS.map(p => p.style))].sort();
+const tamaños  = ["A1", "A2", "A3", "50x70cm"];
 
-let state = { artists: [], styles: [], size: null, query: "", sort: "recientes", page: 6 };
+/* Estado global de filtros */
+let state = {
+    artists: [],
+    styles:  [],
+    size:    null,
+    query:   "",
+    sort:    "recientes",
+    page:    6
+};
 
-/* ── Toggle filtros móvil ── */
+
+/* Toggle panel de filtros en móvil */
 document.addEventListener('DOMContentLoaded', () => {
     const btnToggle    = document.getElementById('btnToggleFiltros');
     const panelFiltros = document.getElementById('panelFiltros');
@@ -43,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnToggle.addEventListener('click', () => {
             panelFiltros.classList.toggle('abierto');
             btnToggle.classList.toggle('activo');
+            /* Cambia texto del botón según estado */
             btnToggle.innerHTML = panelFiltros.classList.contains('abierto')
                 ? '<i class="fas fa-times"></i> Cerrar filtros'
                 : '<i class="fas fa-sliders-h"></i> Filtros';
@@ -50,87 +62,132 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* ── Sidebar ── */
+
+/* Genera los checkboxes de artistas, estilos y botones de tamaño */
 function renderSidebar() {
-    document.getElementById('listaArtistas').innerHTML = artists.map(a => `
+    /* Lista de artistas */
+    document.getElementById('listaArtistas').innerHTML = artistas.map(a => `
         <label class="opcion-check">
             <input type="checkbox" data-type="artist" data-val="${a}" ${state.artists.includes(a) ? 'checked' : ''}>
             ${a}
         </label>`).join('');
 
-    document.getElementById('listaEstilos').innerHTML = styles.map(s => `
+    /* Lista de estilos */
+    document.getElementById('listaEstilos').innerHTML = estilos.map(s => `
         <label class="opcion-check">
             <input type="checkbox" data-type="style" data-val="${s}" ${state.styles.includes(s) ? 'checked' : ''}>
             ${s}
         </label>`).join('');
 
-    document.getElementById('listaTamaños').innerHTML = sizes.map(s => `
+    /* Botones de tamaño */
+    document.getElementById('listaTamaños').innerHTML = tamaños.map(s => `
         <button class="btn-tamaño ${state.size === s ? 'activo' : ''}" data-size="${s}">${s}</button>`).join('');
 
+    /* Evento checkboxes — artista y estilo */
     document.querySelectorAll('.opcion-check input').forEach(cb => {
         cb.addEventListener('change', e => {
             const type = e.target.dataset.type;
             const val  = e.target.dataset.val;
-            if (type === 'artist') state.artists = e.target.checked ? [...state.artists, val] : state.artists.filter(x => x !== val);
-            else                   state.styles  = e.target.checked ? [...state.styles,  val] : state.styles.filter(x => x !== val);
-            state.page = 6; render();
+            if (type === 'artist') {
+                state.artists = e.target.checked
+                    ? [...state.artists, val]
+                    : state.artists.filter(x => x !== val);
+            } else {
+                state.styles = e.target.checked
+                    ? [...state.styles, val]
+                    : state.styles.filter(x => x !== val);
+            }
+            state.page = 6;
+            render();
         });
     });
 
+    /* Evento botones de tamaño — toggle selección */
     document.querySelectorAll('.btn-tamaño').forEach(btn => {
-        btn.addEventListener('click', () => { state.size = state.size === btn.dataset.size ? null : btn.dataset.size; state.page = 6; render(); });
+        btn.addEventListener('click', () => {
+            state.size = state.size === btn.dataset.size ? null : btn.dataset.size;
+            state.page = 6;
+            render();
+        });
     });
 }
 
-/* ── Filtrar ── */
+
+/* Filtra y ordena el array POSTERS según el estado */
 function getFiltered() {
     let result = [...POSTERS];
+
+    /* Filtros activos */
     if (state.artists.length) result = result.filter(p => state.artists.includes(p.artist));
     if (state.styles.length)  result = result.filter(p => state.styles.includes(p.style));
     if (state.size)           result = result.filter(p => p.sizes.includes(state.size));
-    if (state.query)          result = result.filter(p => p.artist.toLowerCase().includes(state.query.toLowerCase()) || p.name.toLowerCase().includes(state.query.toLowerCase()));
+    if (state.query)          result = result.filter(p =>
+        p.artist.toLowerCase().includes(state.query.toLowerCase()) ||
+        p.name.toLowerCase().includes(state.query.toLowerCase())
+    );
+
+    /* Ordenación */
     if (state.sort === 'precio-asc')  result.sort((a, b) => a.price - b.price);
     if (state.sort === 'precio-desc') result.sort((a, b) => b.price - a.price);
     if (state.sort === 'nombre')      result.sort((a, b) => a.name.localeCompare(b.name));
+
     return result;
 }
 
-/* ── Tags activos ── */
-function renderActiveTags() {
+
+/* Chips de filtros activos — clicables para quitarlos */
+function renderChipsFiltros() {
     const container = document.getElementById('filtrosActivos');
     const tags = [];
-    state.styles.forEach(s  => tags.push({ label: `Estilo: ${s}`,          type: 'style',  val: s,          css: 'rosa' }));
-    state.artists.forEach(a => tags.push({ label: `Artista: ${a}`,         type: 'artist', val: a,          css: 'oscuro' }));
-    if (state.size)           tags.push({ label: `Tamaño: ${state.size}`,  type: 'size',   val: state.size, css: 'oscuro' });
+
+    state.styles.forEach(s  => tags.push({ label: `Estilo: ${s}`,         type: 'style',  val: s,          css: 'rosa' }));
+    state.artists.forEach(a => tags.push({ label: `Artista: ${a}`,        type: 'artist', val: a,          css: 'oscuro' }));
+    if (state.size)           tags.push({ label: `Tamaño: ${state.size}`, type: 'size',   val: state.size, css: 'oscuro' });
 
     container.innerHTML = tags.map(t => `
         <span class="etiqueta-filtro ${t.css}" data-type="${t.type}" data-val="${t.val}">
             ${t.label} <i class="fas fa-times"></i>
         </span>`).join('');
 
-    if (tags.length) container.innerHTML += `<button class="btn-borrar-todo" id="btnClearAll">Borrar todo</button>`;
+    /* Botón borrar todo — solo si hay filtros activos */
+    if (tags.length) {
+        container.innerHTML += `<button class="btn-borrar-todo" id="btnClearAll">Borrar todo</button>`;
+    }
 
+    /* Evento — quitar filtro individual */
     container.querySelectorAll('.etiqueta-filtro').forEach(tag => {
         tag.addEventListener('click', () => {
             const { type, val } = tag.dataset;
             if (type === 'style')  state.styles  = state.styles.filter(x => x !== val);
             if (type === 'artist') state.artists = state.artists.filter(x => x !== val);
             if (type === 'size')   state.size    = null;
-            state.page = 6; render();
+            state.page = 6;
+            render();
         });
     });
 
+    /* Evento — borrar todos los filtros */
     const clearBtn = document.getElementById('btnClearAll');
-    if (clearBtn) clearBtn.addEventListener('click', () => { state.artists = []; state.styles = []; state.size = null; state.page = 6; render(); });
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            state.artists = [];
+            state.styles  = [];
+            state.size    = null;
+            state.page    = 6;
+            render();
+        });
+    }
 }
 
-/* ── Render rejilla ── */
-function renderGrid(filtered) {
-    const grid    = document.getElementById('rejillaPosters');
-    const visible = filtered.slice(0, state.page);
 
+/* Pinta las tarjetas de posters en la rejilla */
+function renderRejilla(filtrados) {
+    const grid    = document.getElementById('rejillaPosters');
+    const visible = filtrados.slice(0, state.page);
+
+    /* Contador de resultados */
     document.getElementById('contador').innerHTML =
-        `Mostrando <strong>${visible.length}</strong> de <strong>${filtered.length}</strong> resultados`;
+        `Mostrando <strong>${visible.length}</strong> de <strong>${filtrados.length}</strong> resultados`;
 
     grid.innerHTML = visible.map(p => `
         <a href="detalle/detalle.html?id=${p.id}" class="tarjeta-poster ${p.isSoldOut ? 'agotado-card' : ''}" data-id="${p.id}">
@@ -138,7 +195,12 @@ function renderGrid(filtered) {
                 ${p.isNew     ? `<span class="insignia-poster novedad">Novedad</span>` : ''}
                 ${p.isSoldOut ? `<span class="insignia-poster agotado">Agotado</span>` : ''}
                 <img src="${p.img}" alt="${p.name}" loading="lazy">
-                ${!p.isSoldOut ? `<div class="capa-detalle"><span class="btn-ver-detalle"><i class="fas fa-eye"></i> Ver detalle</span></div>` : ''}
+                ${!p.isSoldOut ? `
+                    <div class="capa-detalle">
+                        <span class="btn-ver-detalle">
+                            <i class="fas fa-eye"></i> Ver detalle
+                        </span>
+                    </div>` : ''}
             </div>
             <div class="info-poster">
                 <div class="nombre-poster">${p.name}</div>
@@ -150,21 +212,41 @@ function renderGrid(filtered) {
             </div>
         </a>`).join('');
 
-    document.getElementById('btnCargarMas').style.display = visible.length >= filtered.length ? 'none' : 'flex';
+    /* Mostrar / ocultar botón cargar más */
+    document.getElementById('btnCargarMas').style.display =
+        visible.length >= filtrados.length ? 'none' : 'flex';
 }
 
-/* ── Render completo ── */
+
+/* Renderizado completo — sidebar, chips y rejilla */
 function render() {
-    const filtered = getFiltered();
+    const filtrados = getFiltered();
     renderSidebar();
-    renderActiveTags();
-    renderGrid(filtered);
+    renderChipsFiltros();
+    renderRejilla(filtrados);
 }
 
-/* ── Eventos ── */
+
+/* Eventos e inicialización */
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('campoBusqueda').addEventListener('input', e => { state.query = e.target.value; state.page = 6; render(); });
-    document.getElementById('selectorOrden').addEventListener('change', e => { state.sort = e.target.value; render(); });
-    document.getElementById('btnCargarMas').addEventListener('click', () => { state.page += 6; render(); });
+    /* Búsqueda por texto */
+    document.getElementById('campoBusqueda').addEventListener('input', e => {
+        state.query = e.target.value;
+        state.page  = 6;
+        render();
+    });
+
+    /* Selector de orden */
+    document.getElementById('selectorOrden').addEventListener('change', e => {
+        state.sort = e.target.value;
+        render();
+    });
+
+    /* Cargar más */
+    document.getElementById('btnCargarMas').addEventListener('click', () => {
+        state.page += 6;
+        render();
+    });
+
     render();
 });

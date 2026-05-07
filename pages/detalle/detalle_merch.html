@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Producto — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../../css/global.css">
     <link rel="stylesheet" href="../../css/detalle_merch.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- MIGAS DE PAN -->
+
+    <!-- Migas de pan — Inicio > Merch > Categoría > Nombre -->
     <div class="migas-pan">
         <a href="../../index.html">Inicio</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -23,57 +28,74 @@
         <span id="migaNombre">Cargando...</span>
     </div>
 
-    <!-- DETALLE -->
+
+    <!-- Detalle principal — imagen + info -->
     <main class="contenedor-detalle">
         <div class="detalle-grid">
 
-            <!-- IMAGEN -->
+            <!-- Columna imagen — marco con zoom y miniatura -->
             <div class="zona-imagen">
                 <div class="marco-imagen">
                     <img id="productoImagen" src="" alt="Producto">
+                    <!-- Insignia nuevo — visible si el producto lo es -->
                     <span class="insignia-nuevo" id="insigniaNuevo" style="display:none">NUEVO</span>
                 </div>
+                <!-- Miniatura — generada por detalle_merch.js -->
                 <div class="miniaturas">
                     <div class="miniatura activa" id="miniaturaUnica"></div>
                 </div>
             </div>
 
-            <!-- INFO -->
+
+            <!-- Columna info — título, precio, talla, color, descripción y acciones -->
             <div class="zona-info">
+
+                <!-- Cabecera — categoría, nombre y artista -->
                 <div class="info-cabecera">
                     <span class="etiqueta-categoria" id="etiquetaCategoria">MERCH OFICIAL</span>
                     <h1 id="productoNombre"></h1>
                     <p id="productoArtista" class="artista-producto"></p>
                 </div>
 
+                <!-- Precio y precio anterior si hay descuento -->
                 <div class="zona-precio">
                     <span class="precio-grande" id="productoPrecio">€0,00</span>
                     <span class="precio-antes" id="precioAntes" style="display:none"></span>
                 </div>
 
+                <!-- Selector de talla — visible solo si el producto tiene tallas -->
                 <div class="selector-talla" id="selectorTalla" style="display:none">
                     <h3 class="titulo-selector">Talla <span id="tallaSeleccionada"></span></h3>
                     <div class="opciones-talla" id="opcionesTalla"></div>
-                    <a href="#" class="guia-tallas"><i class="fa-solid fa-ruler"></i> Guía de tallas</a>
+                    <a href="#" class="guia-tallas">
+                        <i class="fa-solid fa-ruler"></i> Guía de tallas
+                    </a>
                 </div>
 
+                <!-- Selector de color — visible solo si el producto tiene colores -->
                 <div class="selector-color" id="selectorColor" style="display:none">
                     <h3 class="titulo-selector">Color: <span id="colorSeleccionado"></span></h3>
                     <div class="opciones-color" id="opcionesColor"></div>
                 </div>
 
+                <!-- Descripción del producto -->
                 <div class="bloque-descripcion">
                     <h3 class="titulo-descripcion">Descripción</h3>
                     <p class="descripcion-larga" id="productoDescripcion"></p>
                 </div>
 
+                <!-- Tabla de detalles — material, categoría, artista y stock -->
                 <div class="detalles-tabla">
                     <div class="fila-detalle"><span>Material</span><span id="productoMaterial">100% algodón orgánico</span></div>
                     <div class="fila-detalle"><span>Categoría</span><span id="productoCategoria"></span></div>
                     <div class="fila-detalle"><span>Artista</span><span id="productoArtistaBD"></span></div>
-                    <div class="fila-detalle"><span>Disponibilidad</span><span class="en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span></div>
+                    <div class="fila-detalle">
+                        <span>Disponibilidad</span>
+                        <span class="en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span>
+                    </div>
                 </div>
 
+                <!-- Acciones — cantidad y botón añadir al carrito -->
                 <div class="zona-acciones">
                     <div class="selector-cantidad">
                         <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
@@ -85,10 +107,12 @@
                     </button>
                 </div>
 
+                <!-- Aviso de confirmación -->
                 <div class="aviso-carrito" id="avisoCarrito" style="display:none">
                     <i class="fa-solid fa-circle-check"></i> ¡Añadido al carrito!
                 </div>
 
+                <!-- Enlace volver -->
                 <a href="javascript:history.back()" class="enlace-volver">
                     <i class="fa-solid fa-arrow-left"></i> Volver
                 </a>
@@ -96,16 +120,21 @@
         </div>
     </main>
 
-    <!-- RELACIONADOS -->
+
+    <!-- Sección relacionados — otros productos de merch -->
     <section class="seccion-relacionados">
         <div class="contenedor-relacionados">
             <h2 class="titulo-relacionados">También te puede gustar</h2>
+            <!-- Grid generado por detalle_merch.js -->
             <div class="grid-relacionados" id="gridRelacionados"></div>
         </div>
     </section>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../../js/header.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/detalle_merch.js"></script>

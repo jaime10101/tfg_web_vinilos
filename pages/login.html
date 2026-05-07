@@ -5,68 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vinyl Sounds | Iniciar Sesión</title>
 
-    <!-- Font Awesome -->
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Estilos: globales (variables, reset) + específicos de login -->
+    <!-- Estilos -->
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
 
-<!--
-    El login NO tiene header de navegación.
-    Solo muestra el logo y un enlace a registro, para
-    no distraer al usuario del formulario.
--->
+<!-- Sin header — solo formulario para no distraer al usuario -->
 
-<main class="container">
+<main class="contenedor-login">
 
-    <!-- ========================
-         IZQUIERDA — Formulario
-    ========================= -->
-    <section class="login-card">
-
-        <!-- Logo -->
-        <div class="logo" style="margin-bottom: 48px;">
-            <a href="../index.html">Vinyl Sounds</a>
-        </div>
+    <!-- Izquierda — formulario de inicio de sesión -->
+    <section class="tarjeta-login">
 
         <h1>Bienvenido de nuevo</h1>
-        <p class="subtitle">
-            Ingresa tus credenciales para acceder a tu colección.
-        </p>
+        <p class="subtitulo">Ingresa tus credenciales para acceder a tu colección.</p>
 
-        <!--
-            TODO (Supabase): conectar con
-              supabase.auth.signInWithPassword({ email, password })
-            y gestionar el token de sesión aquí.
-        -->
+        <!-- Formulario — TODO (Spring Boot): POST /api/auth/login -->
         <form id="formLogin" novalidate>
 
+            <!-- Email -->
             <label for="email">Correo electrónico</label>
             <input type="email" id="email" placeholder="ejemplo@email.com" required>
 
-            <div class="password-label">
+            <!-- Contraseña con enlace olvidé y toggle -->
+            <div class="etiqueta-contrasena">
                 <label for="password">Contraseña</label>
-                <a href="#" class="forgot">¿Olvidaste tu contraseña?</a>
+                <a href="#" class="enlace-olvidaste">¿Olvidaste tu contraseña?</a>
             </div>
 
-            <div class="password-wrapper">
+            <div class="campo-contrasena">
                 <input type="password" id="password" placeholder="••••••••" required>
-                <span class="toggle-pass" id="togglePassword" title="Mostrar u ocultar contraseña">
+                <span class="toggle-contrasena" id="togglePassword" title="Mostrar u ocultar contraseña">
                     <i class="fa-regular fa-eye"></i>
                 </span>
             </div>
 
-            <button type="submit" class="btn-primary">Iniciar Sesión</button>
+            <!-- Botón iniciar sesión -->
+            <button type="submit" class="btn-principal">Iniciar Sesión</button>
 
-            <div class="divider">O continúa con</div>
+            <div class="separador">O continúa con</div>
 
-            <!--
-                TODO (Supabase): conectar con
-                  supabase.auth.signInWithOAuth({ provider: 'google' })
-            -->
+            <!-- Botón Google — TODO (Spring Boot): OAuth2 Google -->
             <button type="button" class="btn-google" id="btnGoogle">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                 Continuar con Google
@@ -74,18 +57,17 @@
 
         </form>
 
-        <p class="register-link">
+        <!-- Enlace a registro -->
+        <p class="enlace-registro">
             ¿No tienes cuenta? <a href="../pages/register.html">Regístrate gratis</a>
         </p>
 
     </section>
 
 
-    <!-- ========================
-         DERECHA — Decorativa
-    ========================= -->
-    <section class="info-card">
-        <span class="badge">Novedad</span>
+    <!-- Derecha — decorativa -->
+    <section class="tarjeta-info">
+        <span class="insignia">Novedad</span>
         <h2>Redescubre el<br>sonido analógico.</h2>
         <p>
             Únete a nuestra comunidad de coleccionistas y accede a ediciones
@@ -96,6 +78,7 @@
 </main>
 
 <!-- Scripts -->
+<script src="../js/header.js"></script>
 <script src="../js/login.js"></script>
 </body>
 </html>

@@ -1,12 +1,15 @@
 /* ============================================================
-   TIENDA.CSS — Estilos específicos de la tienda de vinilos
-   Header, footer, variables y reset están en global.css
+   TIENDA.CSS — Estilos de la tienda de vinilos
+   Header, footer y variables en global.css
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+}
 
+/* Body — fondo con gradientes fijos */
 body {
     font-family: 'DM Sans', -apple-system, sans-serif;
     background:
@@ -16,9 +19,12 @@ body {
     background-attachment: fixed;
 }
 
+
 /* ============================================================
    PORTADA HERO
    ============================================================ */
+
+/* Hero — pantalla completa con clip diagonal */
 .portada-hero {
     position: relative;
     min-height: 100vh;
@@ -29,6 +35,7 @@ body {
     clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
 }
 
+/* Fondo — gradientes radiales */
 .portada-fondo {
     position: absolute;
     inset: 0;
@@ -39,22 +46,33 @@ body {
     z-index: 0;
 }
 
+/* Línea superior de color */
 .portada-fondo::after {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--morado) 30%, var(--rojo) 70%, transparent);
 }
 
+/* Líneas de escaneo */
 .portada-fondo::before {
     content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px);
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.01) 0px,
+        rgba(255,255,255,0.01) 1px,
+        transparent 1px,
+        transparent 4px
+    );
     pointer-events: none;
 }
 
-/* Contenido izquierdo */
+/* Contenido izquierdo — etiqueta, título y stats */
 .portada-contenido {
     position: relative;
     z-index: 2;
@@ -62,6 +80,7 @@ body {
     flex-shrink: 0;
 }
 
+/* Badge pulsante */
 .portada-etiqueta {
     display: inline-flex;
     align-items: center;
@@ -84,6 +103,7 @@ body {
     50%       { box-shadow: 0 0 0 8px rgba(255,0,110,0); }
 }
 
+/* Título en Bebas Neue */
 .portada-contenido h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(3rem, 5.5vw, 6rem);
@@ -93,6 +113,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* Palabra con degradado UV */
 .titulo-brillo {
     background: var(--grad-uv);
     -webkit-background-clip: text;
@@ -101,6 +122,7 @@ body {
     display: block;
 }
 
+/* Párrafo descriptivo */
 .portada-contenido p {
     color: var(--apagado);
     font-size: 15px;
@@ -109,7 +131,7 @@ body {
     max-width: 440px;
 }
 
-/* Stats */
+/* Stats — vinilos, artistas, envío */
 .portada-stats {
     display: flex;
     align-items: center;
@@ -117,8 +139,13 @@ body {
     flex-wrap: wrap;
 }
 
-.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
 
+/* Número grande en degradado fuego */
 .stat-num {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
@@ -129,6 +156,7 @@ body {
     line-height: 1;
 }
 
+/* Etiqueta debajo del número */
 .stat-label {
     font-size: 11px;
     color: var(--apagado);
@@ -137,6 +165,7 @@ body {
     text-transform: uppercase;
 }
 
+/* Separador vertical entre stats */
 .stat-sep {
     width: 1px;
     height: 40px;
@@ -144,7 +173,7 @@ body {
     flex-shrink: 0;
 }
 
-/* Álbumes flotantes */
+/* Álbumes flotantes — derecha del hero */
 .hero-albums {
     position: absolute;
     right: 6%;
@@ -155,6 +184,7 @@ body {
     z-index: 1;
 }
 
+/* Álbum individual flotante */
 .album-flotante {
     position: absolute;
     border-radius: 12px;
@@ -162,20 +192,36 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 0 1px rgba(123,47,255,0.2);
 }
 
-.album-flotante img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.album-flotante img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
-.album-flotante.a1 { width: 44%; height: 44%; top: 0; left: 28%; animation: flotar1 6s ease-in-out infinite; }
-.album-flotante.a2 { width: 36%; height: 36%; top: 28%; left: 0;  animation: flotar2 7s ease-in-out infinite 0.5s; }
-.album-flotante.a3 { width: 36%; height: 36%; top: 28%; right: 0; animation: flotar3 5s ease-in-out infinite 1s; }
+/* Posición y animación de cada álbum */
+.album-flotante.a1 { width: 44%; height: 44%; top: 0;    left: 28%; animation: flotar1 6s ease-in-out infinite; }
+.album-flotante.a2 { width: 36%; height: 36%; top: 28%;  left: 0;   animation: flotar2 7s ease-in-out infinite 0.5s; }
+.album-flotante.a3 { width: 36%; height: 36%; top: 28%;  right: 0;  animation: flotar3 5s ease-in-out infinite 1s; }
 .album-flotante.a4 { width: 32%; height: 32%; bottom: 2%; left: 10%; animation: flotar1 8s ease-in-out infinite 1.5s; }
 .album-flotante.a5 { width: 32%; height: 32%; bottom: 2%; right: 10%; animation: flotar2 6s ease-in-out infinite 2s; }
 
-@keyframes flotar1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-@keyframes flotar2 { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
-@keyframes flotar3 { 0%, 100% { transform: translateY(-8px) rotate(1deg); } 50% { transform: translateY(6px) rotate(-1deg); } }
+@keyframes flotar1 {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-14px); }
+}
+@keyframes flotar2 {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%       { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes flotar3 {
+    0%, 100% { transform: translateY(-8px) rotate(1deg); }
+    50%       { transform: translateY(6px) rotate(-1deg); }
+}
+
 
 /* ============================================================
-   BARRA DE GÉNEROS
+   BARRA DE GÉNEROS — sticky bajo el header
    ============================================================ */
 .barra-generos {
     background: rgba(8,5,15,0.97);
@@ -188,6 +234,7 @@ body {
     z-index: 100;
 }
 
+/* Interior — label + botones de género */
 .generos-interior {
     display: flex;
     align-items: center;
@@ -196,6 +243,7 @@ body {
     margin: 0 auto;
 }
 
+/* Label "GÉNERO" */
 .generos-label {
     color: var(--verde);
     font-size: 10px;
@@ -206,14 +254,19 @@ body {
     flex-shrink: 0;
 }
 
+/* Lista de botones — scroll horizontal */
 .generos-lista {
     display: flex;
     gap: 8px;
     overflow-x: auto;
     scrollbar-width: none;
 }
-.generos-lista::-webkit-scrollbar { display: none; }
 
+.generos-lista::-webkit-scrollbar {
+    display: none;
+}
+
+/* Botón de género */
 .btn-genero {
     padding: 6px 18px;
     border-radius: 50px;
@@ -227,11 +280,23 @@ body {
     font-family: inherit;
     transition: all 0.2s;
 }
-.btn-genero:hover { border-color: rgba(0,212,255,0.4); color: var(--texto); }
-.btn-genero.activo { background: var(--grad-uv); border-color: transparent; color: #fff; box-shadow: 0 4px 16px rgba(255,0,110,0.3); }
+
+.btn-genero:hover {
+    border-color: rgba(0,212,255,0.4);
+    color: var(--texto);
+}
+
+/* Botón activo — degradado UV */
+.btn-genero.activo {
+    background: var(--grad-uv);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(255,0,110,0.3);
+}
+
 
 /* ============================================================
-   CONTENIDO TIENDA
+   CONTENIDO TIENDA — panel lateral + zona resultados
    ============================================================ */
 .contenido-tienda {
     display: grid;
@@ -243,9 +308,12 @@ body {
     align-items: start;
 }
 
+
 /* ============================================================
-   PANEL LATERAL
+   PANEL LATERAL — filtros
    ============================================================ */
+
+/* Panel lateral sticky */
 .panel-lateral {
     position: sticky;
     top: 60px;
@@ -254,7 +322,11 @@ body {
     gap: 14px;
 }
 
-.bloque-busqueda { position: relative; }
+/* Búsqueda */
+.bloque-busqueda {
+    position: relative;
+}
+
 .bloque-busqueda input {
     width: 100%;
     background: #0E0C1F;
@@ -267,10 +339,28 @@ body {
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
-.bloque-busqueda input:focus { border-color: rgba(0,212,255,0.45); box-shadow: 0 0 0 3px rgba(0,212,255,0.07); }
-.bloque-busqueda input::placeholder { color: var(--apagado); }
-.icono-busqueda { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--apagado); font-size: 13px; pointer-events: none; }
 
+.bloque-busqueda input:focus {
+    border-color: rgba(0,212,255,0.45);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.07);
+}
+
+.bloque-busqueda input::placeholder {
+    color: var(--apagado);
+}
+
+/* Icono lupa */
+.icono-busqueda {
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--apagado);
+    font-size: 13px;
+    pointer-events: none;
+}
+
+/* Bloque de filtro con borde */
 .bloque-filtro {
     background: #0E0C1F;
     border: 1px solid var(--borde);
@@ -278,6 +368,7 @@ body {
     padding: 16px;
 }
 
+/* Título del filtro */
 .filtro-titulo {
     font-size: 10px;
     font-weight: 700;
@@ -289,8 +380,13 @@ body {
     align-items: center;
     gap: 8px;
 }
-.filtro-titulo i { color: var(--rojo); font-size: 11px; }
 
+.filtro-titulo i {
+    color: var(--rojo);
+    font-size: 11px;
+}
+
+/* Opción con checkbox */
 .opcion-check {
     display: flex;
     align-items: center;
@@ -301,31 +397,60 @@ body {
     color: var(--apagado);
     transition: color 0.2s;
 }
-.opcion-check:hover { color: var(--texto); }
-.opcion-check:last-child { margin-bottom: 0; }
-.opcion-check input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--rojo); flex-shrink: 0; }
 
-.control-precio { display: flex; flex-direction: column; gap: 10px; }
+.opcion-check:hover {
+    color: var(--texto);
+}
 
+.opcion-check:last-child {
+    margin-bottom: 0;
+}
+
+.opcion-check input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    accent-color: var(--rojo);
+    flex-shrink: 0;
+}
+
+/* Control del slider de precio */
+.control-precio {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Slider de precio */
 .slider-precio {
-    width: 100%; height: 4px;
+    width: 100%;
+    height: 4px;
     border-radius: 2px;
     background: var(--borde);
     outline: none;
     -webkit-appearance: none;
     appearance: none;
 }
+
 .slider-precio::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 18px; height: 18px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: var(--grad-fuego);
     cursor: pointer;
     box-shadow: 0 0 8px rgba(255,0,110,0.5);
 }
 
-.etiquetas-precio { display: flex; justify-content: space-between; font-size: 12px; color: var(--apagado); }
+/* Etiquetas min/max del precio */
+.etiquetas-precio {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--apagado);
+}
 
+/* Opción con toggle */
 .opcion-toggle {
     display: flex;
     align-items: center;
@@ -336,12 +461,23 @@ body {
     margin-bottom: 12px;
     transition: color 0.2s;
 }
-.opcion-toggle:last-child { margin-bottom: 0; }
-.opcion-toggle:hover { color: var(--texto); }
-.opcion-toggle input { display: none; }
 
+.opcion-toggle:last-child {
+    margin-bottom: 0;
+}
+
+.opcion-toggle:hover {
+    color: var(--texto);
+}
+
+.opcion-toggle input {
+    display: none;
+}
+
+/* Toggle slider */
 .toggle-slider {
-    width: 38px; height: 20px;
+    width: 38px;
+    height: 20px;
     background: #12103A;
     border-radius: 10px;
     position: relative;
@@ -349,21 +485,36 @@ body {
     transition: background 0.3s;
     flex-shrink: 0;
 }
+
 .toggle-slider::after {
     content: '';
     position: absolute;
-    width: 14px; height: 14px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: var(--apagado);
-    top: 2px; left: 2px;
+    top: 2px;
+    left: 2px;
     transition: all 0.3s;
 }
-.opcion-toggle input:checked + .toggle-slider { background: var(--grad-uv); border-color: transparent; }
-.opcion-toggle input:checked + .toggle-slider::after { left: 20px; background: #fff; }
+
+/* Toggle activo */
+.opcion-toggle input:checked + .toggle-slider {
+    background: var(--grad-uv);
+    border-color: transparent;
+}
+
+.opcion-toggle input:checked + .toggle-slider::after {
+    left: 20px;
+    background: #fff;
+}
+
 
 /* ============================================================
    ZONA RESULTADOS
    ============================================================ */
+
+/* Barra superior — contador, orden y vista */
 .barra-resultados {
     display: flex;
     align-items: center;
@@ -373,11 +524,32 @@ body {
     gap: 14px;
 }
 
-.info-resultados { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.contador-resultados { font-size: 14px; color: var(--apagado); }
-.contador-resultados strong { color: var(--texto); }
-.filtros-activos { display: flex; gap: 8px; flex-wrap: wrap; }
+/* Información de resultados */
+.info-resultados {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
 
+/* Contador — "Mostrando X de Y vinilos" */
+.contador-resultados {
+    font-size: 14px;
+    color: var(--apagado);
+}
+
+.contador-resultados strong {
+    color: var(--texto);
+}
+
+/* Chips de filtros activos */
+.filtros-activos {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Chip de filtro activo — clicable para quitarlo */
 .etiqueta-activa {
     display: inline-flex;
     align-items: center;
@@ -392,10 +564,19 @@ body {
     cursor: pointer;
     transition: all 0.2s;
 }
-.etiqueta-activa:hover { background: rgba(255,0,110,0.2); }
 
-.controles-vista { display: flex; align-items: center; gap: 10px; }
+.etiqueta-activa:hover {
+    background: rgba(255,0,110,0.2);
+}
 
+/* Controles de vista y orden */
+.controles-vista {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Selector de orden */
 .selector-orden {
     appearance: none;
     background: #0E0C1F;
@@ -413,12 +594,24 @@ body {
     background-position: right 10px center;
     transition: border-color 0.2s;
 }
-.selector-orden:focus { border-color: rgba(0,212,255,0.4); }
-.selector-orden option { background: var(--superficie); }
 
-.botones-vista { display: flex; gap: 4px; }
+.selector-orden:focus {
+    border-color: rgba(0,212,255,0.4);
+}
+
+.selector-orden option {
+    background: var(--superficie);
+}
+
+/* Botones rejilla/lista */
+.botones-vista {
+    display: flex;
+    gap: 4px;
+}
+
 .btn-vista {
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
     border-radius: 8px;
     border: 1px solid var(--borde);
     background: #0E0C1F;
@@ -429,12 +622,25 @@ body {
     justify-content: center;
     transition: all 0.2s;
 }
-.btn-vista:hover { color: var(--texto); border-color: rgba(0,212,255,0.3); }
-.btn-vista.activo { background: var(--grad-uv); border-color: transparent; color: #fff; }
+
+.btn-vista:hover {
+    color: var(--texto);
+    border-color: rgba(0,212,255,0.3);
+}
+
+/* Vista activa — degradado UV */
+.btn-vista.activo {
+    background: var(--grad-uv);
+    border-color: transparent;
+    color: #fff;
+}
+
 
 /* ============================================================
    REJILLA DE VINILOS
    ============================================================ */
+
+/* Grid responsive */
 .rejilla-vinilos {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -442,11 +648,18 @@ body {
     margin-bottom: 40px;
 }
 
-.rejilla-vinilos.vista-lista { grid-template-columns: 1fr; gap: 10px; }
+/* Vista lista — columna única */
+.rejilla-vinilos.vista-lista {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
 
 /* ============================================================
    TARJETA DE VINILO
    ============================================================ */
+
+/* Tarjeta con borde y hover */
 .tarjeta-vinilo {
     background: #0E0C1F;
     border: 1px solid var(--borde);
@@ -457,10 +670,13 @@ body {
     position: relative;
 }
 
+/* Línea superior de color al hover */
 .tarjeta-vinilo::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: var(--grad-fuego);
     opacity: 0;
@@ -468,9 +684,17 @@ body {
     z-index: 3;
 }
 
-.tarjeta-vinilo:hover { transform: translateY(-7px) scale(1.01); border-color: rgba(0,212,255,0.35); box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
-.tarjeta-vinilo:hover::before { opacity: 1; }
+.tarjeta-vinilo:hover {
+    transform: translateY(-7px) scale(1.01);
+    border-color: rgba(0,212,255,0.35);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.55);
+}
 
+.tarjeta-vinilo:hover::before {
+    opacity: 1;
+}
+
+/* Portada cuadrada */
 .portada-vinilo {
     width: 100%;
     aspect-ratio: 1;
@@ -479,9 +703,20 @@ body {
     overflow: hidden;
 }
 
-.portada-vinilo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
-.tarjeta-vinilo:hover .portada-vinilo img { transform: scale(1.08); }
+.portada-vinilo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    display: block;
+}
 
+/* Zoom de imagen al hover */
+.tarjeta-vinilo:hover .portada-vinilo img {
+    transform: scale(1.08);
+}
+
+/* Overlay oscuro al hover */
 .overlay-vinilo {
     position: absolute;
     inset: 0;
@@ -490,12 +725,18 @@ body {
     transition: opacity 0.3s;
     z-index: 2;
 }
-.tarjeta-vinilo:hover .overlay-vinilo { opacity: 1; }
 
+.tarjeta-vinilo:hover .overlay-vinilo {
+    opacity: 1;
+}
+
+/* Botón carrito — aparece al hover */
 .btn-carrito-overlay {
     position: absolute;
-    bottom: 12px; right: 12px;
-    width: 44px; height: 44px;
+    bottom: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--grad-uv);
     color: #fff;
@@ -510,12 +751,21 @@ body {
     transform: scale(0) translateY(8px);
     z-index: 3;
 }
-.tarjeta-vinilo:hover .btn-carrito-overlay { transform: scale(1) translateY(0); }
-.btn-carrito-overlay:hover { box-shadow: 0 6px 28px rgba(255,0,110,0.6); transform: scale(1.12) translateY(0) !important; }
 
+.tarjeta-vinilo:hover .btn-carrito-overlay {
+    transform: scale(1) translateY(0);
+}
+
+.btn-carrito-overlay:hover {
+    box-shadow: 0 6px 28px rgba(255,0,110,0.6);
+    transform: scale(1.12) translateY(0) !important;
+}
+
+/* Insignia — esquina superior izquierda */
 .insignia-vinilo {
     position: absolute;
-    top: 10px; left: 10px;
+    top: 10px;
+    left: 10px;
     padding: 4px 10px;
     border-radius: 5px;
     font-size: 9px;
@@ -525,16 +775,47 @@ body {
     z-index: 3;
     color: #fff;
 }
+
+/* Variantes de insignia */
 .insignia-vinilo.nuevo     { background: var(--grad-fuego); }
 .insignia-vinilo.limitado  { background: linear-gradient(135deg, #FF6B00, #FFE600); color: var(--fondo); }
 .insignia-vinilo.restock   { background: linear-gradient(135deg, #00D4FF, #7B2FFF); }
 .insignia-vinilo.pre-orden { background: var(--grad-uv); }
 
-.info-vinilo { padding: 14px; }
-.nombre-vinilo { font-size: 14px; font-weight: 700; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
-.artista-vinilo { font-size: 12px; color: var(--apagado); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; }
-.pie-vinilo { display: flex; justify-content: space-between; align-items: center; }
+/* Información textual */
+.info-vinilo {
+    padding: 14px;
+}
 
+/* Nombre del vinilo — truncado */
+.nombre-vinilo {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--texto);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+}
+
+/* Artista — truncado */
+.artista-vinilo {
+    font-size: 12px;
+    color: var(--apagado);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 10px;
+}
+
+/* Pie — formato y precio */
+.pie-vinilo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Tag de formato — LP, EP, Doble, Color */
 .etiqueta-formato {
     background: rgba(123,47,255,0.12);
     border: 1px solid rgba(123,47,255,0.25);
@@ -547,6 +828,7 @@ body {
     letter-spacing: 0.06em;
 }
 
+/* Precio con degradado fuego */
 .precio-vinilo {
     font-size: 16px;
     font-weight: 800;
@@ -556,18 +838,54 @@ body {
     background-clip: text;
 }
 
-/* Vista lista */
-.rejilla-vinilos.vista-lista .tarjeta-vinilo { display: flex; flex-direction: row; border-radius: 12px; }
-.rejilla-vinilos.vista-lista .portada-vinilo { width: 90px; aspect-ratio: 1; flex-shrink: 0; border-radius: 12px 0 0 12px; }
-.rejilla-vinilos.vista-lista .info-vinilo { flex: 1; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; }
+/* Vista lista — tarjeta horizontal */
+.rejilla-vinilos.vista-lista .tarjeta-vinilo {
+    display: flex;
+    flex-direction: row;
+    border-radius: 12px;
+}
+
+.rejilla-vinilos.vista-lista .portada-vinilo {
+    width: 90px;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    border-radius: 12px 0 0 12px;
+}
+
+.rejilla-vinilos.vista-lista .info-vinilo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+}
 
 /* Sin resultados */
-.sin-resultados { text-align: center; padding: 80px 20px; color: var(--apagado); }
-.icono-vacio { font-size: 55px; opacity: 0.2; display: block; margin-bottom: 20px; }
-.sin-resultados p { font-size: 18px; color: var(--texto); margin-bottom: 8px; }
+.sin-resultados {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--apagado);
+}
 
-/* Cargar más */
-.zona-cargar-mas { text-align: center; padding: 20px 0 40px; }
+.icono-vacio {
+    font-size: 55px;
+    opacity: 0.2;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.sin-resultados p {
+    font-size: 18px;
+    color: var(--texto);
+    margin-bottom: 8px;
+}
+
+/* Botón cargar más */
+.zona-cargar-mas {
+    text-align: center;
+    padding: 20px 0 40px;
+}
+
 .btn-cargar-mas {
     display: inline-flex;
     align-items: center;
@@ -583,11 +901,18 @@ body {
     font-family: inherit;
     transition: all 0.3s;
 }
-.btn-cargar-mas:hover { border-color: rgba(255,0,110,0.45); background: rgba(255,0,110,0.06); }
+
+.btn-cargar-mas:hover {
+    border-color: rgba(255,0,110,0.45);
+    background: rgba(255,0,110,0.06);
+}
+
 
 /* ============================================================
    BANNER NEWSLETTER
    ============================================================ */
+
+/* Banner con gradientes y línea superior */
 .banner-newsletter {
     margin: 0 50px 60px;
     border-radius: 20px;
@@ -600,14 +925,18 @@ body {
     position: relative;
 }
 
+/* Línea superior de color */
 .banner-newsletter::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--morado) 30%, var(--rojo) 70%, transparent);
 }
 
+/* Interior — icono, texto y formulario */
 .banner-newsletter-interior {
     display: flex;
     align-items: center;
@@ -616,8 +945,10 @@ body {
     flex-wrap: wrap;
 }
 
+/* Icono decorativo */
 .banner-newsletter-icono {
-    width: 64px; height: 64px;
+    width: 64px;
+    height: 64px;
     border-radius: 16px;
     background: rgba(123,47,255,0.15);
     border: 1px solid rgba(123,47,255,0.3);
@@ -629,11 +960,32 @@ body {
     flex-shrink: 0;
 }
 
-.banner-newsletter-texto { flex: 1; min-width: 200px; }
-.banner-newsletter-texto h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--texto); letter-spacing: 0.02em; margin-bottom: 6px; }
-.banner-newsletter-texto p { color: var(--apagado); font-size: 14px; line-height: 1.6; }
+/* Texto — título y descripción */
+.banner-newsletter-texto {
+    flex: 1;
+    min-width: 200px;
+}
 
-.banner-newsletter-form { display: flex; gap: 10px; flex-shrink: 0; }
+.banner-newsletter-texto h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--texto);
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+}
+
+.banner-newsletter-texto p {
+    color: var(--apagado);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Formulario — input + botón */
+.banner-newsletter-form {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
 
 .banner-newsletter-form input {
     padding: 12px 18px;
@@ -647,9 +999,16 @@ body {
     width: 240px;
     transition: border-color 0.2s;
 }
-.banner-newsletter-form input:focus { border-color: rgba(0,212,255,0.45); }
-.banner-newsletter-form input::placeholder { color: var(--apagado); }
 
+.banner-newsletter-form input:focus {
+    border-color: rgba(0,212,255,0.45);
+}
+
+.banner-newsletter-form input::placeholder {
+    color: var(--apagado);
+}
+
+/* Botón suscribir */
 .banner-newsletter-form button {
     padding: 12px 24px;
     background: var(--grad-fuego);
@@ -664,47 +1023,56 @@ body {
     transition: box-shadow 0.2s, transform 0.2s;
     box-shadow: 0 4px 16px rgba(255,0,110,0.35);
 }
-.banner-newsletter-form button:hover { box-shadow: 0 6px 24px rgba(255,107,0,0.5); transform: translateY(-1px); }
+
+.banner-newsletter-form button:hover {
+    box-shadow: 0 6px 24px rgba(255,107,0,0.5);
+    transform: translateY(-1px);
+}
+
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
+
+/* Tablet — 1100px */
 @media (max-width: 1100px) {
-    .contenido-tienda { grid-template-columns: 220px 1fr; padding: 30px 30px 60px; }
-    .barra-generos { padding: 14px 30px; }
-    .banner-newsletter { margin: 0 30px 40px; }
-    .banner-newsletter-interior { padding: 36px 40px; }
+    .contenido-tienda            { grid-template-columns: 220px 1fr; padding: 30px 30px 60px; }
+    .barra-generos               { padding: 14px 30px; }
+    .banner-newsletter           { margin: 0 30px 40px; }
+    .banner-newsletter-interior  { padding: 36px 40px; }
 }
 
+/* Tablet — 900px */
 @media (max-width: 900px) {
-    .portada-hero { clip-path: none; padding: 110px 6% 60px; min-height: auto; }
-    .hero-albums { right: 5%; width: 35vw; height: 35vw; min-width: 200px; min-height: 200px; }
-    .portada-contenido { max-width: 55%; }
-    .contenido-tienda { grid-template-columns: 1fr; padding: 24px 24px 60px; }
-    .panel-lateral { position: static; }
-    .banner-newsletter { margin: 0 24px 40px; }
+    .portada-hero              { clip-path: none; padding: 110px 6% 60px; min-height: auto; }
+    .hero-albums               { right: 5%; width: 35vw; height: 35vw; min-width: 200px; min-height: 200px; }
+    .portada-contenido         { max-width: 55%; }
+    .contenido-tienda          { grid-template-columns: 1fr; padding: 24px 24px 60px; }
+    .panel-lateral             { position: static; }
+    .banner-newsletter         { margin: 0 24px 40px; }
     .banner-newsletter-interior { flex-direction: column; align-items: flex-start; padding: 32px 28px; gap: 24px; }
-    .banner-newsletter-form { width: 100%; flex-direction: column; }
-    .banner-newsletter-form input { width: 100%; }
+    .banner-newsletter-form    { width: 100%; flex-direction: column; }
+    .banner-newsletter-form input  { width: 100%; }
     .banner-newsletter-form button { width: 100%; }
 }
 
+/* Móvil — 700px */
 @media (max-width: 700px) {
-    .portada-hero { flex-direction: column; align-items: flex-start; }
+    .portada-hero      { flex-direction: column; align-items: flex-start; }
     .portada-contenido { max-width: 100%; }
-    .hero-albums { position: static; width: 100%; height: 200px; margin-top: 30px; transform: none; }
+    .hero-albums       { position: static; width: 100%; height: 200px; margin-top: 30px; transform: none; }
     .portada-contenido h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
-    .portada-stats { flex-wrap: wrap; gap: 14px; }
-    .barra-generos { padding: 12px 16px; }
-    .generos-label { display: none; }
-    .contenido-tienda { padding: 16px 14px 40px; }
-    .rejilla-vinilos { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .nombre-vinilo { font-size: 13px; }
-    .precio-vinilo { font-size: 14px; }
-    .info-vinilo { padding: 10px; }
-    .barra-resultados { flex-direction: column; align-items: flex-start; }
-    .controles-vista { width: 100%; justify-content: space-between; }
-    .selector-orden { flex: 1; }
+    .portada-stats     { flex-wrap: wrap; gap: 14px; }
+    .barra-generos     { padding: 12px 16px; }
+    .generos-label     { display: none; }
+    .contenido-tienda  { padding: 16px 14px 40px; }
+    .rejilla-vinilos   { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .nombre-vinilo     { font-size: 13px; }
+    .precio-vinilo     { font-size: 14px; }
+    .info-vinilo       { padding: 10px; }
+    .barra-resultados  { flex-direction: column; align-items: flex-start; }
+    .controles-vista   { width: 100%; justify-content: space-between; }
+    .selector-orden    { flex: 1; }
     .banner-newsletter { margin: 0 14px 30px; }
     .banner-newsletter-interior { padding: 24px 20px; }
     .banner-newsletter-texto h2 { font-size: 1.4rem; }

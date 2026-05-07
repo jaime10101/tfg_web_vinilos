@@ -1,12 +1,7 @@
-/* ============================================================
-   TIENDA.JS — Lógica específica de la tienda de vinilos
-   Nota: header, footer, hamburguesa y btn-subir los gestiona header.js
-   ============================================================ */
 
 /* ============================================================
    DATOS DE VINILOS
-   TODO (Supabase): reemplazar por:
-     const { data } = await supabase.from('vinilos').select('*');
+   TODO (Spring Boot): GET /api/productos?categoria=vinilo
    ============================================================ */
 const VINYLS = [
     { id: 1,  name: "AM",                        artist: "Arctic Monkeys",    price: 25, genre: "indie",       format: "LP",    year: 2013, badge: "restock",   popularity: 95, image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" },
@@ -37,6 +32,7 @@ const VINYLS = [
 
 const POR_PAGINA = 12;
 
+/* Estado global de filtros y vista */
 let state = {
     genero:      'todos',
     formatos:    [],
@@ -53,37 +49,52 @@ let state = {
 
 let filtrados = [];
 
-/* ============================================================
-   LEER PARÁMETROS DE URL (viene desde artistas.html)
-   ============================================================ */
+
+/* Lee parámetro ?artista= de la URL — viene desde artistas.html */
 function aplicarParamsURL() {
     const params  = new URLSearchParams(window.location.search);
     const artista = params.get('artista');
 
     if (artista) {
         const campo = document.getElementById('campoBusqueda');
-        if (campo) { campo.value = artista; state.busqueda = artista.toLowerCase().trim(); }
+        if (campo) {
+            campo.value    = artista;
+            state.busqueda = artista.toLowerCase().trim();
+        }
         state.genero = 'todos';
         document.querySelectorAll('.btn-genero').forEach(b => b.classList.remove('activo'));
         document.querySelector('[data-genero="todos"]')?.classList.add('activo');
     }
 }
 
+
 /* ============================================================
-   FILTRAR Y ORDENAR
+   FILTRAR Y ORDENAR — devuelve el array filtrado y ordenado
    ============================================================ */
 function getFiltered() {
     let result = [...VINYLS];
+
+    /* Filtro por género */
     if (state.genero !== 'todos') result = result.filter(v => v.genre === state.genero);
+
+    /* Filtro por formato */
     if (state.formatos.length > 0) result = result.filter(v => state.formatos.includes(v.format));
+
+    /* Filtro por precio máximo */
     result = result.filter(v => v.price <= state.maxPrecio);
+
+    /* Filtro por búsqueda de texto */
     if (state.busqueda) result = result.filter(v =>
         v.name.toLowerCase().includes(state.busqueda) ||
         v.artist.toLowerCase().includes(state.busqueda)
     );
+
+    /* Filtros especiales — badges */
     if (state.soloNuevos)  result = result.filter(v => v.badge === 'nuevo');
     if (state.soloLimit)   result = result.filter(v => v.badge === 'limitado');
     if (state.soloRestock) result = result.filter(v => v.badge === 'restock');
+
+    /* Filtro por época */
     if (state.epocas.length > 0) {
         result = result.filter(v => state.epocas.some(ep => {
             if (ep === 'nuevo')   return v.year >= 2020;
@@ -95,6 +106,8 @@ function getFiltered() {
             return true;
         }));
     }
+
+    /* Ordenación */
     switch (state.orden) {
         case 'precio-asc':  result.sort((a, b) => a.price - b.price); break;
         case 'precio-desc': result.sort((a, b) => b.price - a.price); break;
@@ -102,11 +115,13 @@ function getFiltered() {
         case 'popularidad': result.sort((a, b) => b.popularity - a.popularity); break;
         default:            result.sort((a, b) => b.id - a.id);
     }
+
     return result;
 }
 
+
 /* ============================================================
-   RENDERIZAR REJILLA
+   RENDERIZAR REJILLA — pinta las tarjetas de vinilos
    ============================================================ */
 function renderGrid() {
     const rejilla    = document.getElementById('rejillaVinilos');
@@ -117,9 +132,10 @@ function renderGrid() {
     const visibles = filtrados.slice(0, state.pagina);
     contador.innerHTML = `Mostrando <strong>${visibles.length}</strong> de <strong>${filtrados.length}</strong> vinilos`;
 
+    /* Sin resultados */
     if (filtrados.length === 0) {
         rejilla.innerHTML = '';
-        sinResult.style.display = 'block';
+        sinResult.style.display  = 'block';
         zonaCargar.style.display = 'none';
         return;
     }
@@ -127,9 +143,19 @@ function renderGrid() {
     sinResult.style.display = 'none';
     rejilla.className = state.vista === 'lista' ? 'rejilla-vinilos vista-lista' : 'rejilla-vinilos';
 
+    /* Etiquetas de badge por tipo */
+    const etiquetasBadge = {
+        nuevo:       'NUEVO',
+        limitado:    'LIMITADO',
+        restock:     'RESTOCK',
+        'pre-orden': 'PRE-ORDEN'
+    };
+
     rejilla.innerHTML = visibles.map((v, i) => {
-        const etiquetasBadge = { nuevo: 'NUEVO', limitado: 'LIMITADO', restock: 'RESTOCK', 'pre-orden': 'PRE-ORDEN' };
-        const badgeHTML = v.badge ? `<span class="insignia-vinilo ${v.badge}">${etiquetasBadge[v.badge]}</span>` : '';
+        const badgeHTML = v.badge
+            ? `<span class="insignia-vinilo ${v.badge}">${etiquetasBadge[v.badge]}</span>`
+            : '';
+
         return `
         <div class="tarjeta-vinilo" data-id="${v.id}" style="animation-delay:${i * 0.04}s">
             <div class="portada-vinilo">
@@ -152,33 +178,43 @@ function renderGrid() {
         </div>`;
     }).join('');
 
+    /* Evento — botón añadir al carrito */
     rejilla.querySelectorAll('.btn-carrito-overlay').forEach(btn => {
         btn.addEventListener('click', e => {
             e.stopPropagation();
             const vinilo = VINYLS.find(v => v.id === parseInt(btn.dataset.id));
             if (!vinilo) return;
             if (typeof Carrito !== 'undefined') {
-                Carrito.agregar({ id: vinilo.id, nombre: vinilo.name, precio: `€${vinilo.price.toFixed(2)}`, tipo: 'vinilo', imagen: vinilo.image });
+                Carrito.agregar({
+                    id:     vinilo.id,
+                    nombre: vinilo.name,
+                    precio: `€${vinilo.price.toFixed(2)}`,
+                    tipo:   'vinilo',
+                    imagen: vinilo.image
+                });
             }
             mostrarToastTienda(`"${vinilo.name}" añadido al carrito`);
         });
     });
 
+    /* Mostrar / ocultar botón cargar más */
     zonaCargar.style.display = filtrados.length > state.pagina ? 'block' : 'none';
 }
 
+
 /* ============================================================
-   ETIQUETAS DE FILTROS ACTIVOS
+   ETIQUETAS DE FILTROS ACTIVOS — chips clicables para quitar filtros
    ============================================================ */
 function renderFiltrosActivos() {
     const zona = document.getElementById('filtrosActivos');
     const tags = [];
-    if (state.genero !== 'todos')  tags.push({ label: `Género: ${state.genero}`, tipo: 'genero' });
-    if (state.soloNuevos)          tags.push({ label: 'Solo nuevos',    tipo: 'soloNuevos' });
-    if (state.soloLimit)           tags.push({ label: 'Solo limitados', tipo: 'soloLimit' });
-    if (state.soloRestock)         tags.push({ label: 'Solo restock',   tipo: 'soloRestock' });
-    if (state.maxPrecio < 100)     tags.push({ label: `Hasta €${state.maxPrecio}`, tipo: 'precio' });
-    if (state.busqueda)            tags.push({ label: `"${state.busqueda}"`, tipo: 'busqueda' });
+
+    if (state.genero !== 'todos') tags.push({ label: `Género: ${state.genero}`, tipo: 'genero' });
+    if (state.soloNuevos)         tags.push({ label: 'Solo nuevos',    tipo: 'soloNuevos' });
+    if (state.soloLimit)          tags.push({ label: 'Solo limitados', tipo: 'soloLimit' });
+    if (state.soloRestock)        tags.push({ label: 'Solo restock',   tipo: 'soloRestock' });
+    if (state.maxPrecio < 100)    tags.push({ label: `Hasta €${state.maxPrecio}`, tipo: 'precio' });
+    if (state.busqueda)           tags.push({ label: `"${state.busqueda}"`, tipo: 'busqueda' });
 
     zona.innerHTML = tags.map(t => `
         <span class="etiqueta-activa" data-tipo="${t.tipo}">
@@ -186,13 +222,14 @@ function renderFiltrosActivos() {
         </span>
     `).join('');
 
+    /* Evento — quitar filtro al hacer clic en la etiqueta */
     zona.querySelectorAll('.etiqueta-activa').forEach(tag => {
         tag.addEventListener('click', () => {
             const tipo = tag.dataset.tipo;
             if (tipo === 'genero')      { state.genero = 'todos'; document.querySelectorAll('.btn-genero').forEach(b => b.classList.remove('activo')); document.querySelector('[data-genero="todos"]').classList.add('activo'); }
-            if (tipo === 'soloNuevos')  { state.soloNuevos  = false; document.getElementById('soloNuevos').checked  = false; }
+            if (tipo === 'soloNuevos')  { state.soloNuevos  = false; document.getElementById('soloNuevos').checked    = false; }
             if (tipo === 'soloLimit')   { state.soloLimit   = false; document.getElementById('soloLimitados').checked = false; }
-            if (tipo === 'soloRestock') { state.soloRestock = false; document.getElementById('soloRestock').checked  = false; }
+            if (tipo === 'soloRestock') { state.soloRestock = false; document.getElementById('soloRestock').checked   = false; }
             if (tipo === 'precio')      { state.maxPrecio = 100; document.getElementById('sliderPrecio').value = 100; document.getElementById('valorPrecio').textContent = '100€+'; }
             if (tipo === 'busqueda')    { state.busqueda = ''; const campo = document.getElementById('campoBusqueda'); if (campo) campo.value = ''; }
             update();
@@ -200,9 +237,8 @@ function renderFiltrosActivos() {
     });
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+
+/* Toast — notificación de producto añadido al carrito */
 function mostrarToastTienda(msg) {
     let toast = document.getElementById('toastTienda');
     if (!toast) {
@@ -220,26 +256,30 @@ function mostrarToastTienda(msg) {
         document.body.appendChild(toast);
     }
     toast.innerHTML = `<i class="fa-solid fa-record-vinyl" style="color:#FF006E"></i> ${msg}`;
-    toast.style.opacity = '1';
+    toast.style.opacity   = '1';
     toast.style.transform = 'translateY(0)';
-    setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(16px)'; }, 2600);
+    setTimeout(() => {
+        toast.style.opacity   = '0';
+        toast.style.transform = 'translateY(16px)';
+    }, 2600);
 }
 
-/* ============================================================
-   UPDATE COMPLETO
-   ============================================================ */
+
+/* Aplica filtros, renderiza rejilla y etiquetas activas */
 function update() {
     filtrados = getFiltered();
     renderGrid();
     renderFiltrosActivos();
 }
 
+
 /* ============================================================
-   INICIALIZACIÓN Y EVENTOS
+   EVENTOS E INICIALIZACIÓN
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     aplicarParamsURL();
 
+    /* Filtro — género */
     document.getElementById('listaGeneros').addEventListener('click', e => {
         const btn = e.target.closest('.btn-genero');
         if (!btn) return;
@@ -250,17 +290,20 @@ document.addEventListener('DOMContentLoaded', () => {
         update();
     });
 
+    /* Filtro — búsqueda de texto */
     document.getElementById('campoBusqueda').addEventListener('input', function () {
         state.busqueda = this.value.toLowerCase().trim();
         state.pagina   = POR_PAGINA;
         update();
     });
 
+    /* Filtro — orden */
     document.getElementById('selectorOrden').addEventListener('change', function () {
         state.orden = this.value;
         update();
     });
 
+    /* Filtro — precio máximo */
     document.getElementById('sliderPrecio').addEventListener('input', function () {
         state.maxPrecio = parseInt(this.value);
         document.getElementById('valorPrecio').textContent = `${state.maxPrecio}€${state.maxPrecio >= 100 ? '+' : ''}`;
@@ -268,28 +311,36 @@ document.addEventListener('DOMContentLoaded', () => {
         update();
     });
 
+    /* Filtro — formato */
     document.querySelectorAll('[data-formato]').forEach(cb => {
         cb.addEventListener('change', function () {
-            const fmt = this.dataset.formato;
-            state.formatos = this.checked ? [...state.formatos, fmt] : state.formatos.filter(f => f !== fmt);
+            const fmt    = this.dataset.formato;
+            state.formatos = this.checked
+                ? [...state.formatos, fmt]
+                : state.formatos.filter(f => f !== fmt);
             state.pagina = POR_PAGINA;
             update();
         });
     });
 
+    /* Filtro — época */
     document.querySelectorAll('[data-epoca]').forEach(cb => {
         cb.addEventListener('change', function () {
-            const ep = this.dataset.epoca;
-            state.epocas = this.checked ? [...state.epocas, ep] : state.epocas.filter(e => e !== ep);
+            const ep     = this.dataset.epoca;
+            state.epocas = this.checked
+                ? [...state.epocas, ep]
+                : state.epocas.filter(e => e !== ep);
             state.pagina = POR_PAGINA;
             update();
         });
     });
 
+    /* Filtros — toggles especiales */
     document.getElementById('soloNuevos').addEventListener('change',    function () { state.soloNuevos  = this.checked; state.pagina = POR_PAGINA; update(); });
     document.getElementById('soloLimitados').addEventListener('change', function () { state.soloLimit   = this.checked; state.pagina = POR_PAGINA; update(); });
     document.getElementById('soloRestock').addEventListener('change',   function () { state.soloRestock = this.checked; state.pagina = POR_PAGINA; update(); });
 
+    /* Vista — rejilla */
     document.getElementById('vistaRejilla').addEventListener('click', () => {
         state.vista = 'rejilla';
         document.getElementById('vistaRejilla').classList.add('activo');
@@ -297,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid();
     });
 
+    /* Vista — lista */
     document.getElementById('vistaLista').addEventListener('click', () => {
         state.vista = 'lista';
         document.getElementById('vistaLista').classList.add('activo');
@@ -304,17 +356,19 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGrid();
     });
 
+    /* Botón cargar más */
     document.getElementById('btnCargarMas').addEventListener('click', function () {
-        state.pagina += POR_PAGINA;
-        this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando...';
-        this.disabled = true;
+        state.pagina    += POR_PAGINA;
+        this.innerHTML   = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando...';
+        this.disabled    = true;
         setTimeout(() => {
             renderGrid();
             this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Cargar más vinilos';
-            this.disabled = false;
+            this.disabled  = false;
         }, 400);
     });
 
+    /* Newsletter — validar email y suscribir */
     document.getElementById('btnSuscribirBanner').addEventListener('click', () => {
         const input = document.getElementById('emailBanner');
         if (input.value && input.value.includes('@')) {
@@ -329,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
     update();
 });
 
-/* Delegación de clic en tarjeta → detalle */
+/* Delegación de clic — tarjeta vinilo → página de detalle */
 document.addEventListener('DOMContentLoaded', () => {
     const rejilla = document.getElementById('rejillaVinilos');
     if (!rejilla) return;

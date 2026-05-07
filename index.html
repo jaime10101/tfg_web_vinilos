@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vinyl Sounds — Tienda de Vinilos y Merch</title>
 
-    <!-- Font Awesome -->
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- Estilos: globales primero, luego los específicos de esta página -->
+    <!-- Estilos -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/inicio.css">
 </head>
 <body>
 
-    <!--
-        El HEADER se inyecta aquí automáticamente por js/header.js
-        Cuando conectes Supabase: mostrar nombre de usuario y contador de carrito
-    -->
+    <!-- Header -->
 
 
-    <!-- PORTADA PRINCIPAL -->
+    <!-- Portada principal -->
     <div class="portada">
         <div class="portada-interior">
 
-            <!-- Texto de bienvenida y botones de acción -->
+            <!-- Texto y botones -->
             <div class="portada-texto">
                 <span class="etiqueta">
                     <i class="fa-solid fa-circle-play"></i> NUEVA COLECCIÓN DISPONIBLE
@@ -34,6 +31,7 @@
                     Explora nuestra colección curada de vinilos edición limitada,
                     re-ediciones clásicas y merchandising exclusivo de tus artistas favoritos.
                 </p>
+                <!-- Botones — tienda y playlist -->
                 <div class="portada-botones">
                     <a href="pages/tienda.html" class="btn-principal">
                         Ver Catálogo <i class="fa-solid fa-arrow-right"></i>
@@ -44,7 +42,7 @@
                 </div>
             </div>
 
-            <!-- Ruleta 3D de portadas de discos -->
+            <!-- Ruleta 3D de discos -->
             <div class="ruleta-discos">
                 <div class="ruleta" style="--cantidad: 10">
                     <div class="disco" style="--pos: 1"><img src="img/disc1.png"  alt="Disco 1"></div>
@@ -64,12 +62,8 @@
     </div>
 
 
-    <!--
-        SECCIÓN: EXPLORAR POR CATEGORÍA
-        Las tarjetas las genera renderCategorias() en inicio.js
-        TODO (Supabase): reemplazar array CATEGORIAS por:
-          supabase.from('categorias').select('*')
-    -->
+    <!-- Sección categorías — grid generado por inicio.js -->
+    <!-- TODO (Spring Boot): GET /api/categorias -->
     <section class="seccion-categorias">
         <div class="contenedor">
             <div class="categorias-cabecera">
@@ -83,14 +77,11 @@
     </section>
 
 
-    <!--
-        SECCIÓN: NOVEDADES (carrusel)
-        Las tarjetas las genera mostrarProductos() en inicio.js
-        TODO (Supabase): reemplazar array NOVEDADES por:
-          supabase.from('productos').select('*').order('created_at', { ascending: false }).limit(10)
-    -->
+    <!-- Sección novedades — carrusel generado por inicio.js -->
+    <!-- TODO (Spring Boot): GET /api/productos?orden=reciente&limite=10 -->
     <section class="seccion-novedades">
 
+        <!-- Cabecera — título y enlace ver todo -->
         <div class="novedades-cabecera">
             <div class="novedades-titulo-bloque">
                 <h2 class="titulo-seccion">Novedades</h2>
@@ -101,6 +92,7 @@
             </a>
         </div>
 
+        <!-- Carrusel — botones anterior/siguiente -->
         <div class="carrusel-externo">
             <button class="btn-nav anterior desactivado" id="btnAnterior">
                 <i class="fa-solid fa-chevron-left"></i>
@@ -113,17 +105,14 @@
             </button>
         </div>
 
+        <!-- Puntos indicadores del carrusel -->
         <div class="puntos-carrusel" id="puntosCarrusel"></div>
 
     </section>
 
 
-    <!--
-        SECCIÓN: LO MÁS VENDIDO
-        Las tarjetas las genera renderVendidos() en inicio.js
-        TODO (Supabase): reemplazar array MAS_VENDIDOS por:
-          supabase.from('productos').select('*').order('ventas', { ascending: false }).limit(3)
-    -->
+    <!-- Sección más vendidos — generado por inicio.js -->
+    <!-- TODO (Spring Boot): GET /api/productos?orden=ventas&limite=3 -->
     <div class="seccion-mas-vendidos">
         <div class="contenedor">
             <h2 class="titulo-bloque">LO MÁS VENDIDO</h2>
@@ -132,11 +121,12 @@
     </div>
 
 
-    <!-- SECCIÓN: MERCH — banner promocional con efecto de brillo -->
+    <!-- Sección merch — banner con efecto brillo al cursor -->
     <div class="seccion-merch">
         <div class="contenedor">
             <div class="tarjeta-merch">
 
+                <!-- Texto — etiqueta, título, descripción y botón -->
                 <div class="merch-texto">
                     <span class="merch-etiqueta">EDICIÓN LIMITADA</span>
                     <h2 class="merch-titulo">Viste la música<br>que amas.</h2>
@@ -149,7 +139,7 @@
                     </a>
                 </div>
 
-                <!-- El brillo sigue al cursor vía JS (inicio.js) -->
+                <!-- Imagen — brillo gestionado por inicio.js -->
                 <div class="merch-imagen" id="zonaInteractivaMerch">
                     <img src="img/mech_l.png" alt="Producto Merch" class="img-merch">
                     <div class="brillo-merch" id="brilloMerch"></div>
@@ -160,12 +150,10 @@
     </div>
 
 
-    <!--
-        El FOOTER y el BOTÓN SUBIR se inyectan aquí automáticamente por js/header.js
-    -->
+    <!-- Footer -->
 
 
-    <!-- Scripts: primero header.js (inyecta header/footer), luego comunes, luego específicos -->
+    <!-- Scripts -->
     <script src="js/header.js"></script>
     <script src="js/common.js"></script>
     <script src="js/inicio.js"></script>

@@ -1,13 +1,14 @@
 /* ============================================================
    COMMON.JS — Funciones de utilidad compartidas
-   Disponible en todas las páginas del proyecto.
+   Disponible en todas las páginas del proyecto
    ============================================================ */
 
-/* ----------------------------------------------------------
-   CARRITO (simulado — TODO: conectar a Supabase)
-   Estructura de cada ítem:
-   { id, nombre, precio, tipo, imagen, cantidad }
----------------------------------------------------------- */
+
+/* ============================================================
+   CARRITO — gestión con localStorage
+   Estructura de cada ítem: { id, nombre, precio, tipo, imagen, cantidad }
+   TODO (Spring Boot): POST /api/carrito
+   ============================================================ */
 const Carrito = {
 
     /* Lee el carrito del localStorage */
@@ -19,13 +20,13 @@ const Carrito = {
         }
     },
 
-    /* Guarda el carrito en localStorage */
+    /* Guarda el carrito y actualiza el contador */
     guardar(items) {
         localStorage.setItem('vs_carrito', JSON.stringify(items));
         this.actualizarContador();
     },
 
-    /* Añade o incrementa un producto */
+    /* Añade un producto o incrementa su cantidad si ya existe */
     agregar(producto) {
         const items = this.obtener();
         const idx   = items.findIndex(i => i.id === producto.id);
@@ -48,7 +49,7 @@ const Carrito = {
         return this.obtener().reduce((acc, i) => acc + i.cantidad, 0);
     },
 
-    /* Precio total */
+    /* Precio total del carrito */
     totalPrecio() {
         return this.obtener().reduce((acc, i) => {
             const num = parseFloat(String(i.precio).replace('€', '').replace(',', '.'));
@@ -56,13 +57,12 @@ const Carrito = {
         }, 0).toFixed(2);
     },
 
-    /* Actualiza el contador visual del icono de carrito en el header */
+    /* Badge del icono de carrito en el header — crea el badge si no existe */
     actualizarContador() {
-        const n    = this.totalUnidades();
-        let badge  = document.getElementById('carrito-badge');
+        const n   = this.totalUnidades();
+        let badge = document.getElementById('carrito-badge');
 
-        if (!badge) {
-            // Crea el badge si no existe
+    if (!badge) {
             const iconoCarrito = document.querySelector('.iconos-nav a[href*="pago"]');
             if (!iconoCarrito) return;
             badge = document.createElement('span');
@@ -87,22 +87,18 @@ const Carrito = {
             iconoCarrito.appendChild(badge);
         }
 
-        badge.textContent  = n > 99 ? '99+' : n;
+        badge.textContent   = n > 99 ? '99+' : n;
         badge.style.display = n > 0 ? 'flex' : 'none';
     }
 };
 
 
-/* ----------------------------------------------------------
-   TOAST — Notificación temporal en pantalla
-   Uso: mostrarToast('Mensaje aquí')
----------------------------------------------------------- */
+/* Toast — notificación temporal en pantalla */
 function mostrarToast(mensaje, tipo = 'exito') {
-    // Elimina toast anterior si existía
-    document.getElementById('vs-toast')?.remove();
+document.getElementById('vs-toast')?.remove();
 
     const toast = document.createElement('div');
-    toast.id = 'vs-toast';
+    toast.id    = 'vs-toast';
     toast.textContent = mensaje;
 
     const color = tipo === 'error' ? '#FF006E' : '#00FF94';
@@ -128,13 +124,13 @@ function mostrarToast(mensaje, tipo = 'exito') {
 
     document.body.appendChild(toast);
 
-    // Anima entrada
+    /* Anima entrada */
     requestAnimationFrame(() => {
         toast.style.opacity   = '1';
         toast.style.transform = 'translateY(0)';
     });
 
-    // Desaparece a los 3 segundos
+    /* Desaparece a los 3 segundos */
     setTimeout(() => {
         toast.style.opacity   = '0';
         toast.style.transform = 'translateY(10px)';
@@ -143,28 +139,19 @@ function mostrarToast(mensaje, tipo = 'exito') {
 }
 
 
-/* ----------------------------------------------------------
-   FORMATEAR PRECIO
-   Uso: formatearPrecio(35) → '€35,00'
----------------------------------------------------------- */
+/* Formatea un número como precio — ejemplo: 35 → '€35,00' */
 function formatearPrecio(num) {
     return '€' + parseFloat(num).toFixed(2).replace('.', ',');
 }
 
 
-/* ----------------------------------------------------------
-   TRUNCAR TEXTO
-   Uso: truncar('Texto muy largo', 40) → 'Texto muy...'
----------------------------------------------------------- */
+/* Trunca un texto con ellipsis — ejemplo: truncar('Texto largo', 40) */
 function truncar(texto, max = 60) {
     return texto.length > max ? texto.slice(0, max).trimEnd() + '…' : texto;
 }
 
 
-/* ----------------------------------------------------------
-   DEBOUNCE — evita ejecuciones excesivas en resize/scroll
-   Uso: window.addEventListener('resize', debounce(fn, 200))
----------------------------------------------------------- */
+/* Debounce — evita ejecuciones excesivas en resize/scroll */
 function debounce(fn, delay = 200) {
     let timer;
     return (...args) => {
@@ -174,10 +161,7 @@ function debounce(fn, delay = 200) {
 }
 
 
-/* ----------------------------------------------------------
-   INICIALIZACIÓN: actualiza el contador del carrito al cargar
----------------------------------------------------------- */
+/* Inicialización — actualiza el contador tras cargar el header */
 document.addEventListener('DOMContentLoaded', () => {
-    // Pequeño retraso para que el header.js haya inyectado el header
-    setTimeout(() => Carrito.actualizarContador(), 500);
+        setTimeout(() => Carrito.actualizarContador(), 500);
 });

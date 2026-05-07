@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Poster — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../../css/global.css">
     <link rel="stylesheet" href="../../css/detalle_poster.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- MIGAS DE PAN -->
+
+    <!-- Migas de pan — Inicio > Posters > Nombre del artista -->
     <div class="migas-pan">
         <a href="../../index.html">Inicio</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -21,12 +26,15 @@
         <span id="migaPosterNombre">Cargando...</span>
     </div>
 
-    <!-- DETALLE -->
+
+    <!-- Detalle principal — imagen + info -->
     <main class="contenedor-detalle">
         <div class="detalle-grid">
 
-            <!-- IMAGEN -->
+            <!-- Columna imagen — tabs foto/360, zoom y miniaturas -->
             <div class="zona-imagen">
+
+                <!-- Tabs foto normal / vista 360 -->
                 <div class="tabs-vista">
                     <button class="tab-vista activo" id="tabFoto">
                         <i class="fa-solid fa-image"></i> Foto
@@ -36,18 +44,21 @@
                     </button>
                 </div>
 
-                <!-- Vista normal con zoom -->
+                <!-- Vista normal con efecto zoom al hover -->
                 <div class="marco-imagen" id="vistaFoto">
                     <div class="zona-zoom" id="zonaZoom">
                         <img id="posterImagen" src="" alt="Poster">
                         <div class="lupa" id="lupa"></div>
                     </div>
                     <div class="zoom-resultado" id="zoomResultado"></div>
+                    <!-- Badge popular — visible si el poster lo es -->
                     <span class="tag-popular" id="posterPopular" style="display:none">POPULAR</span>
-                    <span class="hint-zoom"><i class="fa-solid fa-magnifying-glass"></i> Pasa el ratón para hacer zoom</span>
+                    <span class="hint-zoom">
+                        <i class="fa-solid fa-magnifying-glass"></i> Pasa el ratón para hacer zoom
+                    </span>
                 </div>
 
-                <!-- Vista 360º -->
+                <!-- Vista 360 — arrastra para girar -->
                 <div class="marco-imagen oculto" id="vista360">
                     <div class="contenedor-360">
                         <img id="imagen360" src="" alt="Vista 360">
@@ -56,42 +67,56 @@
                             <span>Arrastra para girar</span>
                         </div>
                     </div>
+                    <!-- Barra de progreso de rotación -->
                     <div class="barra-360">
                         <i class="fa-solid fa-arrow-left"></i>
-                        <div class="progreso-360"><div class="progreso-fill" id="progresoFill"></div></div>
+                        <div class="progreso-360">
+                            <div class="progreso-fill" id="progresoFill"></div>
+                        </div>
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
                 </div>
 
+                <!-- Miniatura — generada por detalle_poster.js -->
                 <div class="miniaturas">
                     <div class="miniatura activa" id="miniaturaUnica"></div>
                 </div>
             </div>
 
-            <!-- INFO -->
+
+            <!-- Columna info — título, precio, descripción y acciones -->
             <div class="zona-info">
+
+                <!-- Cabecera — categoría, título y artista -->
                 <div class="info-cabecera">
                     <span class="etiqueta-categoria">POSTER OFICIAL</span>
                     <h1 id="posterTitulo"></h1>
                     <p id="posterArtista" class="poster-artista"></p>
                 </div>
 
+                <!-- Precio -->
                 <div class="zona-precio">
                     <span class="precio-grande" id="posterPrecio">€0,00</span>
                 </div>
 
+                <!-- Descripción del poster -->
                 <div class="bloque-descripcion">
                     <h3 class="titulo-descripcion">Descripción</h3>
                     <p class="descripcion-larga" id="posterDescripcion"></p>
                 </div>
 
+                <!-- Tabla de detalles — medidas, material, acabado y stock -->
                 <div class="detalles-tabla">
                     <div class="fila-detalle"><span>Medidas</span><span id="posterMedidas">61 × 91,5 cm</span></div>
                     <div class="fila-detalle"><span>Material</span><span>Papel satinado 170g</span></div>
                     <div class="fila-detalle"><span>Acabado</span><span>Impresión de alta calidad</span></div>
-                    <div class="fila-detalle"><span>Disponibilidad</span><span class="en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span></div>
+                    <div class="fila-detalle">
+                        <span>Disponibilidad</span>
+                        <span class="en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span>
+                    </div>
                 </div>
 
+                <!-- Acciones — cantidad y botón añadir al carrito -->
                 <div class="zona-acciones">
                     <div class="selector-cantidad">
                         <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
@@ -103,10 +128,12 @@
                     </button>
                 </div>
 
+                <!-- Aviso de confirmación -->
                 <div class="aviso-carrito" id="avisoCarrito" style="display:none">
                     <i class="fa-solid fa-circle-check"></i> ¡Añadido al carrito!
                 </div>
 
+                <!-- Enlace volver -->
                 <a href="javascript:history.back()" class="enlace-volver">
                     <i class="fa-solid fa-arrow-left"></i> Volver
                 </a>
@@ -114,16 +141,21 @@
         </div>
     </main>
 
-    <!-- RELACIONADOS -->
+
+    <!-- Sección relacionados — otros posters -->
     <section class="seccion-relacionados">
         <div class="contenedor-relacionados">
             <h2 class="titulo-relacionados">También te puede gustar</h2>
+            <!-- Grid de relacionados — generado por detalle_poster.js -->
             <div class="grid-relacionados" id="gridRelacionados"></div>
         </div>
     </section>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../../js/header.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/detalle_poster.js"></script>

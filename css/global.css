@@ -1,15 +1,16 @@
 /* ============================================================
    GLOBAL.CSS — Estilos compartidos de Vinyl Sounds
-   Contiene: variables, reset, cabecera, footer, botón subir
+   Variables, reset, header, footer y botón subir
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
 
+
 /* ============================================================
-   VARIABLES CSS
+   VARIABLES CSS — paleta y tokens del proyecto
    ============================================================ */
 :root {
-    /* Fondos y superficies */
+    /* Fondos */
     --fondo:       #08050F;
     --superficie:  #0C0918;
     --superficie2: #12103A;
@@ -26,11 +27,11 @@
     --verde:    #00FF94;
     --amarillo: #FFE600;
 
-    /* Gradientes reutilizables */
+    /* Degradados reutilizables */
     --grad-fuego: linear-gradient(135deg, #FF006E, #FF6B00);
     --grad-uv:    linear-gradient(135deg, #7B2FFF, #FF006E);
 
-    /* Bordes sutiles con tono morado */
+    /* Borde sutil con tono morado */
     --borde: rgba(123, 47, 255, 0.18);
 }
 
@@ -56,6 +57,8 @@ body {
 /* ============================================================
    CABECERA FIJA
    ============================================================ */
+
+/* Header — fijo con desenfoque y degradado hacia transparente */
 .header-transparent {
     position: fixed;
     top: 0;
@@ -79,13 +82,13 @@ body {
     transition: all 0.8s ease-out;
 }
 
-/* JS añade .visible al cargar */
+/* header.js añade .visible tras cargar */
 .header-transparent.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Logo con degradado */
+/* Logo con degradado animado al hover */
 .logo {
     font-size: 24px;
     font-weight: 800;
@@ -103,7 +106,9 @@ body {
     transition: background-position 0.5s ease;
 }
 
-.logo a:hover { background-position: right center; }
+.logo a:hover {
+    background-position: right center;
+}
 
 /* Menú de navegación */
 .menu {
@@ -121,18 +126,30 @@ body {
     transition: color 0.3s ease;
 }
 
+/* Hover — degradado fuego */
 .menu a:hover {
     background: var(--grad-fuego);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.menu a.activo { color: var(--verde); }
+/* Enlace activo según URL */
+.menu a.activo {
+    color: var(--verde);
+}
 
 /* Iconos de carrito y usuario */
-.iconos-nav { display: flex; gap: 20px; align-items: center; }
+.iconos-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
 
-.iconos-nav a { display: flex; align-items: center; justify-content: center; }
+.iconos-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .iconos-nav .icono {
     color: var(--apagado);
@@ -150,7 +167,7 @@ body {
     transform: scale(1.2);
 }
 
-/* Botón hamburguesa */
+/* Botón hamburguesa — solo visible en móvil */
 .btn-hamburguesa {
     display: none;
     flex-direction: column;
@@ -167,8 +184,11 @@ body {
     transition: border-color 0.2s;
 }
 
-.btn-hamburguesa:hover { border-color: rgba(255, 0, 110, 0.5); }
+.btn-hamburguesa:hover {
+    border-color: rgba(255, 0, 110, 0.5);
+}
 
+/* Las 3 líneas del hamburguesa */
 .btn-hamburguesa span {
     display: block;
     width: 20px;
@@ -179,28 +199,26 @@ body {
     transform-origin: center;
 }
 
-.btn-hamburguesa.abierto span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-.btn-hamburguesa.abierto span:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-}
-.btn-hamburguesa.abierto span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
+/* Animación de X al abrir */
+.btn-hamburguesa.abierto span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.btn-hamburguesa.abierto span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.btn-hamburguesa.abierto span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 
 /* ============================================================
    FOOTER
    ============================================================ */
+
+/* Bloque principal del footer */
 .footer-site-block {
     background-color: var(--fondo);
     border-top: 1px solid var(--borde);
     color: var(--texto);
     padding: 80px 0 30px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
+/* Wrapper con tres columnas */
 .footer-wrapper {
     max-width: 1200px;
     margin: 0 auto;
@@ -218,6 +236,7 @@ body {
     min-width: 220px;
 }
 
+/* Nombre de la marca en degradado */
 .footer-brand-name {
     font-size: 1.6rem;
     font-weight: 900;
@@ -228,6 +247,7 @@ body {
     background-clip: text;
 }
 
+/* Texto descriptivo apagado */
 .footer-text-muted {
     color: var(--apagado);
     font-size: 0.9rem;
@@ -235,7 +255,11 @@ body {
     margin-bottom: 25px;
 }
 
-.footer-social-links { display: flex; gap: 20px; }
+/* Iconos de redes sociales */
+.footer-social-links {
+    display: flex;
+    gap: 20px;
+}
 
 .footer-social-links a {
     color: var(--apagado);
@@ -248,6 +272,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* Títulos de columna */
 .footer-title {
     font-size: 1.1rem;
     font-weight: 700;
@@ -255,9 +280,15 @@ body {
     color: var(--texto);
 }
 
-.footer-list { list-style: none; padding: 0; }
+/* Lista de enlaces */
+.footer-list {
+    list-style: none;
+    padding: 0;
+}
 
-.footer-list li { margin-bottom: 12px; }
+.footer-list li {
+    margin-bottom: 12px;
+}
 
 .footer-list li a {
     color: var(--apagado);
@@ -266,14 +297,18 @@ body {
     transition: color 0.3s;
 }
 
-.footer-list li a:hover { color: var(--texto); }
+.footer-list li a:hover {
+    color: var(--texto);
+}
 
+/* Formulario de suscripción */
 .footer-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
+/* Input de email */
 .footer-input {
     background: var(--superficie);
     border: 1px solid var(--borde);
@@ -291,8 +326,11 @@ body {
     box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06);
 }
 
-.footer-input::placeholder { color: var(--apagado); }
+.footer-input::placeholder {
+    color: var(--apagado);
+}
 
+/* Botón suscribirse */
 .footer-submit-btn {
     background: var(--grad-fuego);
     color: #fff;
@@ -311,6 +349,7 @@ body {
     transform: translateY(-1px);
 }
 
+/* Barra de copyright */
 .footer-copyright-bar {
     margin-top: 60px;
     padding-top: 30px;
@@ -327,6 +366,8 @@ body {
 /* ============================================================
    BOTÓN SUBIR ARRIBA
    ============================================================ */
+
+/* Oculto por defecto — header.js añade .visible al hacer scroll */
 .btn-subir {
     position: fixed;
     bottom: 30px;
@@ -366,8 +407,10 @@ body {
    RESPONSIVE — CABECERA MÓVIL (≤ 768px)
    ============================================================ */
 @media (max-width: 768px) {
+    /* Muestra el botón hamburguesa */
     .btn-hamburguesa { display: flex; }
 
+    /* Menú oculto por defecto — se muestra con .abierto */
     .menu {
         display: none;
         position: fixed;
@@ -392,6 +435,7 @@ body {
 
     .menu.abierto { display: flex; }
 
+    /* Enlace de menú en móvil */
     .menu a {
         width: 100%;
         text-align: center;
@@ -410,9 +454,9 @@ body {
     }
 
     .header-transparent { padding: 14px 20px; align-items: center; }
-
-    .iconos-nav { display: flex; align-items: center; gap: 14px; }
+    .iconos-nav          { display: flex; align-items: center; gap: 14px; }
 }
+
 
 /* ============================================================
    RESPONSIVE — FOOTER (≤ 850px)

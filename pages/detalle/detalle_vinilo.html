@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Vinilo — Vinyl Sounds</title>
+
+    <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
     <link rel="stylesheet" href="../../css/global.css">
     <link rel="stylesheet" href="../../css/detalle.css">
 </head>
 <body>
 
-    <!-- Header inyectado por header.js -->
+    <!-- Header -->
 
-    <!-- MIGAS DE PAN -->
+
+    <!-- Migas de pan — Inicio > Tienda > Nombre del álbum -->
     <div class="migas-pan">
         <a href="../../index.html">Inicio</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -21,16 +26,20 @@
         <span id="migaNombre">Cargando...</span>
     </div>
 
-    <!-- DETALLE PRINCIPAL -->
+
+    <!-- Detalle principal — imagen + info -->
     <main class="detalle-principal">
 
-        <!-- COLUMNA IZQUIERDA — IMAGEN -->
+        <!-- Columna izquierda — portada con vinilo saliente -->
         <div class="col-imagen">
+
+            <!-- Marco de la portada — efecto vinilo al hover -->
             <div class="marco-portada" id="marcoPortada">
                 <div class="portada-fondo-blur" id="portadaFondoBlur"></div>
                 <div class="portada-imagen" id="portadaImagen">
                     <img id="imgPortada" src="" alt="Portada">
                 </div>
+                <!-- Vinilo 3D — sale al hacer hover -->
                 <div class="vinilo-saliente" id="viniloSaliente">
                     <div class="vinilo-disco-detalle">
                         <div class="vinilo-surcos-detalle"></div>
@@ -39,9 +48,11 @@
                         </div>
                     </div>
                 </div>
+                <!-- Insignia — nuevo, limitado, restock o pre-orden -->
                 <span class="insignia-detalle" id="insigniaDetalle" style="display:none"></span>
             </div>
 
+            <!-- Fichas rápidas — formato, año, género y popularidad -->
             <div class="fichas-rapidas">
                 <div class="ficha"><i class="fa-solid fa-record-vinyl"></i><span id="fichaFormato">LP</span></div>
                 <div class="ficha"><i class="fa-solid fa-calendar"></i><span id="fichaAnio">—</span></div>
@@ -50,33 +61,45 @@
             </div>
         </div>
 
-        <!-- COLUMNA DERECHA — INFO -->
+
+        <!-- Columna derecha — información, precio y acciones -->
         <div class="col-info">
+
+            <!-- Cabecera — género, título y artista -->
             <div class="info-cabecera">
                 <span class="etiqueta-genero" id="etiquetaGenero">GÉNERO</span>
                 <h1 id="nombreAlbum">Cargando...</h1>
                 <p class="nombre-artista" id="nombreArtista">—</p>
             </div>
 
+            <!-- Precio y badge de stock -->
             <div class="zona-precio">
                 <span class="precio-principal" id="precioPrincipal">€0.00</span>
                 <div class="precio-badges">
-                    <span class="badge-stock en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span>
+                    <span class="badge-stock en-stock">
+                        <i class="fa-solid fa-circle-check"></i> En stock
+                    </span>
                 </div>
             </div>
 
+            <!-- Descripción del álbum -->
             <div class="zona-descripcion">
                 <p id="descripcionAlbum">—</p>
             </div>
 
+            <!-- Especificaciones — formato, año, género, velocidad y disponibilidad -->
             <div class="zona-specs">
                 <div class="spec-fila"><span class="spec-clave">Formato</span><span class="spec-valor" id="specFormato">—</span></div>
                 <div class="spec-fila"><span class="spec-clave">Año</span><span class="spec-valor" id="specAnio">—</span></div>
                 <div class="spec-fila"><span class="spec-clave">Género</span><span class="spec-valor" id="specGenero">—</span></div>
                 <div class="spec-fila"><span class="spec-clave">Velocidad</span><span class="spec-valor" id="specVelocidad">—</span></div>
-                <div class="spec-fila"><span class="spec-clave">Disponibilidad</span><span class="spec-valor en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span></div>
+                <div class="spec-fila">
+                    <span class="spec-clave">Disponibilidad</span>
+                    <span class="spec-valor en-stock"><i class="fa-solid fa-circle-check"></i> En stock</span>
+                </div>
             </div>
 
+            <!-- Acciones — cantidad y botón añadir al carrito -->
             <div class="zona-acciones">
                 <div class="selector-cantidad">
                     <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
@@ -89,28 +112,37 @@
                 </button>
             </div>
 
+            <!-- Aviso de éxito al añadir al carrito -->
             <div class="aviso-carrito" id="avisoCarrito" style="display:none">
                 <i class="fa-solid fa-circle-check"></i>
                 ¡Añadido al carrito correctamente!
             </div>
 
+            <!-- Enlace volver -->
             <a href="javascript:history.back()" class="enlace-volver">
                 <i class="fa-solid fa-arrow-left"></i> Volver a la tienda
             </a>
         </div>
     </main>
 
-    <!-- RELACIONADOS -->
+
+    <!-- Sección relacionados — otros vinilos del mismo género -->
     <section class="seccion-relacionados">
         <div class="relacionados-cabecera">
             <h2>También te puede gustar</h2>
-            <a href="../tienda.html" class="ver-mas-link">Ver toda la tienda <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="../tienda.html" class="ver-mas-link">
+                Ver toda la tienda <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
+        <!-- Grid de relacionados — generado por detalle_vinilo.js -->
         <div class="grid-relacionados" id="gridRelacionados"></div>
     </section>
 
-    <!-- Footer inyectado por header.js -->
 
+    <!-- Footer -->
+
+
+    <!-- Scripts -->
     <script src="../../js/header.js"></script>
     <script src="../../js/common.js"></script>
     <script src="../../js/detalle_vinilo.js"></script>

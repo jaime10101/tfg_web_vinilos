@@ -1,8 +1,10 @@
 /* ============================================================
    REGISTER.CSS — Página de registro
-   Paleta: igual que el resto del proyecto (global.css)
+   Header, footer y variables en global.css
    ============================================================ */
 
+
+/* Body — fondo con gradientes radiales */
 body {
     background:
         radial-gradient(circle at 80% 20%, rgba(123, 47, 255, 0.08), transparent 40%),
@@ -16,20 +18,23 @@ body {
 
 
 /* ============================================================
-   LAYOUT PRINCIPAL
+   LAYOUT — dos columnas: izquierda decorativa + derecha formulario
    ============================================================ */
-.container {
+.contenedor-registro {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     flex: 1;
     min-height: 100vh;
+    padding-top: 70px;
 }
 
 
 /* ============================================================
-   IZQUIERDA — Información / decorativa
+   COLUMNA IZQUIERDA — decorativa con texto
    ============================================================ */
-.left {
+
+/* Fondo con gradientes */
+.columna-izquierda {
     background:
         radial-gradient(ellipse at 20% 30%, rgba(123, 47, 255, 0.22) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 80%, rgba(255, 0, 110, 0.12) 0%, transparent 50%),
@@ -43,7 +48,7 @@ body {
 }
 
 /* Líneas de escaneo decorativas */
-.left::before {
+.columna-izquierda::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -57,7 +62,8 @@ body {
     pointer-events: none;
 }
 
-.left h1 {
+/* Título principal */
+.columna-izquierda h1 {
     font-size: clamp(1.8rem, 3vw, 2.8rem);
     line-height: 1.15;
     margin-bottom: 20px;
@@ -67,14 +73,16 @@ body {
     z-index: 1;
 }
 
-.left h1 span {
+/* Palabra en degradado UV */
+.columna-izquierda h1 span {
     background: var(--grad-uv);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-.left > p {
+/* Párrafo descriptivo */
+.columna-izquierda > p {
     color: var(--apagado);
     font-size: 14px;
     line-height: 1.7;
@@ -84,52 +92,13 @@ body {
     z-index: 1;
 }
 
-/* Tarjeta promocional */
-.promo-card {
-    background: rgba(18, 16, 58, 0.6);
-    border-radius: 18px;
-    padding: 22px;
-    border: 1px solid var(--borde);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    position: relative;
-    z-index: 1;
-    backdrop-filter: blur(10px);
-}
-
-.img-placeholder {
-    height: 120px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(123, 47, 255, 0.2), rgba(255, 0, 110, 0.1));
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--apagado);
-    font-size: 32px;
-    border: 1px solid var(--borde);
-}
-
-.promo span {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--verde);
-    display: block;
-    margin-bottom: 6px;
-}
-
-.promo strong {
-    color: var(--texto);
-    font-size: 15px;
-    font-weight: 700;
-}
-
 
 /* ============================================================
-   DERECHA — Formulario de registro
+   TARJETA FORMULARIO — columna derecha
    ============================================================ */
-.form-card {
+
+/* Tarjeta con fondo oscuro */
+.tarjeta-formulario {
     background: radial-gradient(circle at top left, rgba(26, 13, 34, 0.9), rgba(14, 7, 18, 0.95));
     padding: 60px 48px;
     display: flex;
@@ -138,27 +107,29 @@ body {
     border-left: 1px solid var(--borde);
 }
 
-/* Logo en la tarjeta del formulario */
-.form-card .logo {
+/* Logo */
+.tarjeta-formulario .logo {
     margin-bottom: 36px;
 }
 
-.form-card h2 {
+/* Título del formulario */
+.tarjeta-formulario h2 {
     font-size: 28px;
     font-weight: 800;
     margin-bottom: 6px;
     color: var(--texto);
 }
 
-.subtitle {
+/* Subtítulo descriptivo */
+.subtitulo {
     color: var(--apagado);
     margin-bottom: 28px;
     font-size: 14px;
     line-height: 1.6;
 }
 
-/* Fila doble para nombre y apellido */
-.row {
+/* Fila doble — nombre y apellido */
+.fila-nombres {
     display: flex;
     gap: 14px;
 }
@@ -180,8 +151,11 @@ input[type="password"] {
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-input::placeholder { color: var(--apagado); }
+input::placeholder {
+    color: var(--apagado);
+}
 
+/* Focus — resaltado morado */
 input:focus {
     outline: none;
     border-color: var(--morado);
@@ -190,12 +164,13 @@ input:focus {
         0 0 18px rgba(123, 47, 255, 0.25);
 }
 
-/* Wrapper para el ojo de contraseña */
-.password-wrapper {
+/* Wrapper para el botón de mostrar/ocultar contraseña */
+.campo-contrasena {
     position: relative;
 }
 
-.toggle-pass {
+/* Botón toggle ojo */
+.toggle-contrasena {
     position: absolute;
     right: 14px;
     top: 50%;
@@ -206,10 +181,12 @@ input:focus {
     transition: color 0.2s;
 }
 
-.toggle-pass:hover { color: var(--texto); }
+.toggle-contrasena:hover {
+    color: var(--texto);
+}
 
-/* Términos y condiciones */
-.terms {
+/* Checkbox términos y condiciones */
+.terminos {
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -219,7 +196,7 @@ input:focus {
     line-height: 1.5;
 }
 
-.terms input[type="checkbox"] {
+.terminos input[type="checkbox"] {
     width: 16px;
     height: 16px;
     accent-color: var(--morado);
@@ -228,20 +205,25 @@ input:focus {
     margin-top: 2px;
 }
 
-.terms a {
+/* Enlace dentro de los términos */
+.terminos a {
     color: var(--morado);
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s;
 }
 
-.terms a:hover { color: var(--rojo); }
+.terminos a:hover {
+    color: var(--rojo);
+}
 
 
 /* ============================================================
    BOTONES
    ============================================================ */
-.btn-main {
+
+/* Botón principal — registrarse */
+.btn-principal {
     width: 100%;
     padding: 16px;
     margin-top: 8px;
@@ -257,12 +239,13 @@ input:focus {
     transition: box-shadow 0.3s, transform 0.2s;
 }
 
-.btn-main:hover {
+.btn-principal:hover {
     box-shadow: 0 0 35px rgba(255, 0, 110, 0.5);
     transform: translateY(-2px);
 }
 
-.divider {
+/* Separador "O regístrate con" */
+.separador {
     text-align: center;
     margin: 22px 0;
     color: var(--apagado);
@@ -270,8 +253,8 @@ input:focus {
     position: relative;
 }
 
-.divider::before,
-.divider::after {
+.separador::before,
+.separador::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -280,8 +263,8 @@ input:focus {
     background: var(--borde);
 }
 
-.divider::before { left: 0; }
-.divider::after  { right: 0; }
+.separador::before { left: 0; }
+.separador::after  { right: 0; }
 
 /* Botón Google */
 .btn-google {
@@ -313,36 +296,39 @@ input:focus {
 }
 
 /* Enlace a login */
-.login-link {
+.enlace-login {
     text-align: center;
     font-size: 13px;
     color: var(--apagado);
     margin-top: 4px;
 }
 
-.login-link a {
+.enlace-login a {
     color: var(--morado);
     text-decoration: none;
     font-weight: 700;
     transition: color 0.2s;
 }
 
-.login-link a:hover { color: var(--rojo); }
+.enlace-login a:hover {
+    color: var(--rojo);
+}
 
 
 /* ============================================================
-   RESPONSIVE — MÓVIL (≤ 900px)
+   RESPONSIVE — 900px
    ============================================================ */
 @media (max-width: 900px) {
-    .container {
+    /* Una sola columna — oculta la izquierda */
+    .contenedor-registro {
         grid-template-columns: 1fr;
     }
 
-    .left {
+    .columna-izquierda {
         display: none;
     }
 
-    .form-card {
+    .tarjeta-formulario {
         padding: 60px 28px 40px;
         border-left: none;
     }
