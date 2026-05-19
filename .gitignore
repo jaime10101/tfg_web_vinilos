@@ -1,0 +1,32 @@
+# ============================================================
+# .gitignore — Vinyl Sounds TFG
+# ============================================================
+
+# Config con credenciales — NUNCA subir
+js/config.js
+
+# Spring Boot
+*.class
+*.jar
+*.war
+target/
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+application-local.properties
+application-prod.properties
+
+# Variables de entorno
+.env
+.env.local
+.env.production
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node (si usas npm en algún momento)
+node_modules/
+npm-debug.log
