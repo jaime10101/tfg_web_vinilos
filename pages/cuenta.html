@@ -14,7 +14,8 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
     <!-- Layout principal — sidebar + contenido -->
     <div class="cuenta-wrapper">
@@ -37,6 +38,8 @@
                 <div class="sidebar-info">
                     <p class="sidebar-nombre" id="sidebarNombre">Alex Rodríguez</p>
                     <p class="sidebar-email"  id="sidebarEmail">alex.music@ejemplo.com</p>
+                    <!-- Número de socio — TODO (Supabase): auth.users.id formateado -->
+                    <p class="sidebar-socio" id="sidebarSocio">Socio #VS-2847</p>
                     <!-- Badge de nivel — color dinámico según puntos -->
                     <span class="nivel-badge" id="sidebarNivel">
                         <i class="fa-solid fa-crown"></i> Plata
@@ -73,6 +76,12 @@
                 </button>
                 <button class="nav-item" data-sec="direcciones">
                     <i class="fa-regular fa-map"></i> Direcciones
+                </button>
+                <button class="nav-item" data-sec="seguridad">
+                    <i class="fa-solid fa-shield-halved"></i> Seguridad
+                </button>
+                <button class="nav-item" data-sec="notificaciones">
+                    <i class="fa-regular fa-bell"></i> Notificaciones
                 </button>
             </nav>
 
@@ -111,6 +120,32 @@
                                 <i class="fa-solid fa-arrow-up-from-bracket"></i> Cambiar foto
                             </label>
                             <p class="foto-hint">JPG o PNG. Máx 2MB.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de socio — número y fecha de alta -->
+                    <div class="tarjeta-socio">
+                        <div class="tarjeta-socio-item">
+                            <span class="tarjeta-socio-label">
+                                <i class="fa-solid fa-id-card"></i> Número de socio
+                            </span>
+                            <!-- TODO (Supabase): SELECT id FROM auth.users WHERE id = auth.uid() -->
+                            <span class="tarjeta-socio-valor" id="perfSocioNum">#VS-2847</span>
+                        </div>
+                        <div class="tarjeta-socio-sep"></div>
+                        <div class="tarjeta-socio-item">
+                            <span class="tarjeta-socio-label">
+                                <i class="fa-solid fa-calendar-check"></i> Miembro desde
+                            </span>
+                            <!-- TODO (Supabase): SELECT created_at FROM auth.users WHERE id = auth.uid() -->
+                            <span class="tarjeta-socio-valor" id="perfFechaAlta">15 Sep 2023</span>
+                        </div>
+                        <div class="tarjeta-socio-sep"></div>
+                        <div class="tarjeta-socio-item">
+                            <span class="tarjeta-socio-label">
+                                <i class="fa-solid fa-clock"></i> Última sesión
+                            </span>
+                            <span class="tarjeta-socio-valor" id="perfUltimaSesion">Hoy</span>
                         </div>
                     </div>
 
@@ -187,6 +222,10 @@
                     </div>
                 </div>
 
+
+
+
+
                 <h3 class="subtitulo-historial">Historial de Compras</h3>
                 <!-- Lista de pedidos generada por cuenta.js -->
                 <div id="listaPedidos"></div>
@@ -236,69 +275,340 @@
                 <div class="dir-grid" id="gridDirecciones"></div>
             </section>
 
+
+            <!-- Sección seguridad — contraseña y sesiones activas -->
+            <section class="sec oculta" id="sec-seguridad">
+                <div class="sec-header">
+                    <div>
+                        <h2>Seguridad</h2>
+                        <p class="sec-sub">Gestiona tu contraseña y controla el acceso a tu cuenta.</p>
+                    </div>
+                </div>
+
+                <!-- Cambiar contraseña -->
+                <div class="panel-perfil" style="margin-bottom:20px">
+                    <h3 class="panel-subtitulo">
+                        <i class="fa-solid fa-lock"></i> Cambiar contraseña
+                    </h3>
+                    <div class="perfil-grid">
+                        <div class="campo-grupo" style="grid-column:1/-1">
+                            <label>CONTRASEÑA ACTUAL</label>
+                            <!-- TODO (Supabase): supabase.auth.updateUser({ password }) -->
+                            <input type="password" id="passActual" class="campo-input" placeholder="••••••••">
+                        </div>
+                        <div class="campo-grupo">
+                            <label>NUEVA CONTRASEÑA</label>
+                            <input type="password" id="passNueva" class="campo-input" placeholder="Mín. 8 caracteres">
+                        </div>
+                        <div class="campo-grupo">
+                            <label>CONFIRMAR CONTRASEÑA</label>
+                            <input type="password" id="passConfirm" class="campo-input" placeholder="Repite la contraseña">
+                        </div>
+                    </div>
+                    <div class="pass-requisitos" id="passRequisitos">
+                        <span class="req" id="reqLen"><i class="fa-solid fa-circle"></i> Mínimo 8 caracteres</span>
+                        <span class="req" id="reqMay"><i class="fa-solid fa-circle"></i> Una mayúscula</span>
+                        <span class="req" id="reqNum"><i class="fa-solid fa-circle"></i> Un número</span>
+                        <span class="req" id="reqEsp"><i class="fa-solid fa-circle"></i> Un símbolo</span>
+                    </div>
+                    <div class="perfil-footer">
+                        <button class="btn-guardar" id="btnCambiarPass">
+                            <i class="fa-solid fa-floppy-disk"></i> Actualizar contraseña
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sesiones activas -->
+                <div class="panel-perfil">
+                    <h3 class="panel-subtitulo">
+                        <i class="fa-solid fa-desktop"></i> Sesiones activas
+                    </h3>
+                    <!-- TODO (Supabase): SELECT * FROM user_sessions WHERE user_id = auth.uid() -->
+                    <div class="sesiones-lista" id="listaSesiones"></div>
+                    <button class="btn-cerrar-sesiones" id="btnCerrarSesiones">
+                        <i class="fa-solid fa-right-from-bracket"></i> Cerrar todas las demás sesiones
+                    </button>
+                </div>
+
+                <!-- Autenticación en dos pasos (2FA) -->
+                <div class="panel-perfil">
+                    <h3 class="panel-subtitulo">
+                        <i class="fa-solid fa-mobile-screen-button"></i> Autenticación en dos pasos
+                    </h3>
+                    <div class="twofa-bloque">
+                        <div class="twofa-info">
+                            <div class="twofa-icono">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <p class="twofa-titulo">Protección extra para tu cuenta</p>
+                                <p class="twofa-desc">
+                                    Con el 2FA activo, además de tu contraseña necesitarás un código
+                                    de 6 dígitos de tu app de autenticación (Google Authenticator, Authy).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="twofa-estado-fila">
+                            <div class="twofa-estado">
+                                Estado:
+                                <span class="twofa-badge" id="badge2FAEstado">Inactivo</span>
+                            </div>
+                            <button class="btn-guardar" id="btn2FAToggle">
+                                <i class="fa-solid fa-shield-halved"></i> Activar 2FA
+                            </button>
+                        </div>
+                        <div class="twofa-apps">
+                            <span class="twofa-apps-label">Compatible con:</span>
+                            <span class="twofa-app-badge"><i class="fa-brands fa-google"></i> Google Authenticator</span>
+                            <span class="twofa-app-badge"><i class="fa-solid fa-key"></i> Authy</span>
+                            <span class="twofa-app-badge"><i class="fa-solid fa-lock"></i> 1Password</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Sección notificaciones — preferencias de email y alertas -->
+            <section class="sec oculta" id="sec-notificaciones">
+                <div class="sec-header">
+                    <div>
+                        <h2>Notificaciones</h2>
+                        <p class="sec-sub">Elige qué comunicaciones quieres recibir de Vinyl Sounds.</p>
+                    </div>
+                </div>
+
+                <div class="panel-perfil">
+                    <h3 class="panel-subtitulo">
+                        <i class="fa-solid fa-envelope"></i> Correo electrónico
+                    </h3>
+                    <!-- TODO (Supabase): UPDATE user_preferences SET ... WHERE user_id = auth.uid() -->
+                    <div class="notif-lista">
+                        <div class="notif-item">
+                            <div class="notif-info">
+                                <span class="notif-titulo">Novedades y lanzamientos</span>
+                                <span class="notif-desc">Nuevos vinilos, ediciones limitadas y artistas.</span>
+                            </div>
+                            <label class="toggle-notif">
+                                <input type="checkbox" id="notifNovedades" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-info">
+                                <span class="notif-titulo">Ofertas y descuentos</span>
+                                <span class="notif-desc">Promociones exclusivas y códigos de descuento.</span>
+                            </div>
+                            <label class="toggle-notif">
+                                <input type="checkbox" id="notifOfertas" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-info">
+                                <span class="notif-titulo">Estado de pedidos</span>
+                                <span class="notif-desc">Confirmaciones, envíos y entregas.</span>
+                            </div>
+                            <label class="toggle-notif">
+                                <input type="checkbox" id="notifPedidos" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-info">
+                                <span class="notif-titulo">Vinyl Points</span>
+                                <span class="notif-desc">Puntos ganados, subidas de nivel y cupones.</span>
+                            </div>
+                            <label class="toggle-notif">
+                                <input type="checkbox" id="notifPuntos" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-info">
+                                <span class="notif-titulo">Newsletter semanal</span>
+                                <span class="notif-desc">Recomendaciones y tendencias musicales.</span>
+                            </div>
+                            <label class="toggle-notif">
+                                <input type="checkbox" id="notifNewsletter">
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="perfil-footer" style="margin-top:20px">
+                        <button class="btn-guardar" id="btnGuardarNotif">
+                            <i class="fa-solid fa-floppy-disk"></i> Guardar preferencias
+                        </button>
+                    </div>
+                </div>
+            </section>
+
         </main>
     </div>
 
 
     <!-- ═══════════════ MODALES ═══════════════ -->
 
-    <!-- Modal Vinyl Points — historial y beneficios por nivel -->
+    <!-- Modal Vinyl Points — luxury dark -->
     <div class="modal-overlay" id="modalPuntos">
-        <div class="modal modal-puntos">
-            <button class="modal-cerrar" data-modal="modalPuntos"><i class="fa-solid fa-xmark"></i></button>
-            <!-- Cabecera — total y nivel -->
-            <div class="modal-puntos-header">
-                <i class="fa-solid fa-crown modal-star"></i>
-                <h3>Vinyl Points</h3>
-                <div class="modal-pts-total" id="modalPtsTotal">1.250 pts</div>
-                <div class="modal-nivel" id="modalNivel">Nivel Plata</div>
-            </div>
-            <!-- Barra de progreso entre niveles -->
-            <div class="nivel-progress-wrap">
-                <div class="nivel-labels">
-                    <span>Bronce</span><span>Plata</span><span>Oro</span>
-                </div>
-                <div class="nivel-track">
-                    <div class="nivel-fill" id="modalNivelFill" style="width:0%"></div>
-                    <div class="nivel-marker" style="left:50%"></div>
-                </div>
-                <p class="nivel-hint" id="modalNivelHint">Te faltan 250 pts para Oro</p>
-            </div>
-            <!-- Historial de movimientos de puntos -->
-            <h4 class="modal-hist-titulo">Historial de puntos</h4>
-            <div class="modal-hist" id="modalHistPuntos"></div>
-            <!-- Beneficios por nivel -->
-            <div class="modal-puntos-footer">
-                <p>Ganas <strong>1 punto por cada €1</strong> que gastas en Vinyl Sounds.</p>
-                <div class="beneficios-niveles">
-                    <div class="beneficio-item">
-                        <span class="beneficio-nivel" style="color:#cd7f32">Bronce</span>
-                        <ul>
-                            <li>Acceso a novedades antes que nadie</li>
-                            <li>Descuento del 5% en tu cumpleaños</li>
-                        </ul>
-                    </div>
-                    <div class="beneficio-item">
-                        <span class="beneficio-nivel" style="color:#a8b8c8">Plata — 500 pts</span>
-                        <ul>
-                            <li>Todo lo anterior +</li>
-                            <li>Acceso anticipado a preventas exclusivas</li>
-                            <li>Descuento del 10% en ediciones limitadas</li>
-                            <li>Devoluciones gratuitas</li>
-                        </ul>
-                    </div>
-                    <div class="beneficio-item">
-                        <span class="beneficio-nivel" style="color:#f0b429">Oro — 1.500 pts</span>
-                        <ul>
-                            <li>Todo lo anterior +</li>
-                            <li>Envío gratis permanente</li>
-                            <li>Descuento del 15% en toda la tienda</li>
-                            <li>Acceso VIP a lanzamientos exclusivos</li>
-                            <li>Regalo sorpresa en cada pedido</li>
-                        </ul>
+        <div class="modal modal-puntos-lux">
+            <button class="mpx-cerrar" data-modal="modalPuntos"><i class="fa-solid fa-xmark"></i></button>
+
+            <!-- HERO — gauge + nivel + pts -->
+            <div class="mpx-hero">
+                <div class="mpx-hero-bg" id="mpxHeroBg"></div>
+
+                <!-- Gauge SVG -->
+                <div class="mpx-gauge">
+                    <svg viewBox="0 0 200 120" class="mpx-gauge-svg">
+                        <path class="mpx-gauge-track" d="M18 112 A82 82 0 0 1 182 112" fill="none" stroke-width="10" stroke-linecap="round"/>
+                        <path class="mpx-gauge-arc"   d="M18 112 A82 82 0 0 1 182 112" fill="none" stroke-width="10" stroke-linecap="round"
+                              id="gaugeProgress" stroke-dasharray="257" stroke-dashoffset="257"/>
+                        <g id="gaugeAguja" transform="rotate(-90 100 112)">
+                            <rect x="98.5" y="44" width="3" height="56" rx="1.5" fill="url(#ngLux)"/>
+                            <circle cx="100" cy="112" r="8" fill="#0C0918" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+                            <circle cx="100" cy="112" r="4" fill="#f0b429"/>
+                        </g>
+                        <defs>
+                            <linearGradient id="ngLux" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#f0b429"/>
+                                <stop offset="100%" stop-color="#7B2FFF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <!-- Etiquetas niveles -->
+                    <div class="mpx-gauge-labels">
+                        <span style="color:#cd7f32">
+                            <strong>BRONCE</strong>
+                            <em id="gaugeLabelBronce">0</em>
+                        </span>
+                        <span style="color:#a8b8c8">
+                            <strong>PLATA</strong>
+                            <em id="gaugeLabelPlata">500</em>
+                        </span>
+                        <span style="color:#f0b429">
+                            <strong>ORO</strong>
+                            <em id="gaugeLabelOro">1.500+</em>
+                        </span>
                     </div>
                 </div>
+
+                <!-- Nivel + pts grandes -->
+                <div class="mpx-hero-stats">
+                    <div class="mpx-stat">
+                        <span class="mpx-stat-label">Nivel</span>
+                        <span class="mpx-stat-valor" id="gaugeNivelActual">—</span>
+                    </div>
+                    <div class="mpx-stat-sep"></div>
+                    <div class="mpx-stat">
+                        <span class="mpx-stat-label">Puntos acumulados</span>
+                        <span class="mpx-stat-valor mpx-pts" id="gaugePuntosTotal">0</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- CUERPO -->
+            <div class="mpx-body">
+
+                <!-- TARJETA MEMBRESÍA -->
+                <div class="mpx-membresia">
+                    <div class="mpx-memb-item">
+                        <i class="fa-solid fa-hashtag"></i>
+                        <div>
+                            <span class="mpx-memb-label">Número de socio</span>
+                            <span class="mpx-memb-valor" id="modalSocioNum">#VS-0001</span>
+                        </div>
+                    </div>
+                    <div class="mpx-memb-item">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        <div>
+                            <span class="mpx-memb-label">Miembro desde</span>
+                            <span class="mpx-memb-valor" id="modalFechaAlta">—</span>
+                        </div>
+                    </div>
+                    <div class="mpx-memb-item mpx-memb-pts">
+                        <i class="fa-solid fa-coins"></i>
+                        <div>
+                            <span class="mpx-memb-label">Disponibles para canjear</span>
+                            <span class="mpx-memb-valor mpx-disp" id="modalPtsDisponibles">0 pts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRÓXIMA RECOMPENSA -->
+                <div class="proxima-recompensa" id="proximaRecompensa" style="display:none"></div>
+
+                <!-- BENEFICIOS -->
+                <div class="mpx-beneficios">
+                    <div class="mpx-seccion-titulo">
+                        <i class="fa-solid fa-crown" id="beneficiosIcono"></i>
+                        <span>Tus beneficios</span>
+                    </div>
+                    <ul id="beneficiosActivos" class="mpx-beneficios-lista"></ul>
+                </div>
+
+                <!-- CANJE INFO -->
+                <div class="mpx-canje-hint">
+                    <i class="fa-solid fa-tag"></i>
+                    <span>Canjea en <strong>Pago</strong> al finalizar tu compra — 100 pts = €1,00</span>
+                </div>
+
+                <!-- HISTORIAL -->
+                <div class="mpx-seccion-titulo" style="margin-bottom:10px">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Historial</span>
+                    <div class="filtros-hist" style="margin-left:auto">
+                        <button class="btn-filtro-hist activo" data-filtro="todos">Todos</button>
+                        <button class="btn-filtro-hist" data-filtro="ganados">Ganados</button>
+                        <button class="btn-filtro-hist" data-filtro="canjeados">Canjeados</button>
+                    </div>
+                </div>
+                <div class="modal-hist" id="modalHistPuntos"></div>
+
+                <!-- TABLA NIVELES -->
+                <div class="mpx-niveles">
+                    <div class="mpx-seccion-titulo" style="margin-bottom:12px">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Niveles de fidelidad</span>
+                    </div>
+                    <div class="mpx-niveles-grid">
+                        <div class="mpx-nivel-card" id="nivelFilaBronce">
+                            <div class="mpx-nivel-badge" style="--nc:#cd7f32">
+                                <i class="fa-solid fa-crown"></i> Bronce
+                            </div>
+                            <div class="mpx-nivel-pts">0 – 499 pts</div>
+                            <div class="mpx-nivel-perks">
+                                <span><i class="fa-solid fa-star"></i> 1 pt por cada €1</span>
+                                <span><i class="fa-solid fa-gift"></i> 5% en cumpleaños</span>
+                                <span><i class="fa-solid fa-truck"></i> Gratis +€100</span>
+                            </div>
+                        </div>
+                        <div class="mpx-nivel-card" id="nivelFilaPlata">
+                            <div class="mpx-nivel-badge" style="--nc:#a8b8c8">
+                                <i class="fa-solid fa-crown"></i> Plata
+                            </div>
+                            <div class="mpx-nivel-pts">500 – 1.499 pts</div>
+                            <div class="mpx-nivel-perks">
+                                <span><i class="fa-solid fa-percent"></i> 10% descuento</span>
+                                <span><i class="fa-solid fa-rotate-left"></i> Devoluc. gratis</span>
+                                <span><i class="fa-solid fa-bolt"></i> Preventas 48h</span>
+                            </div>
+                        </div>
+                        <div class="mpx-nivel-card" id="nivelFilaOro">
+                            <div class="mpx-nivel-badge" style="--nc:#f0b429">
+                                <i class="fa-solid fa-crown"></i> Oro
+                            </div>
+                            <div class="mpx-nivel-pts">1.500+ pts</div>
+                            <div class="mpx-nivel-perks">
+                                <span><i class="fa-solid fa-percent"></i> 15% descuento</span>
+                                <span><i class="fa-solid fa-truck"></i> Envío gratis</span>
+                                <span><i class="fa-solid fa-gift"></i> Regalo c/pedido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /mpx-body -->
         </div>
     </div>
 
@@ -414,6 +724,71 @@
 
 
     <!-- Scripts -->
+        <!-- Modal 2FA — configurar Google Authenticator -->
+    <div class="modal-overlay" id="modal2FA">
+        <div class="modal modal-2fa">
+            <button class="modal-cerrar" data-modal="modal2FA"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-mobile-screen-button"></i> Activar autenticación en dos pasos</h3>
+
+            <div class="setup-2fa-pasos">
+                <div class="setup-2fa-paso">
+                    <div class="setup-2fa-num">1</div>
+                    <p>Instala <strong>Google Authenticator</strong> o <strong>Authy</strong> en tu móvil.</p>
+                </div>
+                <div class="setup-2fa-paso">
+                    <div class="setup-2fa-num">2</div>
+                    <p>Escanea el código QR con la app:</p>
+                </div>
+            </div>
+
+            <!-- QR generado por Spring Boot -->
+            <div class="qr-wrap">
+                <img id="qrCode2FA" src="" alt="QR 2FA" class="qr-img">
+                <p class="qr-hint">¿No puedes escanear? Introduce este código manualmente:</p>
+                <code class="totp-secret" id="secret2FA"></code>
+            </div>
+
+            <div class="setup-2fa-paso" style="margin-top:16px">
+                <div class="setup-2fa-num">3</div>
+                <p>Introduce el código de 6 dígitos que aparece en la app:</p>
+            </div>
+
+            <div class="campo-grupo" style="margin:12px 0">
+                <input type="text" id="codigo2FA" class="campo-input totp-input"
+                       placeholder="000000" maxlength="6" inputmode="numeric"
+                       autocomplete="one-time-code">
+            </div>
+
+            <button class="btn-guardar" id="btnVerificar2FA" style="width:100%;justify-content:center">
+                <i class="fa-solid fa-check"></i> Verificar y activar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal códigos de respaldo — mostrar tras activar 2FA -->
+    <div class="modal-overlay" id="modalCodigosRespaldo">
+        <div class="modal modal-codigos-respaldo">
+            <button class="modal-cerrar" data-modal="modalCodigosRespaldo"><i class="fa-solid fa-xmark"></i></button>
+            <h3><i class="fa-solid fa-key"></i> Códigos de respaldo</h3>
+            <p class="modal-resumen-sub">
+                Guarda estos códigos en un lugar seguro. Cada uno solo se puede usar una vez
+                si pierdes acceso a tu app de autenticación.
+            </p>
+            <div class="codigos-respaldo-grid" id="codigosRespaldoLista"></div>
+            <div class="campo-grupo" style="margin-top:16px">
+                <button class="btn-guardar" onclick="navigator.clipboard.writeText(document.getElementById('codigosRespaldoLista').innerText).then(()=>showToast('Códigos copiados','ok'))" style="width:100%;justify-content:center">
+                    <i class="fa-solid fa-copy"></i> Copiar todos los códigos
+                </button>
+            </div>
+            <p class="twofa-desc" style="margin-top:12px;text-align:center">
+                <i class="fa-solid fa-triangle-exclamation" style="color:#f0b429"></i>
+                No podrás ver estos códigos de nuevo. Guárdalos ahora.
+            </p>
+        </div>
+    </div>
+
+    <!-- seguridad.js — actívalo cuando tengas Spring Boot corriendo -->
+    <!-- <script src="../js/seguridad.js"></script> -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/cuenta.js"></script>

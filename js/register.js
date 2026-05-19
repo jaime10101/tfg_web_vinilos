@@ -62,8 +62,44 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            /* Genera número de socio auto-incremental
+               TODO (Supabase): el número real será el índice del usuario en auth.users
+               Por ahora se auto-incrementa en localStorage entre registros del mismo dispositivo */
+            const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+            const ahora = new Date();
+            const fechaAlta = `${ahora.getDate()} ${meses[ahora.getMonth()]} ${ahora.getFullYear()}`;
+
+            /* Obtiene el último número de socio y lo incrementa */
+            let ultimoNum = parseInt(localStorage.getItem('vs_ultimo_socio_num') || '1000');
+            ultimoNum++;
+            localStorage.setItem('vs_ultimo_socio_num', String(ultimoNum));
+            const socioNum = `#VS-${String(ultimoNum).padStart(4, '0')}`;
+
+            /* Guarda los datos del usuario registrado */
+            localStorage.setItem('vs_usuario_registro', JSON.stringify({
+                nombre:    nombre,
+                apellidos: apellido,
+                email:     email,
+                socioNum:  socioNum,
+                fechaAlta: fechaAlta,
+                puntosHistorico:   100,  /* bonus de bienvenida */
+                puntosDisponibles: 100,
+                nivel:     'Bronce',
+            }));
+
+            /* Guarda puntos de bienvenida */
+            localStorage.setItem('vs_puntos_usuario', JSON.stringify({
+                puntosHistorico:   100,
+                puntosDisponibles: 100,
+                nivel:             'Bronce',
+            }));
+
+            /* TODO (Supabase): supabase.auth.signUp({ email, password, options: { data: { nombre, apellido } } }) */
             /* TODO (Spring Boot): POST /api/auth/register */
-            /* TODO (Supabase): supabase.auth.signUp() */
+
+            /* Redirige a cuenta con mensaje de bienvenida */
+            localStorage.setItem('vs_registro_nuevo', '1');
+            window.location.href = '../pages/cuenta.html';
         });
     }
 

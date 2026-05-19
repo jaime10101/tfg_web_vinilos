@@ -14,7 +14,7 @@
     /* Calcula la ruta relativa a la raíz del proyecto
        — funciona desde /pages/ y /pages/detalle/ */
     function rutaBase() {
-    const profundidad = window.location.pathname.split('/').filter(Boolean).length;
+        const profundidad = window.location.pathname.split('/').filter(Boolean).length;
         if (profundidad <= 1) return './';
         return '../'.repeat(profundidad - 1);
     }
@@ -40,7 +40,7 @@
         const ruta = window.location.pathname;
         document.querySelectorAll('.menu a').forEach(a => {
             const href = a.getAttribute('href') || '';
-                      if (
+            if (
                 href === ruta ||
                 (href !== '/' && href !== '/index.html' && ruta.includes(href.replace('/index.html', '')))
             ) {
@@ -102,11 +102,15 @@
        INICIALIZACIÓN — header → footer → funcionalidades
        ============================================================ */
     async function init() {
-        const base       = rutaBase();
-        const primerHijo = document.body.firstElementChild;
+        const base        = rutaBase();
+        const placeholder = document.getElementById('header-placeholder');
+        const primerHijo  = placeholder || document.body.firstElementChild;
 
-        /* 1. Header al inicio del body */
+        /* 1. Header — reemplaza el placeholder o inserta al inicio */
         await cargarComponente(`${base}components/header.html`, primerHijo);
+
+        /* Elimina el placeholder vacío si existía */
+        if (placeholder && placeholder.parentNode) placeholder.remove();
 
         /* 2. Footer al final del body — btn-subir viene dentro */
         await cargarComponente(`${base}components/footer.html`, null);

@@ -78,11 +78,96 @@
                     <span class="lbl">Envío</span>
                     <span class="val free" id="s-ship">Gratis</span>
                 </div>
+                <div class="s-row fila-cupon" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-tag" style="color:var(--verde);margin-right:5px;"></i> Cupón Vinyl Points</span>
+                    <span class="val" style="color:var(--verde)"><span class="cupon-valor">−€0.00</span></span>
+                </div>
+                <div class="s-row fila-oro" id="fila-oro" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-crown" style="color:#f0b429;margin-right:5px;"></i> Descuento Oro (5%)</span>
+                    <span class="val" style="color:#f0b429"><span class="oro-valor">−€0.00</span></span>
+                </div>
                 <div class="s-row">
                     <span class="lbl">Impuestos (21%)</span>
                     <span class="val">Incluidos</span>
                 </div>
+                <!-- Badge VIP Oro — visible solo para nivel Oro con +100€ -->
+                <div class="badge-oro-cart" id="badge-oro" style="display:none">
+                    <i class="fa-solid fa-crown"></i>
+                    <span>Beneficio <strong>Oro</strong> aplicado — envío gratis + 5% descuento</span>
+                </div>
                 <hr class="s-divider">
+
+                <!-- Vinyl Points — canje directo en el carrito -->
+                <div class="puntos-canje-bloque" id="puntosCanje">
+
+                    <!-- Cabecera con corona y puntos disponibles -->
+                    <div class="puntos-canje-cabecera">
+                        <div class="puntos-canje-titulo">
+                            <i class="fa-solid fa-crown"></i>
+                            <span>Vinyl Points</span>
+                        </div>
+                        <span class="puntos-canje-disp" id="puntosDisp">0 pts disponibles</span>
+                    </div>
+
+                    <!-- Estado A: formulario de canje -->
+                    <div id="pCanjeForm">
+                        <!-- Slider visual de puntos -->
+                        <div class="puntos-slider-wrap">
+                            <input type="range" id="pCanjeSlider" class="puntos-slider"
+                                   min="0" max="1250" step="100" value="0">
+                            <div class="puntos-slider-labels">
+                                <span>0 pts</span>
+                                <span id="pSliderMax">1.250 pts</span>
+                            </div>
+                        </div>
+
+                        <!-- Input manual + botón -->
+                        <div class="puntos-canje-fila">
+                            <div class="puntos-input-wrap">
+                                <i class="fa-solid fa-coins"></i>
+                                <input type="number" id="pCanjeInput" class="puntos-canje-input"
+                                       placeholder="0" min="0" step="100">
+                                <span class="puntos-input-unit">pts</span>
+                            </div>
+                            <button class="btn-aplicar-puntos" id="btnAplicarPuntos">
+                                <i class="fa-solid fa-tag"></i> Aplicar
+                            </button>
+                        </div>
+
+                        <!-- Preview del descuento en tiempo real -->
+                        <div class="puntos-preview-card" id="pCanjePreviewCard" style="display:none">
+                            <div class="puntos-preview-desc">
+                                <i class="fa-solid fa-circle-check" style="color:var(--verde)"></i>
+                                <span id="pCanjePreview">−€0,00 de descuento</span>
+                            </div>
+                            <span class="puntos-preview-quedan" id="pCanjeQuedan">te quedan 0 pts</span>
+                        </div>
+                        <p class="puntos-canje-hint">100 pts = €1,00 · múltiplos de 100</p>
+                    </div>
+
+                    <!-- Estado B: puntos ya aplicados -->
+                    <div id="pCanjeActivo" style="display:none">
+                        <div class="puntos-aplicados-fila">
+                            <div class="puntos-aplicados-info">
+                                <div class="puntos-aplicados-icono">
+                                    <i class="fa-solid fa-crown"></i>
+                                </div>
+                                <div>
+                                    <span class="puntos-aplicados-valor" id="pCanjeValorActivo">€0,00</span>
+                                    <span class="puntos-aplicados-pts" id="pCanjePtsActivos">0 pts usados</span>
+                                </div>
+                            </div>
+                            <div class="puntos-aplicados-acciones">
+                                <button class="btn-modificar-puntos" id="btnModificarPuntos">
+                                    <i class="fa-solid fa-pen-to-square"></i> Cambiar
+                                </button>
+                                <button class="btn-quitar-puntos" id="btnQuitarPuntos">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Código promocional -->
                 <div class="promo-label">Código Promocional</div>
@@ -139,8 +224,36 @@
                 <h1>Dirección de Envío</h1>
                 <p class="subtitle">¿Dónde quieres recibir tu pedido?</p>
 
-                <!-- Panel datos de contacto -->
+                <!-- Selector de dirección guardada — TODO (Supabase): SELECT * FROM direcciones WHERE user_id = auth.uid() -->
                 <div class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-bookmark"></i> Direcciones Guardadas</div>
+                    <div class="dirs-guardadas" id="dirsGuardadas">
+                        <div class="dir-guardada-item" data-id="1" onclick="seleccionarDirGuardada(1)">
+                            <div class="dir-guardada-radio" id="dg-radio-1"></div>
+                            <div class="dir-guardada-info">
+                                <span class="dir-guardada-titulo"><i class="fa-solid fa-house"></i> Casa</span>
+                                <span class="dir-guardada-texto">Alex Rodríguez — Calle Gran Vía 24, 3ªA — 28013 Madrid</span>
+                            </div>
+                        </div>
+                        <div class="dir-guardada-item" data-id="2" onclick="seleccionarDirGuardada(2)">
+                            <div class="dir-guardada-radio" id="dg-radio-2"></div>
+                            <div class="dir-guardada-info">
+                                <span class="dir-guardada-titulo"><i class="fa-solid fa-briefcase"></i> Oficina</span>
+                                <span class="dir-guardada-texto">Vinyl Sounds HQ — Avenida de la Música 10 — 08001 Barcelona</span>
+                            </div>
+                        </div>
+                        <div class="dir-guardada-item" data-id="0" onclick="seleccionarDirGuardada(0)">
+                            <div class="dir-guardada-radio" id="dg-radio-0"></div>
+                            <div class="dir-guardada-info">
+                                <span class="dir-guardada-titulo"><i class="fa-solid fa-plus"></i> Usar otra dirección</span>
+                                <span class="dir-guardada-texto">Introduce una dirección diferente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel datos de contacto -->
+                <div class="panel" id="panelContacto">
                     <div class="panel-title"><i class="fa-solid fa-user"></i> Datos de Contacto</div>
                     <div class="field-row">
                         <div class="field-group">
@@ -248,6 +361,14 @@
                 <hr class="s-divider">
                 <div class="s-row"><span class="lbl">Subtotal</span><span class="val" id="ss-sub">€0.00</span></div>
                 <div class="s-row"><span class="lbl">Envío</span><span class="val" id="ss-ship">€4.95</span></div>
+                <div class="s-row fila-cupon" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-tag" style="color:var(--verde);margin-right:5px;"></i> Cupón Vinyl Points</span>
+                    <span class="val" style="color:var(--verde)"><span class="cupon-valor">−€0.00</span></span>
+                </div>
+                <div class="s-row" id="ss-fila-oro" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-crown" style="color:#f0b429;margin-right:5px;"></i> Descuento Oro (5%)</span>
+                    <span class="val" style="color:#f0b429"><span class="oro-valor">−€0.00</span></span>
+                </div>
                 <hr class="s-divider">
                 <div class="s-total"><span class="lbl">Total</span><span class="val" id="ss-total">€0.00</span></div>
                 <div class="s-iva">Incluye IVA</div>
@@ -278,6 +399,32 @@
             <div>
                 <h1>Método de Pago</h1>
                 <p class="subtitle">Finaliza tu compra de forma segura.</p>
+
+                <!-- Tarjetas guardadas — TODO (Supabase): SELECT * FROM tarjetas_guardadas WHERE user_id = auth.uid() -->
+                <div id="tarjetasGuardadas" class="panel">
+                    <div class="panel-title"><i class="fa-solid fa-credit-card"></i> Tarjetas guardadas</div>
+                    <div class="tarjeta-guardada-item selected" id="tg-nueva" onclick="seleccionarTarjeta('nueva')">
+                        <div class="tg-radio tg-radio-sel"></div>
+                        <div class="tg-info">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Usar nueva tarjeta</span>
+                        </div>
+                    </div>
+                    <!-- Ejemplo de tarjeta guardada — se genera desde localStorage tras el primer pago -->
+                    <div class="tarjeta-guardada-item" id="tg-guardada" style="display:none" onclick="seleccionarTarjeta('guardada')">
+                        <div class="tg-radio"></div>
+                        <div class="tg-info">
+                            <i class="fa-brands fa-cc-visa" style="color:#1a6fe8;font-size:1.3rem"></i>
+                            <div>
+                                <span class="tg-num">•••• •••• •••• <span id="tgLast4">0000</span></span>
+                                <span class="tg-titular" id="tgTitular">Titular</span>
+                            </div>
+                        </div>
+                        <button class="btn-eliminar-tg" onclick="eliminarTarjetaGuardada(event)">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
 
                 <!-- Botón de método seleccionado -->
                 <button class="card-method-btn">
@@ -334,6 +481,12 @@
                         </div>
                     </div>
 
+                    <!-- Toggle — guardar tarjeta para próximas compras -->
+                    <div class="toggle-row">
+                        <div class="toggle on" id="save-card-toggle" onclick="toggleGuardarTarjeta()"></div>
+                        <span>Guardar tarjeta para próximas compras</span>
+                    </div>
+
                     <!-- Toggle — misma dirección de facturación -->
                     <div class="toggle-row">
                         <div class="toggle" id="bill-toggle" onclick="toggleBill()"></div>
@@ -346,8 +499,8 @@
                     <button class="btn-back" onclick="goTo(2)">
                         <i class="fa-solid fa-arrow-left"></i> Volver al Envío
                     </button>
-                    <button class="btn-continue" id="btn-pay" onclick="processPay()">
-                        <i class="fa-solid fa-lock"></i> Pagar <span id="pay-amt">€0.00</span>
+                    <button class="btn-continue" id="btn-pay" onclick="mostrarResumenFinal()">
+                        <i class="fa-solid fa-lock"></i> Revisar y Pagar <span id="pay-amt">€0.00</span>
                     </button>
                 </div>
             </div>
@@ -359,6 +512,14 @@
                 <hr class="s-divider">
                 <div class="s-row"><span class="lbl">Subtotal</span><span class="val" id="ps-sub">€0.00</span></div>
                 <div class="s-row"><span class="lbl">Envío</span><span class="val" id="ps-ship">€0.00</span></div>
+                <div class="s-row fila-cupon" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-tag" style="color:var(--verde);margin-right:5px;"></i> Cupón Vinyl Points</span>
+                    <span class="val" style="color:var(--verde)"><span class="cupon-valor">−€0.00</span></span>
+                </div>
+                <div class="s-row" id="ps-fila-oro" style="display:none">
+                    <span class="lbl"><i class="fa-solid fa-crown" style="color:#f0b429;margin-right:5px;"></i> Descuento Oro (5%)</span>
+                    <span class="val" style="color:#f0b429"><span class="oro-valor">−€0.00</span></span>
+                </div>
                 <hr class="s-divider">
                 <div class="s-total"><span class="lbl">Total</span><span class="val" id="ps-total">€0.00</span></div>
             </div>
@@ -425,6 +586,14 @@
                         </div>
                         <div class="tc-row"><span class="lbl">Subtotal</span><span class="val" id="cf-sub">€0.00</span></div>
                         <div class="tc-row"><span class="lbl">Envío</span><span class="val" id="cf-ship">€0.00</span></div>
+                        <div class="tc-row fila-cupon" id="cf-cupon-fila" style="display:none">
+                            <span class="lbl"><i class="fa-solid fa-tag" style="color:var(--verde);margin-right:5px;"></i> Cupón Vinyl Points</span>
+                            <span class="val" style="color:var(--verde)"><span class="cupon-valor">−€0.00</span></span>
+                        </div>
+                        <div class="tc-row" id="cf-oro-fila" style="display:none">
+                            <span class="lbl"><i class="fa-solid fa-crown" style="color:#f0b429;margin-right:5px;"></i> Descuento Oro (5%)</span>
+                            <span class="val" style="color:#f0b429"><span class="oro-valor">−€0.00</span></span>
+                        </div>
                         <div class="tc-row"><span class="lbl">IVA (21%)</span><span class="val">Incluido</span></div>
                         <div class="tc-total"><span class="lbl">Total</span><span class="val" id="cf-total">€0.00</span></div>
                     </div>
@@ -457,6 +626,76 @@
 
 
     <!-- Scripts -->
+    <!-- Modal resumen final — antes de confirmar el pago -->
+    <div class="modal-resumen-overlay" id="modalResumenFinal">
+        <div class="modal-resumen">
+            <button class="modal-resumen-cerrar" onclick="cerrarResumenFinal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 class="modal-resumen-titulo">
+                <i class="fa-solid fa-clipboard-check"></i> Revisa tu pedido
+            </h2>
+            <p class="modal-resumen-sub">Confirma que todo es correcto antes de pagar.</p>
+
+            <!-- Artículos -->
+            <div class="mr-seccion">
+                <div class="mr-seccion-titulo">
+                    <i class="fa-solid fa-bag-shopping"></i> Artículos
+                </div>
+                <div id="mr-items"></div>
+            </div>
+
+            <!-- Envío -->
+            <div class="mr-seccion">
+                <div class="mr-seccion-titulo">
+                    <i class="fa-solid fa-truck"></i> Envío
+                </div>
+                <div class="mr-fila">
+                    <span id="mr-metodo-envio">Estándar</span>
+                    <span id="mr-coste-envio">€4,95</span>
+                </div>
+                <div class="mr-fila mr-dir">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span id="mr-direccion">–</span>
+                </div>
+            </div>
+
+            <!-- Pago -->
+            <div class="mr-seccion">
+                <div class="mr-seccion-titulo">
+                    <i class="fa-solid fa-credit-card"></i> Método de pago
+                </div>
+                <div class="mr-fila">
+                    <span id="mr-tarjeta">•••• 0000</span>
+                    <span id="mr-titular-card">Titular</span>
+                </div>
+            </div>
+
+            <!-- Totales -->
+            <div class="mr-totales">
+                <div class="mr-fila"><span>Subtotal</span><span id="mr-sub">€0,00</span></div>
+                <div class="mr-fila" id="mr-fila-cupon" style="display:none">
+                    <span><i class="fa-solid fa-tag" style="color:var(--verde)"></i> Cupón Vinyl Points</span>
+                    <span style="color:var(--verde)" id="mr-cupon">−€0,00</span>
+                </div>
+                <div class="mr-fila" id="mr-fila-oro" style="display:none">
+                    <span><i class="fa-solid fa-crown" style="color:#f0b429"></i> Descuento Oro (5%)</span>
+                    <span style="color:#f0b429" id="mr-oro">−€0,00</span>
+                </div>
+                <div class="mr-fila"><span>Envío</span><span id="mr-envio-total">€4,95</span></div>
+                <div class="mr-fila mr-total">
+                    <span>Total</span>
+                    <span id="mr-total">€0,00</span>
+                </div>
+            </div>
+
+            <!-- Botón confirmar final -->
+            <button class="btn-confirmar-final" onclick="processPay()">
+                <i class="fa-solid fa-lock"></i> Confirmar y Pagar <span id="mr-total-btn">€0,00</span>
+            </button>
+        </div>
+    </div>
+
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/pago.js"></script>

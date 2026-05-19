@@ -209,157 +209,156 @@ body {
    FOOTER
    ============================================================ */
 
-/* Bloque principal del footer */
+/* ── FOOTER ── */
 .footer-site-block {
-    background-color: var(--fondo);
-    border-top: 1px solid var(--borde);
+    background: var(--fondo);
+    border-top: 1px solid rgba(255,255,255,0.05);
     color: var(--texto);
-    padding: 80px 0 30px;
+    padding: 64px 0 0;
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Wrapper con tres columnas */
+/* Grid de 3 columnas — info más ancha, links más estrechas */
 .footer-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 40px;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    align-items: start;
 }
 
 .footer-column-info,
-.footer-column-links,
-.footer-column-subscribe {
-    flex: 1;
-    min-width: 220px;
-}
+.footer-column-links { /* sin min-width para respetar el grid */ }
 
-/* Nombre de la marca en degradado */
+/* Marca */
 .footer-brand-name {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 900;
-    margin-bottom: 25px;
+    margin-bottom: 14px;
     background: linear-gradient(45deg, #F0EBFF 5%, #7B2FFF 40%, #FF006E 65%, #FF6B00 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: inline-block;
 }
 
-/* Texto descriptivo apagado */
 .footer-text-muted {
     color: var(--apagado);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    margin-bottom: 25px;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    margin-bottom: 22px;
+    max-width: 300px;
 }
 
-/* Iconos de redes sociales */
+/* Redes sociales */
 .footer-social-links {
     display: flex;
-    gap: 20px;
+    gap: 16px;
 }
 
 .footer-social-links a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
     color: var(--apagado);
-    font-size: 1.3rem;
-    transition: color 0.3s, transform 0.2s;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.22s;
+    text-decoration: none;
 }
 
 .footer-social-links a:hover {
-    color: var(--cian);
+    background: rgba(123,47,255,0.15);
+    border-color: rgba(123,47,255,0.35);
+    color: #a07bff;
     transform: translateY(-2px);
 }
 
 /* Títulos de columna */
 .footer-title {
-    font-size: 1.1rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    margin-bottom: 30px;
-    color: var(--texto);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 20px;
 }
 
-/* Lista de enlaces */
+/* Links */
 .footer-list {
     list-style: none;
     padding: 0;
-}
-
-.footer-list li {
-    margin-bottom: 12px;
-}
-
-.footer-list li a {
-    color: var(--apagado);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s;
-}
-
-.footer-list li a:hover {
-    color: var(--texto);
-}
-
-/* Formulario de suscripción */
-.footer-form {
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-/* Input de email */
-.footer-input {
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    padding: 14px;
-    border-radius: 8px;
-    color: var(--texto);
-    outline: none;
-    transition: border-color 0.3s;
-    font-family: inherit;
+.footer-list li a {
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
     font-size: 0.9rem;
+    transition: color 0.2s, padding-left 0.2s;
+    display: inline-block;
 }
 
-.footer-input:focus {
-    border-color: rgba(0, 212, 255, 0.4);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.06);
+.footer-list li a:hover {
+    color: var(--texto);
+    padding-left: 4px;
 }
 
-.footer-input::placeholder {
-    color: var(--apagado);
-}
-
-/* Botón suscribirse */
-.footer-submit-btn {
-    background: var(--grad-fuego);
-    color: #fff;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 4px 20px rgba(255, 0, 110, 0.3);
-    font-family: inherit;
-}
-
-.footer-submit-btn:hover {
-    box-shadow: 0 6px 28px rgba(255, 107, 0, 0.45);
-    transform: translateY(-1px);
-}
-
-/* Barra de copyright */
+/* Copyright */
 .footer-copyright-bar {
-    margin-top: 60px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    text-align: center;
+    max-width: 1200px;
+    margin: 48px auto 0;
+    padding: 20px 40px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .footer-copyright-bar p {
-    color: var(--apagado);
-    font-size: 0.85rem;
+    color: rgba(255,255,255,0.2);
+    font-size: 0.8rem;
+}
+
+/* ── RESPONSIVE FOOTER ── */
+
+/* Tablet — 900px */
+@media (max-width: 900px) {
+    .footer-wrapper {
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+        padding: 0 28px;
+    }
+    .footer-column-info {
+        grid-column: 1 / -1; /* info ocupa el ancho completo */
+    }
+    .footer-text-muted { max-width: 100%; }
+    .footer-copyright-bar { padding: 20px 28px; }
+}
+
+/* Móvil — 600px */
+@media (max-width: 600px) {
+    .footer-site-block { padding: 48px 0 0; }
+    .footer-wrapper {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 0 20px;
+    }
+    .footer-column-info { grid-column: auto; }
+    .footer-social-links { flex-wrap: wrap; }
+    .footer-copyright-bar {
+        padding: 16px 20px;
+        margin-top: 32px;
+    }
 }
 
 
@@ -455,14 +454,4 @@ body {
 
     .header-transparent { padding: 14px 20px; align-items: center; }
     .iconos-nav          { display: flex; align-items: center; gap: 14px; }
-}
-
-
-/* ============================================================
-   RESPONSIVE — FOOTER (≤ 850px)
-   ============================================================ */
-@media (max-width: 850px) {
-    .footer-wrapper      { flex-direction: column; text-align: center; }
-    .footer-social-links { justify-content: center; }
-    .footer-form         { max-width: 350px; margin: 0 auto; }
 }

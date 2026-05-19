@@ -1,7 +1,10 @@
 /* ============================================================
-   CUENTA.CSS — Rediseño profesional
+   CUENTA.CSS — Página de cuenta de usuario
+   Header, footer y variables en global.css
    ============================================================ */
 
+
+/* Body */
 body {
     background: var(--fondo);
     background-image:
@@ -12,9 +15,12 @@ body {
     min-height: 100vh;
 }
 
-/* ─────────────────────────────
+
+/* ============================================================
    LAYOUT
-───────────────────────────── */
+   ============================================================ */
+
+/* Grid principal — sidebar + main */
 .cuenta-wrapper {
     display: grid;
     grid-template-columns: 268px 1fr;
@@ -25,9 +31,12 @@ body {
     align-items: start;
 }
 
-/* ─────────────────────────────
+
+/* ============================================================
    SIDEBAR
-───────────────────────────── */
+   ============================================================ */
+
+/* Contenedor sticky con blur */
 .cuenta-sidebar {
     background: rgba(14,11,26,0.85);
     border: 1px solid rgba(255,255,255,0.06);
@@ -41,7 +50,7 @@ body {
     backdrop-filter: blur(12px);
 }
 
-/* Bloque usuario */
+/* Bloque de usuario — avatar + nombre + nivel */
 .sidebar-usuario {
     display: flex;
     align-items: center;
@@ -53,7 +62,7 @@ body {
     margin-bottom: 12px;
 }
 
-/* Avatar iniciales */
+/* Wrapper del avatar */
 .avatar-wrap {
     position: relative;
     flex-shrink: 0;
@@ -61,8 +70,10 @@ body {
     height: 48px;
 }
 
+/* Círculo de iniciales */
 .avatar-iniciales {
-    width: 48px; height: 48px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: linear-gradient(145deg, #3a1a6e, #7B2FFF);
     display: flex;
@@ -75,22 +86,30 @@ body {
     user-select: none;
 }
 
+/* Foto de avatar subida por el usuario */
 .avatar-img {
-    width: 48px; height: 48px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
 }
+
+/* Oculta imágenes de avatar por defecto */
 .avatar-img.oculta,
 .perfil-avatar.oculta {
     display: none;
 }
 
+/* Botón pequeño de cambiar foto */
 .btn-cambiar-foto {
     position: absolute;
-    bottom: -2px; right: -3px;
-    width: 18px; height: 18px;
+    bottom: -2px;
+    right: -3px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #2a2040;
     border: 1.5px solid rgba(255,255,255,0.12);
@@ -103,22 +122,27 @@ body {
     transition: all 0.2s;
     z-index: 2;
 }
+
 .btn-cambiar-foto:hover {
     background: var(--morado);
     color: #fff;
     border-color: transparent;
 }
 
+/* Punto verde de conexión activa */
 .avatar-online {
     position: absolute;
-    top: 0; right: 0;
-    width: 9px; height: 9px;
+    top: 0;
+    right: 0;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: #22c55e;
     border: 1.5px solid #0E0B1A;
     z-index: 3;
 }
 
+/* Info de texto — nombre y email */
 .sidebar-info {
     overflow: hidden;
     flex: 1;
@@ -144,6 +168,7 @@ body {
     margin-bottom: 6px;
 }
 
+/* Badge de nivel — color dinámico por JS */
 .nivel-badge {
     display: inline-flex;
     align-items: center;
@@ -158,11 +183,10 @@ body {
     border-radius: 20px;
     transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
-.nivel-badge i {
-    font-size: 9px;
-}
 
-/* Bloque puntos (clickeable) */
+.nivel-badge i { font-size: 9px; }
+
+/* Bloque de puntos — clickeable, abre el modal */
 .sidebar-puntos {
     width: 100%;
     background: rgba(255,255,255,0.02);
@@ -176,15 +200,16 @@ body {
     color: inherit;
     transition: background 0.2s, border-color 0.2s, transform 0.15s;
 }
+
 .sidebar-puntos:hover {
     background: rgba(255,255,255,0.04);
     border-color: rgba(255,193,7,0.2);
     transform: translateY(-1px);
 }
-.sidebar-puntos:active {
-    transform: scale(0.99);
-}
 
+.sidebar-puntos:active { transform: scale(0.99); }
+
+/* Cabecera del bloque de puntos */
 .puntos-header {
     display: flex;
     align-items: center;
@@ -196,21 +221,23 @@ body {
     color: rgba(255,193,7,0.6);
     margin-bottom: 6px;
 }
-.puntos-header i {
-    font-size: 10px;
-    color: #f0b429;
-}
+
+.puntos-header i { font-size: 10px; color: #f0b429; }
+
+/* Flecha que se desplaza al hover */
 .puntos-flecha {
     margin-left: auto;
     font-size: 9px;
     color: rgba(255,255,255,0.2);
     transition: transform 0.2s, color 0.2s;
 }
+
 .sidebar-puntos:hover .puntos-flecha {
     transform: translateX(3px);
     color: rgba(255,193,7,0.5);
 }
 
+/* Número grande de puntos */
 .puntos-valor {
     font-size: 22px;
     font-weight: 700;
@@ -220,30 +247,38 @@ body {
     letter-spacing: -0.5px;
 }
 
-.puntos-barra-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
+/* Barra de progreso hacia el siguiente nivel */
+.puntos-barra-wrap { display: flex; flex-direction: column; gap: 5px; }
+
 .puntos-barra {
     height: 3px;
     background: rgba(255,255,255,0.06);
     border-radius: 2px;
     overflow: hidden;
 }
+
 .puntos-fill {
     height: 100%;
     background: linear-gradient(90deg, #f0b429, #ff7c00);
     border-radius: 2px;
     transition: width 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
+/* Texto de puntos restantes para el siguiente nivel */
 .puntos-meta {
     font-size: 10px;
     color: rgba(255,255,255,0.3);
     letter-spacing: 0.1px;
 }
 
-/* Nav items */
+/* Separador entre bloques del sidebar */
+.sidebar-sep {
+    height: 1px;
+    background: rgba(255,255,255,0.05);
+    margin: 8px 0 4px;
+}
+
+/* Navegación del sidebar */
 .sidebar-nav {
     display: flex;
     flex-direction: column;
@@ -251,6 +286,7 @@ body {
     margin-top: 4px;
 }
 
+/* Botón de cada sección */
 .nav-item {
     display: flex;
     align-items: center;
@@ -269,52 +305,33 @@ body {
     transition: all 0.18s;
     letter-spacing: 0.1px;
 }
-.nav-item i {
-    width: 15px;
-    text-align: center;
-    font-size: 13px;
-    flex-shrink: 0;
-}
-.nav-item:hover {
-    background: rgba(255,255,255,0.05);
-    color: rgba(255,255,255,0.8);
-}
+
+.nav-item i { width: 15px; text-align: center; font-size: 13px; flex-shrink: 0; }
+
+.nav-item:hover { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+
+/* Sección activa */
 .nav-item.activo {
     background: rgba(123,47,255,0.18);
     color: rgba(255,255,255,0.92);
     border: 1px solid rgba(123,47,255,0.25);
 }
-.nav-item.activo i {
-    color: #a07bff;
-}
 
-.sidebar-sep {
-    height: 1px;
-    background: rgba(255,255,255,0.05);
-    margin: 8px 0 4px;
-}
+.nav-item.activo i { color: #a07bff; }
 
-.nav-cerrar {
-    color: rgba(255,80,80,0.5) !important;
-}
-.nav-cerrar:hover {
-    background: rgba(255,80,80,0.06) !important;
-    color: rgba(255,80,80,0.85) !important;
-}
+/* Botón cerrar sesión */
+.nav-cerrar       { color: rgba(255,80,80,0.5) !important; }
+.nav-cerrar:hover { background: rgba(255,80,80,0.06) !important; color: rgba(255,80,80,0.85) !important; }
 
-/* ─────────────────────────────
-   MAIN CONTENT
-───────────────────────────── */
-.cuenta-main {
-    min-width: 0;
-}
-.sec {
-    display: block;
-}
-.sec.oculta {
-    display: none;
-}
 
+/* ============================================================
+   CONTENIDO PRINCIPAL
+   ============================================================ */
+.cuenta-main { min-width: 0; }
+.sec         { display: block; }
+.sec.oculta  { display: none; }
+
+/* Cabecera de cada sección */
 .sec-header {
     display: flex;
     align-items: flex-start;
@@ -331,13 +348,15 @@ body {
     margin-bottom: 3px;
     letter-spacing: -0.3px;
 }
+
+/* Subtítulo descriptivo */
 .sec-sub {
     font-size: 13px;
     color: rgba(255,255,255,0.35);
     letter-spacing: 0.1px;
 }
 
-/* Estado conexión */
+/* Badge de estado de conexión con reloj */
 .estado-conexion {
     display: flex;
     align-items: center;
@@ -349,24 +368,38 @@ body {
     font-size: 11px;
     color: rgba(255,255,255,0.3);
 }
+
+/* Punto verde animado */
 .punto-verde {
-    width: 7px; height: 7px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #22c55e;
     box-shadow: 0 0 5px rgba(34,197,94,0.6);
     flex-shrink: 0;
 }
+
+/* Botón actualizar reloj */
 .btn-actualizar {
-    background: none; border: none; color: rgba(255,255,255,0.35);
-    font-size: 11px; cursor: pointer; font-family: inherit;
-    display: flex; align-items: center; gap: 4px;
-    transition: color 0.2s; padding: 0;
-}
-.btn-actualizar:hover {
-    color: rgba(255,255,255,0.7);
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.35);
+    font-size: 11px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+    padding: 0;
 }
 
-/* KPIs */
+.btn-actualizar:hover { color: rgba(255,255,255,0.7); }
+
+
+/* ============================================================
+   KPIs — en curso, devoluciones y puntos
+   ============================================================ */
 .kpi-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -374,6 +407,7 @@ body {
     margin-bottom: 24px;
 }
 
+/* Tarjeta KPI */
 .kpi {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.06);
@@ -384,22 +418,13 @@ body {
     gap: 12px;
     transition: border-color 0.2s, transform 0.15s;
 }
-.kpi-puntos {
-    cursor: pointer;
-}
-.kpi-puntos:hover {
-    border-color: rgba(255,193,7,0.25);
-    transform: translateY(-1px);
-}
 
-.kpi-icon {
-    font-size: 1.2rem;
-    color: rgba(255,255,255,0.2);
-    flex-shrink: 0;
-}
-.kpi-star {
-    color: #f0b429 !important;
-}
+/* KPI de puntos — clickeable */
+.kpi-puntos       { cursor: pointer; }
+.kpi-puntos:hover { border-color: rgba(255,193,7,0.25); transform: translateY(-1px); }
+
+.kpi-icon { font-size: 1.2rem; color: rgba(255,255,255,0.2); flex-shrink: 0; }
+.kpi-star { color: #f0b429 !important; }
 
 .kpi-label {
     font-size: 9px;
@@ -409,6 +434,7 @@ body {
     color: rgba(255,255,255,0.3);
     margin-bottom: 4px;
 }
+
 .kpi-valor {
     font-size: 15px;
     font-weight: 600;
@@ -416,7 +442,12 @@ body {
     letter-spacing: -0.2px;
 }
 
-/* Pedidos */
+
+/* ============================================================
+   HISTORIAL DE PEDIDOS
+   ============================================================ */
+
+/* Título de sección */
 .subtitulo-historial {
     font-size: 13px;
     font-weight: 600;
@@ -426,6 +457,7 @@ body {
     margin-bottom: 12px;
 }
 
+/* Tarjeta de pedido */
 .pedido-card {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.06);
@@ -438,11 +470,10 @@ body {
     gap: 14px;
     transition: border-color 0.2s, background 0.2s;
 }
-.pedido-card:hover {
-    background: rgba(255,255,255,0.035);
-    border-color: rgba(255,255,255,0.1);
-}
 
+.pedido-card:hover { background: rgba(255,255,255,0.035); border-color: rgba(255,255,255,0.1); }
+
+/* Badge de estado */
 .pedido-badge {
     display: inline-flex;
     align-items: center;
@@ -456,25 +487,14 @@ body {
     white-space: nowrap;
     flex-shrink: 0;
 }
-.pedido-badge.en-camino {
-    background: rgba(0,180,220,0.1);
-    color: #38bdf8;
-    border: 1px solid rgba(0,180,220,0.2);
-}
-.pedido-badge.entregado {
-    background: rgba(34,197,94,0.08);
-    color: #4ade80;
-    border: 1px solid rgba(34,197,94,0.15);
-}
-.pedido-badge.procesando {
-    background: rgba(255,193,7,0.08);
-    color: #fbbf24;
-    border: 1px solid rgba(255,193,7,0.15);
-}
 
-.pedido-info {
-    min-width: 0;
-}
+.pedido-badge.en-camino  { background: rgba(0,180,220,0.1);  color: #38bdf8; border: 1px solid rgba(0,180,220,0.2); }
+.pedido-badge.entregado  { background: rgba(34,197,94,0.08);  color: #4ade80; border: 1px solid rgba(34,197,94,0.15); }
+.pedido-badge.procesando { background: rgba(255,193,7,0.08);  color: #fbbf24; border: 1px solid rgba(255,193,7,0.15); }
+
+/* Info central del pedido */
+.pedido-info { min-width: 0; }
+
 .pedido-num {
     font-size: 13px;
     font-weight: 600;
@@ -482,6 +502,8 @@ body {
     margin-bottom: 3px;
     letter-spacing: 0.1px;
 }
+
+/* Lista de artículos truncada */
 .pedido-items-lista {
     font-size: 12px;
     color: rgba(255,255,255,0.35);
@@ -491,6 +513,8 @@ body {
     margin-bottom: 5px;
     max-width: 380px;
 }
+
+/* Fila de metadatos — fecha y puntos */
 .pedido-meta {
     display: flex;
     align-items: center;
@@ -499,10 +523,10 @@ body {
     color: rgba(255,255,255,0.3);
     flex-wrap: wrap;
 }
-.pedido-meta i {
-    font-size: 10px;
-    color: rgba(255,255,255,0.2);
-}
+
+.pedido-meta i { font-size: 10px; color: rgba(255,255,255,0.2); }
+
+/* Badge de puntos ganados */
 .pedido-pts {
     display: inline-flex;
     align-items: center;
@@ -515,10 +539,10 @@ body {
     padding: 1px 7px;
     border-radius: 20px;
 }
-.pedido-pts i {
-    font-size: 9px;
-}
 
+.pedido-pts i { font-size: 9px; }
+
+/* Precio del pedido */
 .pedido-precio {
     font-size: 14px;
     font-weight: 600;
@@ -528,15 +552,14 @@ body {
     letter-spacing: -0.2px;
 }
 
-.pedido-acciones {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: flex-end;
-}
+/* Acciones — seguir, detalles y factura */
+.pedido-acciones { display: flex; flex-direction: column; gap: 5px; align-items: flex-end; }
 
+/* Botón seguir envío */
 .btn-seguir {
-    display: inline-flex; align-items: center; gap: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 6px 12px;
     background: rgba(123,47,255,0.15);
     color: #a07bff;
@@ -550,14 +573,15 @@ body {
     transition: all 0.18s;
     letter-spacing: 0.1px;
 }
-.btn-seguir:hover {
-    background: rgba(123,47,255,0.25);
-    border-color: rgba(123,47,255,0.4);
-    color: #c4a8ff;
-}
 
-.btn-detalle, .btn-factura {
-    display: inline-flex; align-items: center; gap: 5px;
+.btn-seguir:hover { background: rgba(123,47,255,0.25); border-color: rgba(123,47,255,0.4); color: #c4a8ff; }
+
+/* Botones ver detalles y factura */
+.btn-detalle,
+.btn-factura {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 5px 10px;
     background: transparent;
     border: 1px solid rgba(255,255,255,0.07);
@@ -570,15 +594,16 @@ body {
     white-space: nowrap;
     transition: all 0.18s;
 }
-.btn-detalle:hover, .btn-factura:hover {
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.14);
-    color: rgba(255,255,255,0.7);
-}
 
-/* ─────────────────────────────
+.btn-detalle:hover,
+.btn-factura:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.7); }
+
+
+/* ============================================================
    PERFIL
-───────────────────────────── */
+   ============================================================ */
+
+/* Panel principal */
 .panel-perfil {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.06);
@@ -586,64 +611,91 @@ body {
     padding: 24px;
 }
 
+/* Fila superior — avatar grande + botón cambiar foto */
 .perfil-foto-row {
-    display: flex; align-items: center; gap: 18px;
-    margin-bottom: 24px; padding-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding-bottom: 22px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.perfil-avatar-wrap {
-    position: relative; flex-shrink: 0;
-    width: 72px; height: 72px;
-}
+/* Wrapper del avatar grande */
+.perfil-avatar-wrap { position: relative; flex-shrink: 0; width: 72px; height: 72px; }
+
+/* Círculo de iniciales grande */
 .perfil-iniciales {
-    width: 72px; height: 72px; border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
     background: linear-gradient(145deg, #3a1a6e, #7B2FFF);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
     user-select: none;
 }
+
+/* Foto de perfil subida */
 .perfil-avatar {
-    width: 72px; height: 72px; border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
     object-fit: cover;
-    position: absolute; top: 0; left: 0;
-}
-.btn-cambiar-overlay {
-    position: absolute; inset: 0; border-radius: 50%;
-    background: rgba(0,0,0,0.6);
-    display: flex; align-items: center; justify-content: center;
-    color: rgba(255,255,255,0.7); font-size: 16px;
-    opacity: 0; cursor: pointer; transition: opacity 0.2s; z-index: 2;
-}
-.perfil-avatar-wrap:hover .btn-cambiar-overlay {
-    opacity: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.perfil-foto-info {
+/* Overlay de cámara al hover */
+.btn-cambiar-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
     display: flex;
-    flex-direction: column;
-    gap: 7px;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 16px;
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    z-index: 2;
 }
+
+.perfil-avatar-wrap:hover .btn-cambiar-overlay { opacity: 1; }
+
+/* Info junto al avatar */
+.perfil-foto-info { display: flex; flex-direction: column; gap: 7px; }
+
+/* Botón cambiar foto */
 .btn-cambiar-foto-perfil {
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     padding: 8px 15px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     color: rgba(255,255,255,0.55);
     border-radius: 8px;
-    font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit;
-    transition: all 0.18s; letter-spacing: 0.1px;
-}
-.btn-cambiar-foto-perfil:hover {
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(255,255,255,0.14);
-    color: rgba(255,255,255,0.8);
-}
-.foto-hint {
-    font-size: 11px;
-    color: rgba(255,255,255,0.2);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    letter-spacing: 0.1px;
 }
 
+.btn-cambiar-foto-perfil:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.8); }
+
+/* Hint de formato permitido */
+.foto-hint { font-size: 11px; color: rgba(255,255,255,0.2); }
+
+/* Grid de dos columnas para los campos */
 .perfil-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -651,725 +703,2867 @@ body {
     margin-bottom: 22px;
 }
 
-.campo-grupo {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
+/* Grupo label + input */
+.campo-grupo { display: flex; flex-direction: column; gap: 6px; }
+
 .campo-grupo label {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.8px;
-    text-transform: uppercase; color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
 }
+
+/* Input de formulario */
 .campo-input {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 9px; color: rgba(255,255,255,0.8);
-    font-size: 13px; padding: 10px 13px; outline: none;
-    font-family: inherit; width: 100%;
+    border-radius: 9px;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    padding: 10px 13px;
+    outline: none;
+    font-family: inherit;
+    width: 100%;
     transition: border-color 0.18s;
 }
-.campo-input:focus {
-    border-color: rgba(123,47,255,0.4);
-    background: rgba(123,47,255,0.04);
-}
-.campo-input::placeholder {
-    color: rgba(255,255,255,0.2);
-}
 
-.perfil-footer {
-    display: flex;
-    justify-content: flex-end;
-}
+.campo-input:focus       { border-color: rgba(123,47,255,0.4); background: rgba(123,47,255,0.04); }
+.campo-input::placeholder { color: rgba(255,255,255,0.2); }
+
+/* Textarea redimensionable verticalmente */
+textarea.campo-input { resize: vertical; }
+
+/* Footer del panel — botón guardar a la derecha */
+.perfil-footer { display: flex; justify-content: flex-end; }
+
+/* Botón guardar cambios */
 .btn-guardar {
-    display: inline-flex; align-items: center; gap: 7px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     padding: 10px 22px;
     background: rgba(123,47,255,0.2);
     border: 1px solid rgba(123,47,255,0.3);
     color: #c4a8ff;
-    border-radius: 9px; font-size: 13px; font-weight: 600;
-    cursor: pointer; font-family: inherit;
-    transition: all 0.18s; letter-spacing: 0.1px;
-}
-.btn-guardar:hover {
-    background: rgba(123,47,255,0.3);
-    border-color: rgba(123,47,255,0.5);
-    color: #d8c4ff;
-}
-
-/* ─────────────────────────────
-   DEVOLUCIONES
-───────────────────────────── */
-.dev-cta {
-    background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px; padding: 16px 20px;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
-}
-.dev-cta-left {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-}
-.dev-cta-left i {
-    color: rgba(255,80,80,0.7) !important;
-    font-size: 1.1rem !important;
-}
-.dev-cta-left strong {
-    display: block;
+    border-radius: 9px;
     font-size: 13px;
     font-weight: 600;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 2px;
-}
-.dev-cta-left p {
-    font-size: 12px;
-    color: rgba(255,255,255,0.3);
-}
-.btn-comenzar-dev {
-    padding: 8px 16px;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.55); border-radius: 8px;
-    font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit;
-    white-space: nowrap; transition: all 0.18s; flex-shrink: 0;
-}
-.btn-comenzar-dev:hover {
-    border-color: rgba(255,80,80,0.3);
-    color: rgba(255,100,100,0.8);
-}
-.dev-vacio {
-    text-align: center; padding: 52px 20px; color: rgba(255,255,255,0.2);
-    border-top: 1px solid rgba(255,255,255,0.04);
-}
-.dev-vacio i {
-    font-size: 36px;
-    opacity: 0.15;
-    display: block;
-    margin-bottom: 12px;
-}
-.dev-vacio p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 4px;
-}
-.dev-vacio span {
-    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    letter-spacing: 0.1px;
 }
 
-/* ─────────────────────────────
-   DIRECCIONES
-───────────────────────────── */
-.btn-añadir-dir {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 15px;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.5); border-radius: 8px;
-    font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit;
-    transition: all 0.18s; flex-shrink: 0;
-}
-.btn-añadir-dir:hover {
-    background: rgba(255,255,255,0.07);
-    border-color: rgba(255,255,255,0.14);
-    color: rgba(255,255,255,0.8);
-}
+.btn-guardar:hover { background: rgba(123,47,255,0.3); border-color: rgba(123,47,255,0.5); color: #d8c4ff; }
 
-.dir-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
 
-.dir-card {
+/* ============================================================
+   DEVOLUCIONES
+   ============================================================ */
+
+/* CTA para iniciar una devolución */
+.dev-cta {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px; padding: 18px;
-    transition: border-color 0.2s;
-}
-.dir-card.predeterminada {
-    border-color: rgba(123,47,255,0.2);
-}
-.dir-header {
+    border-radius: 12px;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
-.dir-titulo {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.8);
-}
-.dir-titulo i {
-    color: rgba(255,255,255,0.25);
+
+.dev-cta-left        { display: flex; align-items: center; gap: 14px; flex: 1; }
+.dev-cta-left i      { color: rgba(255,80,80,0.7) !important; font-size: 1.1rem !important; }
+.dev-cta-left strong { display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 2px; }
+.dev-cta-left p      { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* Botón comenzar devolución */
+.btn-comenzar-dev {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+    border-radius: 8px;
     font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: all 0.18s;
+    flex-shrink: 0;
 }
 
+.btn-comenzar-dev:hover { border-color: rgba(255,80,80,0.3); color: rgba(255,100,100,0.8); }
+
+/* Estado vacío — sin devoluciones */
+.dev-vacio { text-align: center; padding: 52px 20px; color: rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.04); }
+.dev-vacio i    { font-size: 36px; opacity: 0.15; display: block; margin-bottom: 12px; }
+.dev-vacio p    { font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 4px; }
+.dev-vacio span { font-size: 12px; }
+
+
+/* ============================================================
+   DIRECCIONES
+   ============================================================ */
+
+/* Botón añadir dirección */
+.btn-añadir-dir {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.5);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    flex-shrink: 0;
+}
+
+.btn-añadir-dir:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.8); }
+
+/* Grid de tarjetas de dirección */
+.dir-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Tarjeta de dirección */
+.dir-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 18px;
+    transition: border-color 0.2s;
+}
+
+/* Predeterminada — borde morado */
+.dir-card.predeterminada { border-color: rgba(123,47,255,0.2); }
+
+/* Cabecera — nombre + badge predeterminada */
+.dir-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+
+.dir-titulo { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.dir-titulo i { color: rgba(255,255,255,0.25); font-size: 12px; }
+
+/* Badge predeterminada */
 .badge-predeterminada {
-    font-size: 9px; font-weight: 600; letter-spacing: 0.5px;
-    background: rgba(123,47,255,0.12); color: #a07bff;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: rgba(123,47,255,0.12);
+    color: #a07bff;
     border: 1px solid rgba(123,47,255,0.2);
-    padding: 2px 7px; border-radius: 4px; text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
 }
 
+/* Texto de la dirección */
 .dir-info {
-    font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.9;
-    margin-bottom: 14px; padding-bottom: 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.9;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.dir-acciones {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+
+/* Botones de acción */
+.dir-acciones { display: flex; align-items: center; gap: 10px; }
+
 .btn-dir {
-    display: inline-flex; align-items: center; gap: 4px;
-    background: none; border: none; font-size: 11px; font-weight: 500;
-    cursor: pointer; font-family: inherit; transition: opacity 0.18s; padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.18s;
+    padding: 0;
     letter-spacing: 0.1px;
 }
-.btn-dir:hover {
-    opacity: 0.65;
-}
-.btn-dir-editar {
-    color: rgba(255,255,255,0.4);
-}
-.btn-dir-eliminar {
-    color: rgba(255,80,80,0.55);
-}
-.btn-dir-predet {
-    color: rgba(255,255,255,0.3);
-    margin-left: auto;
-}
 
-/* ─────────────────────────────
-   MODALES
-───────────────────────────── */
+.btn-dir:hover      { opacity: 0.65; }
+.btn-dir-editar     { color: rgba(255,255,255,0.4); }
+.btn-dir-eliminar   { color: rgba(255,80,80,0.55); }
+.btn-dir-predet     { color: rgba(255,255,255,0.3); margin-left: auto; }
+
+
+/* ============================================================
+   MODALES — base compartida
+   ============================================================ */
+
+/* Overlay con blur */
 .modal-overlay {
-    position: fixed; inset: 0;
+    position: fixed;
+    inset: 0;
     background: rgba(0,0,0,0.65);
     backdrop-filter: blur(10px);
     z-index: 5000;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
     transition: opacity 0.25s;
     padding: 20px;
 }
-.modal-overlay.abierto {
-    opacity: 1;
-    pointer-events: all;
-}
 
+.modal-overlay.abierto { opacity: 1; pointer-events: all; }
+
+/* Modal base */
 .modal {
     background: #0f0c1e;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 28px;
-    width: 100%; max-width: 500px;
+    width: 100%;
+    max-width: 500px;
     max-height: 82vh;
     overflow-y: auto;
     position: relative;
     animation: modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1) both;
 }
+
 @keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: scale(0.94) translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.94) translateY(16px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
 .modal h3 {
-    font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.85);
-    margin-bottom: 18px; display: flex; align-items: center; gap: 9px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
     letter-spacing: -0.1px;
 }
-.modal h3 i {
-    color: rgba(255,255,255,0.25);
-    font-size: 15px;
-}
+
+.modal h3 i { color: rgba(255,255,255,0.25); font-size: 15px; }
+
 .modal h4 {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
-    text-transform: uppercase; color: rgba(255,255,255,0.3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
     margin: 18px 0 10px;
 }
 
+/* Botón cerrar */
 .modal-cerrar {
-    position: absolute; top: 16px; right: 16px;
+    position: absolute;
+    top: 16px;
+    right: 16px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.07);
     color: rgba(255,255,255,0.3);
-    width: 28px; height: 28px; border-radius: 50%;
-    cursor: pointer; font-size: 12px;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.18s; z-index: 1;
-}
-.modal-cerrar:hover {
-    background: rgba(255,80,80,0.08);
-    border-color: rgba(255,80,80,0.2);
-    color: rgba(255,80,80,0.8);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    z-index: 1;
 }
 
-/* Modal puntos */
-.modal-puntos {
-    max-width: 440px;
-}
+.modal-cerrar:hover { background: rgba(255,80,80,0.08); border-color: rgba(255,80,80,0.2); color: rgba(255,80,80,0.8); }
+
+
+/* ============================================================
+   MODAL VINYL POINTS
+   ============================================================ */
+.modal-puntos { max-width: 440px; }
+
+/* Cabecera centrada */
 .modal-puntos-header {
-    text-align: center; padding-bottom: 20px;
+    text-align: center;
+    padding-bottom: 20px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
     margin-bottom: 18px;
 }
-.modal-star {
-    font-size: 2rem;
-    color: #f0b429;
-    display: block;
-    margin-bottom: 10px;
-}
-.modal-pts-total {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #f0b429;
-    letter-spacing: -1px;
-}
-.modal-nivel {
+
+
+
+/* Corona — color dinámico por nivel */
+.anillo-centro .modal-star { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+.modal-star                { font-size: 2rem; color: #f0b429; display: block; margin-bottom: 10px; }
+
+/* Contador animado de puntos */
+.modal-pts-total { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+/* Nombre del nivel */
+.modal-nivel { font-size: 10px; color: rgba(255,255,255,0.35); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* Banner de próxima recompensa */
+.proxima-recompensa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
     font-size: 12px;
-    color: rgba(255,255,255,0.35);
-    margin-top: 4px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 14px;
+    line-height: 1.5;
 }
 
-.nivel-progress-wrap {
-    margin-bottom: 18px;
-}
+.proxima-recompensa i      { font-size: 1.1rem; flex-shrink: 0; }
+.proxima-recompensa strong { font-weight: 700; }
+
+/* Barra lineal de progreso entre niveles */
+.nivel-progress-wrap { margin-bottom: 18px; }
+
 .nivel-labels {
-    display: flex; justify-content: space-between;
-    font-size: 9px; color: rgba(255,255,255,0.3); font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
 }
+
 .nivel-track {
-    height: 6px; background: rgba(255,255,255,0.05);
-    border-radius: 3px; position: relative; overflow: visible;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    position: relative;
+    overflow: visible;
 }
+
 .nivel-fill {
-    height: 100%; background: linear-gradient(90deg, #f0b429, #ff7c00);
+    height: 100%;
+    background: linear-gradient(90deg, #f0b429, #ff7c00);
     border-radius: 3px;
     transition: width 1.2s cubic-bezier(0.34,1.56,0.64,1);
 }
+
+/* Marcador del límite de nivel */
 .nivel-marker {
-    position: absolute; top: 50%; transform: translate(-50%,-50%);
-    width: 12px; height: 12px; border-radius: 50%;
-    background: #0f0c1e; border: 2px solid rgba(255,193,7,0.4);
-}
-.nivel-hint {
-    font-size: 11px;
-    color: rgba(255,255,255,0.28);
-    text-align: center;
-    margin-top: 8px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #0f0c1e;
+    border: 2px solid rgba(255,193,7,0.4);
 }
 
-.modal-hist {
+/* Hint de puntos restantes */
+.nivel-hint { font-size: 11px; color: rgba(255,255,255,0.28); text-align: center; margin-top: 8px; }
+
+/* Bloque de canje de puntos */
+.bloque-canje {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Título del canje */
+.canje-cabecera { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85); }
+.canje-cabecera i { color: #f0b429; font-size: 14px; }
+
+/* Regla de conversión */
+.canje-desc { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.5; }
+
+/* Fila input + botón */
+.canje-fila { display: flex; gap: 8px; }
+
+/* Input de cantidad a canjear */
+.canje-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.canje-input:focus { border-color: rgba(240,180,41,0.4); }
+
+/* Botón confirmar canje */
+.btn-canjear {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #f0b429, #ff7c00);
+    border: none;
+    border-radius: 8px;
+    color: #0f0c1e;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-canjear:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* Cabecera del historial — título + filtros */
+.hist-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Título del historial */
+.modal-hist-titulo { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin: 0; }
+
+/* Filtros — Todos / Ganados / Canjeados */
+.filtros-hist { display: flex; gap: 4px; }
+
+.btn-filtro-hist {
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: transparent;
+    color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+}
+
+.btn-filtro-hist:hover  { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+.btn-filtro-hist.activo { background: rgba(240,180,41,0.15); border-color: rgba(240,180,41,0.35); color: #f0b429; }
+
+/* Lista de movimientos */
+.modal-hist { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
+
+/* Fila de movimiento */
+.hist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.025);
+    border-radius: 8px;
+}
+
+/* Icono de tipo de movimiento */
+.hist-icono          { font-size: 14px; flex-shrink: 0; }
+.hist-icono.positivo { color: #4ade80; }
+.hist-icono.negativo { color: rgba(255,80,80,0.75); }
+
+/* Info — descripción y fecha */
+.hist-item-info { display: flex; flex-direction: column; gap: 2px; flex: 1; margin: 0 10px; }
+
+.hist-item-desc { font-weight: 500; font-size: 12px; color: rgba(255,255,255,0.7); }
+
+/* Pedido clickable — abre modal de detalle */
+.hist-link       { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s; }
+.hist-link:hover { color: var(--cian); }
+
+.hist-item-fecha { color: rgba(255,255,255,0.25); font-size: 11px; }
+
+/* Puntos del movimiento */
+.hist-item-pts           { font-weight: 700; font-size: 13px; white-space: nowrap; }
+.hist-item-pts.positivo  { color: #4ade80; }
+.hist-item-pts.negativo  { color: rgba(255,80,80,0.75); }
+
+/* Estado vacío del historial filtrado */
+.hist-vacio { text-align: center; color: rgba(255,255,255,0.2); font-size: 12px; padding: 16px 0; }
+
+/* Footer del modal — regla y beneficios */
+.modal-puntos-footer {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.05);
     display: flex;
     flex-direction: column;
     gap: 6px;
-    max-height: 200px;
-    overflow-y: auto;
-}
-.hist-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 12px;
-    background: rgba(255,255,255,0.025); border-radius: 8px;
-}
-.hist-item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-.hist-item-desc {
-    font-weight: 500;
-    font-size: 12px;
-    color: rgba(255,255,255,0.7);
-}
-.hist-item-fecha {
-    color: rgba(255,255,255,0.25);
-    font-size: 11px;
-}
-.hist-item-pts {
-    font-weight: 700;
-    font-size: 13px;
-}
-.hist-item-pts.positivo {
-    color: #4ade80;
-}
-.hist-item-pts.negativo {
-    color: rgba(255,80,80,0.75);
 }
 
-.modal-puntos-footer {
-    margin-top: 16px; padding-top: 14px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    display: flex; flex-direction: column; gap: 6px;
-}
-.modal-puntos-footer p {
-    font-size: 12px; color: rgba(255,255,255,0.3);
-    display: flex; align-items: center; gap: 8px;
-}
-.modal-puntos-footer i {
-    color: rgba(255,255,255,0.2);
-    font-size: 11px;
-}
+.modal-puntos-footer p { font-size: 12px; color: rgba(255,255,255,0.3); display: flex; align-items: center; gap: 8px; }
+.modal-puntos-footer i { color: rgba(255,255,255,0.2); font-size: 11px; }
 
 /* Beneficios por nivel */
-.beneficios-niveles {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-}
+.beneficios-niveles { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+
 .beneficio-item {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 10px;
     padding: 10px 14px;
 }
-.beneficio-nivel {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    display: block;
-    margin-bottom: 6px;
-}
-.beneficio-item ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
+
+.beneficio-nivel { font-size: 12px; font-weight: 700; letter-spacing: 0.3px; display: block; margin-bottom: 6px; }
+
+.beneficio-item ul  { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+
 .beneficio-item ul li {
     font-size: 11px;
     color: rgba(255,255,255,0.45);
     padding-left: 14px;
     position: relative;
 }
-.beneficio-item ul li::before {
-    content: '✓';
+
+/* Checkmark de cada beneficio */
+.beneficio-item ul li::before { content: '✓'; position: absolute; left: 0; color: rgba(255,255,255,0.25); font-size: 10px; }
+
+
+/* ============================================================
+   MODAL SEGUIMIENTO
+   ============================================================ */
+.modal-seguimiento { max-width: 480px; }
+
+/* Cabecera con datos del envío */
+.seg-cabecera {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    background: rgba(255,255,255,0.025);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 22px;
+}
+
+.seg-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.25); display: block; margin-bottom: 3px; }
+.seg-val   { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.75); }
+
+/* Timeline de seguimiento */
+.seg-timeline { display: flex; flex-direction: column; margin-bottom: 20px; }
+
+/* Paso del timeline */
+.seg-paso {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0 10px 20px;
+    border-left: 1.5px solid rgba(255,255,255,0.06);
+    margin-left: 11px;
+    position: relative;
+}
+
+/* Punto del paso */
+.seg-paso::before {
+    content: '';
     position: absolute;
-    left: 0;
-    color: rgba(255,255,255,0.25);
+    left: -6px;
+    top: 14px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #0f0c1e;
+    border: 1.5px solid rgba(255,255,255,0.12);
+}
+
+/* Paso completado */
+.seg-paso.done         { border-left-color: rgba(34,197,94,0.2); }
+.seg-paso.done::before { background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.4); }
+
+/* Paso actual — pulsa */
+.seg-paso.actual::before { background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.5); animation: pulsoPaso 1.8s ease-in-out infinite; }
+
+@keyframes pulsoPaso {
+    0%,100% { box-shadow: 0 0 0 0 rgba(56,189,248,0.3); }
+    50%      { box-shadow: 0 0 0 5px rgba(56,189,248,0); }
+}
+
+.seg-paso:last-child          { border-left-color: transparent; }
+.seg-paso-titulo              { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); }
+.seg-paso.done  .seg-paso-titulo  { color: rgba(34,197,94,0.8); }
+.seg-paso.actual .seg-paso-titulo { color: rgba(56,189,248,0.9); }
+.seg-paso-fecha               { font-size: 11px; color: rgba(255,255,255,0.22); }
+
+/* Botón rastrear en web del transportista */
+.btn-seguir-externo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px;
+    background: rgba(123,47,255,0.12);
+    border: 1px solid rgba(123,47,255,0.2);
+    color: #a07bff;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.18s;
+}
+
+.btn-seguir-externo:hover { background: rgba(123,47,255,0.2); border-color: rgba(123,47,255,0.35); color: #c4a8ff; }
+
+
+/* ============================================================
+   MODAL DETALLE PEDIDO
+   ============================================================ */
+.modal-detalle { max-width: 500px; }
+
+/* Lista de artículos */
+.detalle-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+.detalle-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 13px;
+    background: rgba(255,255,255,0.025);
+    border-radius: 8px;
+    gap: 12px;
+}
+
+.detalle-item-nombre { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.75); }
+.detalle-item-tipo   { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 2px; }
+.detalle-item-precio { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); white-space: nowrap; }
+
+/* Resumen económico */
+.detalle-resumen { background: rgba(255,255,255,0.025); border-radius: 10px; padding: 13px 15px; display: flex; flex-direction: column; gap: 7px; }
+
+.det-res-fila { display: flex; justify-content: space-between; font-size: 12px; }
+.det-res-fila span:first-child { color: rgba(255,255,255,0.3); }
+.det-res-fila span:last-child  { color: rgba(255,255,255,0.65); font-weight: 500; }
+
+/* Fila total más destacada */
+.det-res-fila.total { font-weight: 600; font-size: 13px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 2px; }
+.det-res-fila.total span:first-child { color: rgba(255,255,255,0.6); }
+.det-res-fila.total span:last-child  { color: rgba(255,255,255,0.9); }
+
+/* Puntos ganados */
+.det-res-pts   { color: #f0b429 !important; display: flex; align-items: center; gap: 4px; }
+.det-res-pts i { font-size: 10px; }
+
+
+/* ============================================================
+   MODAL FACTURA PDF
+   ============================================================ */
+.modal-factura { max-width: 540px; }
+
+/* Preview estilo papel */
+.factura-preview {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    color: #1a1a1a;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    font-family: 'Courier New', monospace;
+}
+
+.factura-preview h4        { font-size: 15px; color: #000; margin-bottom: 2px; }
+.factura-preview .fac-sep  { border: none; border-top: 1px dashed #d0d0d0; margin: 10px 0; }
+.factura-preview .fac-row  { display: flex; justify-content: space-between; }
+.factura-preview .fac-total { font-size: 13px; font-weight: 700; }
+
+/* Botón descargar PDF */
+.btn-descargar-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+    padding: 11px;
+    background: rgba(123,47,255,0.15);
+    border: 1px solid rgba(123,47,255,0.25);
+    color: #c4a8ff;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+}
+
+.btn-descargar-pdf:hover { background: rgba(123,47,255,0.25); border-color: rgba(123,47,255,0.4); color: #d8c4ff; }
+
+
+/* ============================================================
+   MODAL DEVOLUCIÓN
+   ============================================================ */
+.modal-devolucion     { max-width: 460px; display: flex; flex-direction: column; gap: 14px; }
+.modal-devolucion h3  { margin-bottom: 2px; }
+
+
+/* ============================================================
+   MODAL DIRECCIÓN
+   ============================================================ */
+.modal-direccion    { max-width: 500px; display: flex; flex-direction: column; gap: 14px; }
+.modal-direccion h3 { margin-bottom: 2px; }
+
+
+/* ============================================================
+   TOAST — notificación temporal
+   ============================================================ */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(50px);
+    background: #0f0c1e;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 11px 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    z-index: 9999;
+    opacity: 0;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    color: rgba(255,255,255,0.7);
+}
+
+.toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast i.ok    { color: #4ade80; }
+.toast i.err   { color: rgba(255,80,80,0.8); }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet — 900px */
+@media (max-width: 900px) {
+    .cuenta-wrapper  { grid-template-columns: 1fr; }
+    .cuenta-sidebar  { position: static; }
+    .sidebar-nav     { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+    .nav-item        { flex: 1; min-width: 90px; justify-content: center; font-size: 12px; padding: 8px 10px; }
+    .kpi-row         { grid-template-columns: 1fr 1fr; }
+    .pedido-card     { grid-template-columns: auto 1fr; }
+    .pedido-precio,
+    .pedido-acciones { grid-column: 2; }
+    .pedido-acciones { align-items: flex-start; }
+    .dir-grid        { grid-template-columns: 1fr; }
+}
+
+/* Móvil — 600px */
+@media (max-width: 600px) {
+    body             { padding-top: 65px; }
+    .cuenta-wrapper  { padding: 14px 14px 60px; }
+    .kpi-row         { grid-template-columns: 1fr; }
+    .perfil-grid     { grid-template-columns: 1fr; }
+    .sec-header      { flex-direction: column; }
+    .pedido-card     { grid-template-columns: 1fr; }
+    .pedido-badge    { width: fit-content; }
+    .seg-cabecera    { grid-template-columns: 1fr; }
+}
+
+
+/* ============================================================
+   BENEFICIOS ACTIVOS DEL NIVEL — bloque dentro del modal
+   ============================================================ */
+
+/* Contenedor de beneficios del nivel actual */
+.bloque-beneficios-activos {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+}
+
+/* Título del bloque — "Tus beneficios actuales" */
+.beneficios-titulo-activo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.beneficios-titulo-activo i {
     font-size: 10px;
 }
 
-/* Modal seguimiento */
-.modal-seguimiento {
-    max-width: 480px;
-}
-.seg-cabecera {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-    background: rgba(255,255,255,0.025); border-radius: 10px;
-    padding: 14px; margin-bottom: 22px;
-}
-.seg-label {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.25);
-    display: block;
-    margin-bottom: 3px;
-}
-.seg-val {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.75);
-}
-
-.seg-timeline {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-.seg-paso {
-    display: flex; align-items: flex-start; gap: 14px;
-    padding: 10px 0 10px 20px;
-    border-left: 1.5px solid rgba(255,255,255,0.06);
-    margin-left: 11px; position: relative;
-}
-.seg-paso::before {
-    content: ''; position: absolute;
-    left: -6px; top: 14px;
-    width: 11px; height: 11px; border-radius: 50%;
-    background: #0f0c1e; border: 1.5px solid rgba(255,255,255,0.12);
-}
-.seg-paso.done {
-    border-left-color: rgba(34,197,94,0.2);
-}
-.seg-paso.done::before {
-    background: rgba(34,197,94,0.15);
-    border-color: rgba(34,197,94,0.4);
-}
-.seg-paso.actual::before {
-    background: rgba(56,189,248,0.15);
-    border-color: rgba(56,189,248,0.5);
-    animation: pulsoPaso 1.8s ease-in-out infinite;
-}
-@keyframes pulsoPaso { 0%,100%{box-shadow:0 0 0 0 rgba(56,189,248,0.3)} 50%{box-shadow:0 0 0 5px rgba(56,189,248,0)} }
-.seg-paso:last-child {
-    border-left-color: transparent;
-}
-.seg-paso-titulo {
-    font-size: 12px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.5);
-}
-.seg-paso.done  .seg-paso-titulo {
-    color: rgba(34,197,94,0.8);
-}
-.seg-paso.actual .seg-paso-titulo {
-    color: rgba(56,189,248,0.9);
-}
-.seg-paso-fecha {
-    font-size: 11px;
-    color: rgba(255,255,255,0.22);
-}
-
-.btn-seguir-externo {
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    padding: 10px;
-    background: rgba(123,47,255,0.12); border: 1px solid rgba(123,47,255,0.2);
-    color: #a07bff; border-radius: 9px;
-    text-decoration: none; font-size: 12px; font-weight: 600;
-    transition: all 0.18s;
-}
-.btn-seguir-externo:hover {
-    background: rgba(123,47,255,0.2);
-    border-color: rgba(123,47,255,0.35);
-    color: #c4a8ff;
-}
-
-/* Modal detalle */
-.modal-detalle {
-    max-width: 500px;
-}
-.detalle-items {
+/* Lista de beneficios — generada por JS con color del nivel */
+.beneficios-activos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 14px;
 }
-.detalle-item {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 11px 13px; background: rgba(255,255,255,0.025); border-radius: 8px;
-    gap: 12px;
-}
-.detalle-item-nombre {
+
+.beneficios-activos-lista li {
     font-size: 12px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255,255,255,0.65);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
-.detalle-item-tipo {
+
+.beneficios-activos-lista li i {
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+/* Preview del valor del canje en euros */
+.canje-preview {
     font-size: 11px;
-    color: rgba(255,255,255,0.28);
+    color: rgba(255,255,255,0.25);
     margin-top: 2px;
+    text-align: right;
+    letter-spacing: 0.1px;
+    transition: color 0.2s;
 }
-.detalle-item-precio {
+
+/* Tabla de niveles — resumen en el footer del modal */
+.tabla-niveles {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 12px;
+    font-size: 11px;
+}
+
+.tabla-nivel-fila {
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr 1.2fr 1fr;
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.6);
+    align-items: center;
+    gap: 4px;
+}
+
+.tabla-nivel-fila:last-child { border-bottom: none; }
+
+/* Cabecera de la tabla */
+.tabla-nivel-fila.cabecera {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.02);
+}
+
+.tabla-nivel-fila i { font-size: 9px; }
+
+
+/* ============================================================
+   CTA SIMULADOR DE COMPRA — dentro de sec-pedidos
+   ============================================================ */
+.sim-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(123,47,255,0.06);
+    border: 1px solid rgba(123,47,255,0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.sim-cta-texto {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.sim-cta-texto i {
+    font-size: 1.3rem;
+    color: #a07bff;
+    flex-shrink: 0;
+}
+
+.sim-cta-texto strong {
+    display: block;
     font-size: 13px;
     font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 2px;
+}
+
+.sim-cta-texto p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+}
+
+/* Botón abrir simulador */
+.btn-sim-abrir {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    background: rgba(123,47,255,0.2);
+    border: 1px solid rgba(123,47,255,0.35);
+    color: #c4a8ff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.btn-sim-abrir:hover {
+    background: rgba(123,47,255,0.3);
+    border-color: rgba(123,47,255,0.5);
+    color: #d8c4ff;
+}
+
+
+/* ============================================================
+   MODAL SIMULADOR DE COMPRA
+   ============================================================ */
+.modal-simulador {
+    max-width: 560px;
+}
+
+/* Texto introductorio */
+.sim-intro {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+/* Catálogo de productos */
+.sim-catalogo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 4px;
+}
+
+/* Producto del catálogo */
+.sim-producto {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 12px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    transition: background 0.18s;
+}
+
+.sim-producto:hover { background: rgba(255,255,255,0.04); }
+
+.sim-prod-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.sim-prod-nombre {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sim-prod-tipo {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+}
+
+.sim-prod-precio {
+    font-size: 13px;
+    font-weight: 700;
     color: rgba(255,255,255,0.6);
     white-space: nowrap;
 }
 
-.detalle-resumen {
-    background: rgba(255,255,255,0.025); border-radius: 10px;
-    padding: 13px 15px; display: flex; flex-direction: column; gap: 7px;
+/* Botón añadir producto al carrito del simulador */
+.btn-sim-add {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(123,47,255,0.15);
+    border: 1px solid rgba(123,47,255,0.3);
+    color: #a07bff;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    flex-shrink: 0;
 }
-.det-res-fila {
+
+.btn-sim-add:hover { background: rgba(123,47,255,0.3); color: #d8c4ff; }
+
+/* Resumen del carrito del simulador */
+.sim-resumen-wrap {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 14px;
+    min-height: 60px;
+}
+
+/* Items del carrito */
+.sim-items { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+
+.sim-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.sim-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.sim-item-info span:first-child {
+    display: block;
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tipo del artículo */
+.sim-item-tipo { font-size: 10px; color: rgba(255,255,255,0.3); }
+
+/* Controles de cantidad del carrito */
+.sim-item-controles {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.sim-item-controles span { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); min-width: 16px; text-align: center; }
+
+.btn-sim-qty {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.15s;
+}
+
+.btn-sim-qty:hover { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+
+.sim-item-precio { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); white-space: nowrap; }
+
+/* Botón eliminar artículo del carrito */
+.btn-sim-del {
+    background: none;
+    border: none;
+    color: rgba(255,80,80,0.45);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color 0.15s;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.btn-sim-del:hover { color: rgba(255,80,80,0.85); }
+
+/* Resumen financiero del carrito */
+.sim-resumen { display: flex; flex-direction: column; gap: 6px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+.sim-fila {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
+    color: rgba(255,255,255,0.5);
 }
-.det-res-fila span:first-child {
-    color: rgba(255,255,255,0.3);
-}
-.det-res-fila span:last-child {
-    color: rgba(255,255,255,0.65);
-    font-weight: 500;
-}
-.det-res-fila.total {
-    font-weight: 600; font-size: 13px;
-    padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05);
+
+/* Fila de descuento — verde */
+.sim-fila.descuento { color: #4ade80; }
+
+.sim-fila.descuento span:first-child { color: #4ade80; }
+
+/* Fila de total — más grande y destacada */
+.sim-fila.total {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.08);
     margin-top: 2px;
 }
-.det-res-fila.total span:first-child {
-    color: rgba(255,255,255,0.6);
+
+/* Fila de puntos que ganarás */
+.sim-fila.puntos-ganados {
+    color: #f0b429;
+    font-weight: 600;
+    background: rgba(255,193,7,0.06);
+    border: 1px solid rgba(255,193,7,0.15);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-top: 4px;
 }
-.det-res-fila.total span:last-child {
-    color: rgba(255,255,255,0.9);
-}
-.det-res-pts {
-    color: #f0b429 !important;
+
+.sim-fila.puntos-ganados i { margin-right: 4px; }
+
+/* Texto envío gratis */
+.gratis { color: #4ade80; font-weight: 600; }
+
+/* Carrito vacío */
+.sim-vacio { font-size: 12px; color: rgba(255,255,255,0.25); text-align: center; padding: 16px 0; }
+
+/* Botón confirmar pedido */
+.btn-confirmar-compra {
+    width: 100%;
+    padding: 13px;
+    background: var(--grad-fuego);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
     display: flex;
     align-items: center;
-    gap: 4px;
-}
-.det-res-pts i {
-    font-size: 10px;
+    justify-content: center;
+    gap: 8px;
+    transition: box-shadow 0.3s, transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 24px rgba(255,0,110,0.35);
 }
 
-/* Modal factura */
-.modal-factura {
-    max-width: 540px;
+.btn-confirmar-compra:hover:not(:disabled) {
+    box-shadow: 0 6px 32px rgba(255,107,0,0.5);
+    transform: translateY(-2px);
 }
-.factura-preview {
-    background: #fff; border-radius: 8px; padding: 24px;
-    color: #1a1a1a; font-size: 12px; line-height: 1.7;
-    margin-bottom: 16px; font-family: 'Courier New', monospace;
+
+.btn-confirmar-compra:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    box-shadow: none;
 }
-.factura-preview h4 {
-    font-size: 15px;
-    color: #000;
-    margin-bottom: 2px;
-}
-.factura-preview .fac-sep {
-    border: none;
-    border-top: 1px dashed #d0d0d0;
-    margin: 10px 0;
-}
-.factura-preview .fac-row {
+
+
+/* Banner de cupón activo — aparece en sec-pedidos */
+.banner-descuento {
     display: flex;
-    justify-content: space-between;
-}
-.factura-preview .fac-total {
-    font-size: 13px;
-    font-weight: 700;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0,255,148,0.06);
+    border: 1px solid rgba(0,255,148,0.25);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
 }
 
-.btn-descargar-pdf {
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-    width: 100%; padding: 11px;
-    background: rgba(123,47,255,0.15); border: 1px solid rgba(123,47,255,0.25);
-    color: #c4a8ff; border-radius: 9px;
-    font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+/* Icono de etiqueta */
+.banner-descuento > i { color: var(--verde); font-size: 1rem; flex-shrink: 0; }
+
+/* Bloque de texto del banner */
+.banner-desc-texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.banner-desc-texto strong { font-size: 13px; color: rgba(255,255,255,0.85); }
+
+/* Valor del cupón en verde */
+.banner-desc-valor { color: var(--verde); }
+
+/* Botón cancelar cupón */
+.btn-cancelar-cupon {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.3);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.18s;
-}
-.btn-descargar-pdf:hover {
-    background: rgba(123,47,255,0.25);
-    border-color: rgba(123,47,255,0.4);
-    color: #d8c4ff;
+    flex-shrink: 0;
 }
 
-/* Modal devolucion */
-.modal-devolucion {
-    max-width: 460px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-.modal-devolucion h3 {
-    margin-bottom: 2px;
-}
-textarea.campo-input {
-    resize: vertical;
-}
-
-/* Modal direccion */
-.modal-direccion {
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-.modal-direccion h3 {
-    margin-bottom: 2px;
-}
-
-/* Toast */
-.toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(50px);
-    background: #0f0c1e; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px; padding: 11px 20px;
-    font-size: 12px; display: flex; align-items: center; gap: 9px;
-    z-index: 9999; opacity: 0; font-weight: 500;
-    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none; white-space: nowrap;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    color: rgba(255,255,255,0.7);
-}
-.toast.visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-.toast i.ok {
-    color: #4ade80;
-}
-.toast i.err {
+.btn-cancelar-cupon:hover {
+    background: rgba(255,80,80,0.08);
+    border-color: rgba(255,80,80,0.25);
     color: rgba(255,80,80,0.8);
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-    .cuenta-wrapper {
-        grid-template-columns: 1fr;
-    }
-    .cuenta-sidebar {
-        position: static;
-    }
-    .sidebar-nav {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 4px;
-    }
-    .nav-item {
-        flex: 1;
-        min-width: 90px;
-        justify-content: center;
-        font-size: 12px;
-        padding: 8px 10px;
-    }
-    .kpi-row {
-        grid-template-columns: 1fr 1fr;
-    }
-    .pedido-card {
-        grid-template-columns: auto 1fr;
-    }
-    .pedido-precio, .pedido-acciones {
-        grid-column: 2;
-    }
-    .pedido-acciones {
-        align-items: flex-start;
-    }
-    .dir-grid {
-        grid-template-columns: 1fr;
-    }
+
+
+.pts-resumen-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 10px;
 }
-@media (max-width: 600px) {
-    body {
-        padding-top: 65px;
-    }
-    .cuenta-wrapper {
-        padding: 14px 14px 60px;
-    }
-    .kpi-row {
-        grid-template-columns: 1fr;
-    }
-    .perfil-grid {
-        grid-template-columns: 1fr;
-    }
-    .sec-header {
-        flex-direction: column;
-    }
-    .pedido-card {
-        grid-template-columns: 1fr;
-    }
-    .pedido-badge {
-        width: fit-content;
-    }
-    .seg-cabecera {
-        grid-template-columns: 1fr;
-    }
+
+/* Separador vertical entre los dos contadores */
+.pts-resumen-sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.07);
+    flex-shrink: 0;
 }
+
+.pts-resumen-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+}
+
+/* Puntos disponibles — en verde */
+.pts-resumen-valor.disponibles {
+    font-size: 16px;
+    font-weight: 800;
+    color: #4ade80;
+    letter-spacing: -0.5px;
+}
+
+/* Puntos históricos — en color del nivel */
+.pts-resumen-valor.historico {
+    font-size: 16px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: -0.5px;
+}
+
+
+/* ============================================================
+   NÚMERO DE SOCIO — sidebar y perfil
+   ============================================================ */
+
+/* Número de socio en el sidebar */
+.sidebar-socio {
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+/* Tarjeta de datos del socio — perfil */
+.tarjeta-socio {
+    display: flex;
+    align-items: center;
+    background: rgba(123,47,255,0.05);
+    border: 1px solid rgba(123,47,255,0.18);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin-bottom: 22px;
+    gap: 0;
+}
+
+.tarjeta-socio-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    text-align: center;
+}
+
+/* Separador vertical */
+.tarjeta-socio-sep {
+    width: 1px;
+    height: 36px;
+    background: rgba(255,255,255,0.07);
+    flex-shrink: 0;
+}
+
+.tarjeta-socio-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tarjeta-socio-label i { color: rgba(123,47,255,0.6); }
+
+.tarjeta-socio-valor {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+
+/* ============================================================
+   PANEL SUBTÍTULO — cabecera de sub-sección
+   ============================================================ */
+.panel-subtitulo {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.panel-subtitulo i { color: rgba(255,255,255,0.25); font-size: 13px; }
+
+
+/* ============================================================
+   SEGURIDAD — requisitos de contraseña y sesiones
+   ============================================================ */
+
+/* Lista de requisitos de contraseña */
+.pass-requisitos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0 4px;
+}
+
+.req {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 3px 10px;
+    transition: all 0.2s;
+}
+
+/* Requisito cumplido */
+.req.ok {
+    color: #4ade80;
+    border-color: rgba(74,222,128,0.25);
+    background: rgba(74,222,128,0.06);
+}
+
+.req i { font-size: 9px; }
+
+/* Lista de sesiones activas */
+.sesiones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+/* Sesión individual */
+.sesion-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    transition: opacity 0.3s;
+}
+
+/* Sesión actual — borde verde */
+.sesion-item.actual {
+    border-color: rgba(74,222,128,0.2);
+    background: rgba(74,222,128,0.04);
+}
+
+/* Icono de dispositivo */
+.sesion-icono {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+}
+
+.sesion-item.actual .sesion-icono { color: #4ade80; border-color: rgba(74,222,128,0.2); }
+
+.sesion-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.sesion-dispositivo {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+}
+
+.sesion-meta {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Badge sesión actual */
+.sesion-badge-actual {
+    font-size: 10px;
+    font-weight: 600;
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+/* Botón cerrar sesión individual */
+.btn-cerrar-sesion-item {
+    background: none;
+    border: none;
+    color: rgba(255,80,80,0.4);
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px;
+}
+
+.btn-cerrar-sesion-item:hover { color: rgba(255,80,80,0.85); }
+
+/* Botón cerrar todas las sesiones */
+.btn-cerrar-sesiones {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: rgba(255,80,80,0.06);
+    border: 1px solid rgba(255,80,80,0.2);
+    color: rgba(255,80,80,0.7);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+}
+
+.btn-cerrar-sesiones:hover {
+    background: rgba(255,80,80,0.12);
+    border-color: rgba(255,80,80,0.4);
+    color: rgba(255,80,80,0.95);
+}
+
+
+/* ============================================================
+   NOTIFICACIONES — toggles de preferencias
+   ============================================================ */
+
+/* Lista de preferencias */
+.notif-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Fila de notificación */
+.notif-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.notif-item:last-child { border-bottom: none; }
+
+.notif-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.notif-titulo {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+}
+
+.notif-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Toggle switch */
+.toggle-notif {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.toggle-notif input { opacity: 0; width: 0; height: 0; }
+
+/* Pista del toggle */
+.toggle-track {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.25s;
+}
+
+/* Bolita del toggle */
+.toggle-track::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    transition: all 0.25s;
+}
+
+/* Toggle activado */
+.toggle-notif input:checked + .toggle-track {
+    background: rgba(123,47,255,0.4);
+    border-color: rgba(123,47,255,0.5);
+}
+
+.toggle-notif input:checked + .toggle-track::after {
+    transform: translateX(20px);
+    background: #fff;
+}
+
+
+/* ============================================================
+   VINYL POINTS CANJE — bloque en pago
+   ============================================================ */
+.puntos-canje-bloque {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+}
+
+/* Cabecera del bloque */
+.puntos-canje-cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.puntos-canje-titulo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+}
+
+.puntos-canje-titulo i { color: #f0b429; font-size: 12px; }
+
+/* Puntos disponibles */
+.puntos-canje-disp {
+    font-size: 11px;
+    font-weight: 600;
+    color: #4ade80;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.2);
+    padding: 2px 9px;
+    border-radius: 20px;
+}
+
+/* Fila input + botón aplicar */
+.puntos-canje-fila {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.puntos-canje-input {
+    flex: 1;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.puntos-canje-input:focus { border-color: rgba(240,180,41,0.4); }
+
+/* Botón aplicar puntos */
+.btn-aplicar-puntos {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: linear-gradient(135deg, #f0b429, #ff7c00);
+    border: none;
+    border-radius: 8px;
+    color: #0f0c1e;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: opacity 0.2s, transform 0.15s;
+}
+
+.btn-aplicar-puntos:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* Preview del valor del canje */
+.puntos-canje-preview {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    transition: color 0.2s;
+}
+
+/* Estado B — puntos aplicados */
+.puntos-aplicados-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(74,222,128,0.06);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 8px;
+}
+
+.puntos-aplicados-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.puntos-aplicados-valor {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4ade80;
+}
+
+.puntos-aplicados-pts {
+    display: block;
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+}
+
+.puntos-aplicados-acciones {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Botón cambiar puntos */
+.btn-modificar-puntos {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.btn-modificar-puntos:hover { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
+
+/* Botón quitar puntos */
+.btn-quitar-puntos {
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: 1px solid rgba(255,80,80,0.2);
+    color: rgba(255,80,80,0.5);
+    border-radius: 50%;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+
+.btn-quitar-puntos:hover { background: rgba(255,80,80,0.08); color: rgba(255,80,80,0.9); }
+
+
+/* ============================================================
+   INFO LINK CANJE — en modal de puntos de cuenta
+   ============================================================ */
+.canje-info-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.canje-info-link i { color: var(--cian); flex-shrink: 0; }
+.canje-info-link strong { color: rgba(255,255,255,0.7); }
+
+
+/* ============================================================
+   GAUGE VELOCÍMETRO — modal Vinyl Points
+   ============================================================ */
+
+/* Modal más ancho para el gauge */
+.modal-puntos { max-width: 480px; }
+
+/* Contenedor del gauge */
+.gauge-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 0;
+    margin-bottom: 20px;
+}
+
+/* Etiqueta nivel en el arco (arriba, centrada) */
+.gauge-nivel-label {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #a8b8c8;
+    margin-bottom: 4px;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+/* Pts bajo el nombre del nivel */
+.gauge-pts-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+/* SVG del gauge */
+.gauge-svg {
+    width: 240px;
+    height: 145px;
+    overflow: visible;
+}
+
+/* Arco base (gris) */
+.gauge-track {
+    stroke: rgba(255,255,255,0.07);
+}
+
+/* Arco de progreso — color dinámico por JS */
+.gauge-progress {
+    stroke: #a8b8c8;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.34,1.56,0.64,1), stroke 0.3s;
+    filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* Etiquetas Bronce / Plata / Oro debajo del arco */
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 240px;
+    margin-top: -8px;
+}
+
+.gauge-label-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.gauge-label-item.center { align-items: center; }
+.gauge-label-item.right  { align-items: flex-end; }
+
+.gauge-label-nombre {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.gauge-label-pts {
+    font-size: 9px;
+    color: rgba(255,255,255,0.35);
+}
+
+/* Fila inferior — Nivel actual | Puntos */
+.gauge-bottom {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 18px;
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.gauge-bottom-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 12px;
+}
+
+.gauge-bottom-sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.07);
+    flex-shrink: 0;
+}
+
+.gauge-bottom-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+}
+
+.gauge-bottom-valor {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    transition: color 0.3s;
+}
+
+
+/* ============================================================
+   TARJETA SOCIO — dentro del modal de puntos
+   ============================================================ */
+.modal-socio-card {
+    display: flex;
+    align-items: center;
+    background: rgba(123,47,255,0.06);
+    border: 1px solid rgba(123,47,255,0.2);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    gap: 0;
+}
+
+.modal-socio-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-socio-item i {
+    font-size: 14px;
+    color: rgba(123,47,255,0.7);
+    flex-shrink: 0;
+}
+
+.modal-socio-item > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.modal-socio-sep {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+    margin: 0 12px;
+}
+
+.modal-socio-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+}
+
+.modal-socio-valor {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+.modal-socio-valor.verde { color: #4ade80; }
+
+
+
+/* ============================================================
+   2FA — Panel de autenticación en dos pasos
+   ============================================================ */
+
+/* Bloque principal del 2FA */
+.twofa-bloque {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Fila icono + texto explicativo */
+.twofa-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+/* Icono escudo */
+.twofa-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(123,47,255,0.12);
+    border: 1px solid rgba(123,47,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    color: #a07bff;
+}
+
+.twofa-titulo {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 4px;
+}
+
+.twofa-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+}
+
+/* Fila de estado + botón activar */
+.twofa-estado-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.twofa-estado {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Badge de estado activo/inactivo */
+.twofa-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.3);
+    transition: all 0.3s;
+}
+
+/* Apps compatibles */
+.twofa-apps {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.twofa-apps-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.twofa-app-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    padding: 3px 9px;
+}
+
+.twofa-app-badge i { font-size: 10px; }
+
+
+/* ============================================================
+   MODAL 2FA — setup QR + verificación
+   ============================================================ */
+.modal-2fa {
+    max-width: 420px;
+}
+
+/* Pasos numerados del setup */
+.setup-2fa-pasos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.setup-2fa-paso {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+}
+
+.setup-2fa-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(123,47,255,0.2);
+    border: 1px solid rgba(123,47,255,0.35);
+    color: #a07bff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+/* QR code */
+.qr-wrap {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+
+.qr-img {
+    width: 160px;
+    height: 160px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #fff;
+    padding: 6px;
+}
+
+.qr-hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 8px;
+}
+
+/* Secreto TOTP — monospace */
+.totp-secret {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #a07bff;
+    background: rgba(123,47,255,0.08);
+    border: 1px solid rgba(123,47,255,0.2);
+    border-radius: 6px;
+    padding: 6px 12px;
+    letter-spacing: 2px;
+    word-break: break-all;
+}
+
+/* Input de 6 dígitos TOTP */
+.totp-input {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    font-family: 'Courier New', monospace;
+    color: #a07bff;
+}
+
+
+/* ============================================================
+   MODAL CÓDIGOS DE RESPALDO
+   ============================================================ */
+.modal-codigos-respaldo {
+    max-width: 440px;
+}
+
+/* Grid de 2 columnas con los códigos */
+.codigos-respaldo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+/* Código individual */
+.codigo-respaldo {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    letter-spacing: 2px;
+    transition: background 0.15s;
+}
+
+.codigo-respaldo:hover {
+    background: rgba(255,255,255,0.07);
+}
+
+
+/* ============================================================
+   MODAL PUNTOS — REDISEÑO PROFESIONAL
+   ============================================================ */
+
+/* Tarjeta de socio — 3 columnas limpias */
+.socio-card-pro {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: rgba(12,9,24,0.8);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+
+.socio-card-pro-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+}
+
+.socio-card-pro-item:last-child { border-right: none; }
+
+.socio-card-pro-item.highlight {
+    background: rgba(74,222,128,0.04);
+}
+
+.socio-card-pro-item i {
+    font-size: 15px;
+    color: rgba(255,255,255,0.18);
+    flex-shrink: 0;
+}
+
+.socio-card-pro-item.highlight i { color: rgba(74,222,128,0.5); }
+
+.socio-card-pro-data {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.socio-card-pro-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    white-space: nowrap;
+}
+
+.socio-card-pro-valor {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.2px;
+}
+
+.socio-card-pro-valor.verde { color: #4ade80; }
+
+
+/* Beneficios — bloque limpio */
+.beneficios-pro {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+}
+
+.beneficios-pro-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.beneficios-pro-header i { font-size: 11px; }
+
+.beneficios-pro-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.beneficios-pro-lista li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+}
+
+.beneficios-pro-lista li i {
+    font-size: 10px;
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+}
+
+
+/* Info canje — pill compacta */
+.canje-info-pro {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: rgba(0,212,255,0.05);
+    border: 1px solid rgba(0,212,255,0.12);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    margin-bottom: 18px;
+}
+
+.canje-info-pro i { color: var(--cian); flex-shrink: 0; font-size: 12px; }
+.canje-info-pro strong { color: rgba(255,255,255,0.75); }
+
+
+/* Historial — cabecera */
+.historial-pro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.historial-pro-titulo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+}
+
+
+/* Tabla de niveles — moderna */
+.niveles-tabla-pro {
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 18px;
+    font-size: 12px;
+}
+
+.niveles-tabla-pro-header {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    padding: 9px 14px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    gap: 4px;
+}
+
+.niveles-tabla-pro-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.55);
+    align-items: center;
+    gap: 4px;
+    transition: background 0.15s;
+}
+
+.niveles-tabla-pro-row:last-child { border-bottom: none; }
+.niveles-tabla-pro-row:hover { background: rgba(255,255,255,0.02); }
+
+/* Fila activa — nivel actual del usuario */
+.niveles-tabla-pro-row.activo {
+    background: rgba(255,255,255,0.035);
+}
+
+.niveles-tabla-pro-row.activo::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+}
+
+.ntpr-nivel {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.ntpr-nivel i { font-size: 10px; }
+
+/* Footer info */
+.niveles-tabla-pro-footer {
+    padding: 10px 14px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.02);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+    line-height: 1.6;
+}
+
+.niveles-tabla-pro-footer strong { color: rgba(255,255,255,0.45); }
+
+
+/* ════════════════════════════════════════════════════════════
+   MODAL VINYL POINTS — LUXURY DARK
+   ════════════════════════════════════════════════════════════ */
+
+/* Overlay */
+.modal-overlay { padding: 16px; }
+
+/* Modal base */
+.modal-puntos-lux {
+    background: #080614;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+
+.modal-puntos-lux::-webkit-scrollbar { width: 4px; }
+.modal-puntos-lux::-webkit-scrollbar-track { background: transparent; }
+.modal-puntos-lux::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+/* Botón cerrar */
+.mpx-cerrar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.18s;
+    font-family: inherit;
+}
+
+.mpx-cerrar:hover {
+    background: rgba(255,80,80,0.12);
+    border-color: rgba(255,80,80,0.3);
+    color: rgba(255,80,80,0.9);
+}
+
+/* ── HERO ── */
+.mpx-hero {
+    position: relative;
+    padding: 32px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+}
+
+/* Gradiente de fondo dinámico — color cambia con nivel */
+.mpx-hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, var(--nivel-color, #a8b8c8), transparent);
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+/* Gauge SVG */
+.mpx-gauge { position: relative; width: 100%; max-width: 260px; }
+
+.mpx-gauge-svg { width: 100%; height: auto; display: block; }
+
+/* Arco gris base */
+.mpx-gauge-track { stroke: rgba(255,255,255,0.06); }
+
+/* Arco de progreso — color dinámico */
+.mpx-gauge-arc {
+    stroke: #a8b8c8;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.34,1.56,0.64,1), stroke 0.4s;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* Etiquetas BRONCE / PLATA / ORO */
+.mpx-gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: -4px;
+    padding: 0 4px;
+}
+
+.mpx-gauge-labels span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.mpx-gauge-labels strong {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.mpx-gauge-labels em {
+    font-style: normal;
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Stats nivel + pts */
+.mpx-hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.mpx-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 12px;
+}
+
+.mpx-stat-sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.07);
+    flex-shrink: 0;
+}
+
+.mpx-stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+}
+
+.mpx-stat-valor {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.mpx-stat-valor.mpx-pts { color: #f0b429; }
+
+/* ── CUERPO ── */
+.mpx-body {
+    padding: 0 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ── MEMBRESÍA ── */
+.mpx-membresia {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.mpx-memb-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+}
+
+.mpx-memb-item:last-child { border-bottom: none; }
+.mpx-memb-item:hover { background: rgba(255,255,255,0.02); }
+
+.mpx-memb-pts { background: rgba(74,222,128,0.03); }
+.mpx-memb-pts:hover { background: rgba(74,222,128,0.05) !important; }
+
+.mpx-memb-item i {
+    font-size: 14px;
+    color: rgba(255,255,255,0.15);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.mpx-memb-pts i { color: rgba(74,222,128,0.4); }
+
+.mpx-memb-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 3px;
+}
+
+.mpx-memb-valor {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.2px;
+}
+
+.mpx-memb-valor.mpx-disp { color: #4ade80; font-size: 16px; }
+
+/* ── TÍTULO DE SECCIÓN ── */
+.mpx-seccion-titulo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+}
+
+.mpx-seccion-titulo i { font-size: 10px; }
+
+/* ── BENEFICIOS ── */
+.mpx-beneficios {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mpx-beneficios-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mpx-beneficios-lista li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.4;
+}
+
+.mpx-beneficios-lista li i {
+    font-size: 10px;
+    width: 14px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* ── HINT CANJE ── */
+.mpx-canje-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.1);
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+}
+
+.mpx-canje-hint i { color: var(--cian); flex-shrink: 0; }
+.mpx-canje-hint strong { color: rgba(255,255,255,0.8); }
+
+/* ── HISTORIAL ── */
+.modal-hist {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.06) transparent;
+}
+
+/* Ítem del historial */
+.hist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 10px;
+    transition: background 0.15s;
+}
+
+.hist-item:hover { background: rgba(255,255,255,0.04); }
+
+.hist-icono { font-size: 13px; flex-shrink: 0; }
+.hist-icono.positivo { color: #4ade80; }
+.hist-icono.negativo { color: rgba(255,100,100,0.7); }
+
+.hist-item-info { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.hist-item-desc {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hist-link { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.hist-link:hover { color: var(--cian); }
+
+.hist-item-fecha { font-size: 10px; color: rgba(255,255,255,0.25); }
+
+.hist-item-pts { font-size: 13px; font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+.hist-item-pts.positivo { color: #4ade80; }
+.hist-item-pts.negativo { color: rgba(255,100,100,0.75); }
+
+.hist-vacio { text-align:center; color:rgba(255,255,255,0.2); font-size:12px; padding:16px 0; }
+
+/* ── NIVELES EN CARDS ── */
+.mpx-niveles { display: flex; flex-direction: column; gap: 12px; }
+
+.mpx-niveles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.mpx-nivel-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+/* Nivel activo — borde del color del nivel */
+.mpx-nivel-card.activo {
+    border-color: var(--nc, #a8b8c8);
+    background: rgba(255,255,255,0.04);
+}
+
+.mpx-nivel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--nc, #a8b8c8);
+    letter-spacing: 0.2px;
+}
+
+.mpx-nivel-badge i { font-size: 9px; }
+
+.mpx-nivel-pts {
+    font-size: 10px;
+    color: rgba(255,255,255,0.28);
+    line-height: 1.3;
+}
+
+.mpx-nivel-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mpx-nivel-perks span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+}
+
+.mpx-nivel-perks i { font-size: 8px; color: rgba(255,255,255,0.2); width: 10px; text-align:center; }
+
+/* Filtros historial */
+.filtros-hist { display: flex; gap: 4px; }
+
+.btn-filtro-hist {
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: transparent;
+    color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+}
+
+.btn-filtro-hist:hover  { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
+.btn-filtro-hist.activo { background: rgba(240,180,41,0.15); border-color: rgba(240,180,41,0.35); color: #f0b429; }

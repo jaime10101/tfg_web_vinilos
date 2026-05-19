@@ -1112,3 +1112,586 @@ footer {
     justify-content: space-between;
     margin-bottom: 18px;
 }
+
+
+/* Badge VIP Oro — aparece en el resumen del carrito */
+.badge-oro-cart {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(240,180,41,0.08);
+    border: 1px solid rgba(240,180,41,0.3);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 12px;
+}
+
+.badge-oro-cart i {
+    color: #f0b429;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.badge-oro-cart strong {
+    color: #f0b429;
+}
+
+
+/* ============================================================
+   DIRECCIONES GUARDADAS — selector en paso de envío
+   ============================================================ */
+.dirs-guardadas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dir-guardada-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+
+.dir-guardada-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+.dir-guardada-item.selected { border-color: rgba(123,47,255,0.4); background: rgba(123,47,255,0.06); }
+
+/* Radio button */
+.dir-guardada-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    transition: all 0.18s;
+    position: relative;
+}
+
+.dg-radio-sel {
+    border-color: var(--morado);
+    background: var(--morado);
+    box-shadow: 0 0 0 3px rgba(123,47,255,0.2);
+}
+
+.dg-radio-sel::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.dir-guardada-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.dir-guardada-titulo {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dir-guardada-titulo i { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+.dir-guardada-texto {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+}
+
+
+/* ============================================================
+   TARJETAS GUARDADAS — selector en paso de pago
+   ============================================================ */
+.tarjeta-guardada-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin-bottom: 8px;
+}
+
+.tarjeta-guardada-item:last-child { margin-bottom: 0; }
+.tarjeta-guardada-item:hover      { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.12); }
+.tarjeta-guardada-item.selected   { border-color: rgba(123,47,255,0.4); background: rgba(123,47,255,0.06); }
+
+/* Radio */
+.tg-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    transition: all 0.18s;
+    position: relative;
+}
+
+.tg-radio-sel {
+    border-color: var(--morado);
+    background: var(--morado);
+    box-shadow: 0 0 0 3px rgba(123,47,255,0.2);
+}
+
+.tg-radio-sel::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.tg-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+}
+
+.tg-num     { display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); font-family: 'Courier New', monospace; }
+.tg-titular { display: block; font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+
+.btn-eliminar-tg {
+    background: none;
+    border: none;
+    color: rgba(255,80,80,0.4);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.15s;
+}
+
+.btn-eliminar-tg:hover { color: rgba(255,80,80,0.85); }
+
+
+/* ============================================================
+   MODAL RESUMEN FINAL — antes de confirmar el pago
+   ============================================================ */
+.modal-resumen-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(12px);
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+
+.modal-resumen-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-resumen {
+    background: #0f0c1e;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px;
+    width: 100%;
+    max-width: 540px;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.94) translateY(16px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.modal-resumen-cerrar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    z-index: 10;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.modal-resumen-cerrar:hover {
+    background: rgba(255,80,80,0.12);
+    border-color: rgba(255,80,80,0.3);
+    color: rgba(255,80,80,0.9);
+    transform: scale(1.1);
+}
+
+.modal-resumen-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.modal-resumen-titulo i { color: rgba(255,255,255,0.25); }
+
+.modal-resumen-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 22px;
+}
+
+/* Sección del resumen */
+.mr-seccion {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.mr-seccion-titulo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+}
+
+/* Artículo en el resumen */
+.mr-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12px;
+}
+
+.mr-item:last-child { border-bottom: none; }
+
+.mr-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mr-item-info span:first-child { color: rgba(255,255,255,0.8); font-weight: 500; }
+.mr-item-meta  { color: rgba(255,255,255,0.3); font-size: 11px; }
+.mr-item-precio { font-weight: 700; color: rgba(255,255,255,0.7); white-space: nowrap; }
+
+/* Fila genérica */
+.mr-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.mr-dir {
+    color: rgba(255,255,255,0.35);
+    font-size: 11px;
+    margin-top: 6px;
+    gap: 6px;
+}
+
+.mr-dir i { color: rgba(255,255,255,0.2); flex-shrink: 0; }
+
+/* Totales */
+.mr-totales {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Fila total — más grande */
+.mr-total {
+    font-size: 15px !important;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9) !important;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin-top: 4px;
+}
+
+/* Botón confirmar y pagar */
+.btn-confirmar-final {
+    width: 100%;
+    padding: 15px;
+    background: var(--grad-fuego);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: box-shadow 0.3s, transform 0.2s;
+    box-shadow: 0 4px 24px rgba(255,0,110,0.35);
+}
+
+.btn-confirmar-final:hover {
+    box-shadow: 0 6px 32px rgba(255,107,0,0.5);
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   VINYL POINTS MEJORADO — slider + preview card
+   ============================================================ */
+
+/* Slider de puntos */
+.puntos-slider-wrap {
+    margin-bottom: 12px;
+}
+
+.puntos-slider {
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #f0b429 var(--val, 0%), rgba(255,255,255,0.08) var(--val, 0%));
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+
+.puntos-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #f0b429;
+    border: 2px solid #0f0c1e;
+    box-shadow: 0 0 8px rgba(240,180,41,0.5);
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.puntos-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.puntos-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+}
+
+/* Input manual con icono y unidad */
+.puntos-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 0 12px;
+    transition: border-color 0.2s;
+}
+
+.puntos-input-wrap:focus-within { border-color: rgba(240,180,41,0.45); }
+.puntos-input-wrap i { color: #f0b429; font-size: 12px; flex-shrink: 0; }
+
+.puntos-canje-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-size: 15px;
+    font-weight: 700;
+    padding: 9px 0;
+    outline: none;
+    font-family: inherit;
+    width: 60px;
+}
+
+.puntos-input-unit {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+}
+
+/* Preview card — aparece cuando hay valor válido */
+.puntos-preview-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(74,222,128,0.06);
+    border: 1px solid rgba(74,222,128,0.2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 8px;
+    gap: 8px;
+}
+
+.puntos-preview-desc {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.puntos-preview-quedan {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    white-space: nowrap;
+}
+
+/* Hint debajo del formulario */
+.puntos-canje-hint {
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 6px;
+    text-align: center;
+}
+
+/* Icono de moneda en estado B */
+.puntos-aplicados-icono {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f0b429, #ff7c00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.puntos-aplicados-icono i { color: #0f0c1e; font-size: 13px; }
+
+
+/* Botón Aplicar puntos — sobrescribe el de cuenta.css */
+.btn-aplicar-puntos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 18px;
+    height: 42px;
+    background: linear-gradient(135deg, #f0b429, #ff7c00);
+    border: none;
+    border-radius: 8px;
+    color: #0f0c1e;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: box-shadow 0.2s, transform 0.15s, opacity 0.2s;
+    box-shadow: 0 3px 14px rgba(240,180,41,0.35);
+    letter-spacing: 0.2px;
+}
+
+.btn-aplicar-puntos i { font-size: 12px; }
+
+.btn-aplicar-puntos:hover {
+    box-shadow: 0 5px 20px rgba(255,124,0,0.5);
+    transform: translateY(-1px);
+}
+
+.btn-aplicar-puntos:active { transform: scale(0.97); }
+
+
+/* Botón "Cambiar" en estado B de puntos aplicados — más visible */
+.btn-modificar-puntos {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.75);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s;
+    letter-spacing: 0.2px;
+}
+
+.btn-modificar-puntos i { font-size: 11px; }
+
+.btn-modificar-puntos:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.25);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+
+/* Botón X — quitar puntos aplicados */
+.btn-quitar-puntos {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,80,80,0.08);
+    border: 1px solid rgba(255,80,80,0.25);
+    color: rgba(255,80,80,0.7);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s;
+    flex-shrink: 0;
+    font-family: inherit;
+    padding: 0;
+}
+
+.btn-quitar-puntos:hover {
+    background: rgba(255,80,80,0.18);
+    border-color: rgba(255,80,80,0.5);
+    color: rgba(255,80,80,1);
+    transform: scale(1.1);
+}
