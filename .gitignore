@@ -2,31 +2,34 @@
 # .gitignore — Vinyl Sounds TFG
 # ============================================================
 
-# Config con credenciales — NUNCA subir
+# ── SECRETOS — NUNCA subir ───────────────────────────────────
+.env
+.env.local
+.env.production
+.env.*
+
+# config.js del frontend (si existiera)
 js/config.js
 
-# Spring Boot
+# application-local.properties (configuración local Spring Boot)
+application-local.properties
+application-prod.properties
+
+# ── Spring Boot ───────────────────────────────────────────────
 *.class
 *.jar
 *.war
 target/
 .mvn/
 !.mvn/wrapper/maven-wrapper.jar
-application-local.properties
-application-prod.properties
 
-# Variables de entorno
-.env
-.env.local
-.env.production
-
-# IDEs
+# ── IDEs ──────────────────────────────────────────────────────
 .idea/
 *.iml
 .vscode/
 .DS_Store
 Thumbs.db
 
-# Node (si usas npm en algún momento)
+# ── Node (por si acaso) ───────────────────────────────────────
 node_modules/
 npm-debug.log

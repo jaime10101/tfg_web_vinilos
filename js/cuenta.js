@@ -907,121 +907,6 @@ function formatFechaAlta(date) {
 
 
 /* ============================================================
-   SEGURIDAD — cambio de contraseña y sesiones activas
-   TODO (Supabase): supabase.auth.updateUser({ password })
-   ============================================================ */
-
-/* Validación en tiempo real de la nueva contraseña */
-document.addEventListener('input', e => {
-    if (e.target.id !== 'passNueva') return;
-    const v = e.target.value;
-    const reqs = {
-        reqLen: v.length >= 8,
-        reqMay: /[A-Z]/.test(v),
-        reqNum: /[0-9]/.test(v),
-        reqEsp: /[^A-Za-z0-9]/.test(v),
-    };
-    Object.entries(reqs).forEach(([id, ok]) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.classList.toggle('ok', ok);
-        el.querySelector('i').className = ok ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle';
-    });
-});
-
-document.getElementById('btnCambiarPass')?.addEventListener('click', () => {
-    const actual   = document.getElementById('passActual').value;
-    const nueva    = document.getElementById('passNueva').value;
-    const confirm  = document.getElementById('passConfirm').value;
-
-    if (!actual)              { showToast('Introduce tu contraseña actual', 'err'); return; }
-    if (nueva.length < 8)     { showToast('La contraseña debe tener al menos 8 caracteres', 'err'); return; }
-    if (nueva !== confirm)    { showToast('Las contraseñas no coinciden', 'err'); return; }
-
-    /* TODO (Supabase): const { error } = await supabase.auth.updateUser({ password: nueva }) */
-    document.getElementById('passActual').value  = '';
-    document.getElementById('passNueva').value   = '';
-    document.getElementById('passConfirm').value = '';
-    showToast('Contraseña actualizada correctamente', 'ok');
-});
-
-/* Render de sesiones activas simuladas */
-function renderSesiones() {
-    const lista = document.getElementById('listaSesiones');
-    if (!lista) return;
-    /* TODO (Supabase): SELECT * FROM auth.sessions WHERE user_id = auth.uid() ORDER BY created_at DESC */
-    const SESIONES = [
-        { dispositivo: 'Chrome — Windows 11',  lugar: 'Madrid, España',   fecha: 'Ahora',          actual: true  },
-        { dispositivo: 'Safari — iPhone 15',   lugar: 'Madrid, España',   fecha: 'Hace 2 horas',   actual: false },
-        { dispositivo: 'Firefox — macOS',      lugar: 'Barcelona, España', fecha: 'Ayer, 21:14',   actual: false },
-    ];
-    lista.innerHTML = SESIONES.map(s => `
-        <div class="sesion-item ${s.actual ? 'actual' : ''}">
-            <div class="sesion-icono">
-                <i class="fa-solid fa-${s.dispositivo.includes('iPhone') ? 'mobile-screen-button' : 'desktop'}"></i>
-            </div>
-            <div class="sesion-info">
-                <span class="sesion-dispositivo">${s.dispositivo}</span>
-                <span class="sesion-meta">${s.lugar} · ${s.fecha}</span>
-            </div>
-            ${s.actual
-                ? '<span class="sesion-badge-actual"><i class="fa-solid fa-circle-check"></i> Sesión actual</span>'
-                : '<button class="btn-cerrar-sesion-item"><i class="fa-solid fa-xmark"></i></button>'}
-        </div>`).join('');
-
-    lista.querySelectorAll('.btn-cerrar-sesion-item').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.closest('.sesion-item').style.opacity = '0';
-            setTimeout(() => { btn.closest('.sesion-item').remove(); }, 300);
-            showToast('Sesión cerrada', 'ok');
-        });
-    });
-}
-
-document.getElementById('btnCerrarSesiones')?.addEventListener('click', () => {
-    /* TODO (Supabase): supabase.auth.signOut({ scope: 'others' }) */
-    document.querySelectorAll('.sesion-item:not(.actual)').forEach(el => {
-        el.style.opacity = '0';
-        setTimeout(() => el.remove(), 300);
-    });
-    showToast('Todas las demás sesiones cerradas', 'ok');
-});
-
-
-/* ============================================================
-   NOTIFICACIONES — preferencias de email
-   TODO (Supabase): UPDATE user_preferences SET ... WHERE user_id = auth.uid()
-   ============================================================ */
-document.getElementById('btnGuardarNotif')?.addEventListener('click', () => {
-    const prefs = {
-        novedades:   document.getElementById('notifNovedades')?.checked,
-        ofertas:     document.getElementById('notifOfertas')?.checked,
-        pedidos:     document.getElementById('notifPedidos')?.checked,
-        puntos:      document.getElementById('notifPuntos')?.checked,
-        newsletter:  document.getElementById('notifNewsletter')?.checked,
-    };
-    /* TODO (Supabase): await supabase.from('user_preferences').upsert({ user_id: uid, ...prefs }) */
-    localStorage.setItem('vs_notif_prefs', JSON.stringify(prefs));
-    showToast('Preferencias de notificación guardadas', 'ok');
-});
-
-/* Carga las preferencias guardadas */
-function cargarPrefsNotificacion() {
-    try {
-        const raw   = localStorage.getItem('vs_notif_prefs');
-        const prefs = raw ? JSON.parse(raw) : null;
-        if (!prefs) return;
-        Object.entries(prefs).forEach(([key, val]) => {
-            const map = {
-                novedades: 'notifNovedades', ofertas: 'notifOfertas',
-                pedidos: 'notifPedidos', puntos: 'notifPuntos', newsletter: 'notifNewsletter',
-            };
-            const el = document.getElementById(map[key]);
-            if (el) el.checked = val;
-        });
-    } catch (e) { /* sin prefs guardadas */ }
-}
-/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -1045,7 +930,5 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarDatosSocio();
     renderPedidos();
     renderDirecciones();
-    renderSesiones();
-    cargarPrefsNotificacion();
     tick();
 });

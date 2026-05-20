@@ -268,8 +268,11 @@ function renderSidebarSummary(which) {
     let html = '';
     cart.forEach(i => {
         html += `<div style="display:flex;align-items:center;gap:12px;padding:12px 10px;background:rgba(18,16,58,0.6);border:1px solid var(--borde);border-radius:12px;margin-bottom:10px;">
-            <div style="width:52px;height:52px;border-radius:9px;background:var(--superficie);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <i class="${i.icon}" style="font-size:1.5rem;color:var(--rojo);"></i>
+            <div style="width:52px;height:52px;border-radius:9px;background:var(--superficie);border:1px solid var(--borde);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+                ${i.imagen
+                    ? `<img src="${i.imagen}" alt="${esc(i.name)}" style="width:100%;height:100%;object-fit:cover;">`
+                    : `<i class="${i.icon}" style="font-size:1.5rem;color:var(--rojo);"></i>`
+                }
             </div>
             <div style="flex:1;min-width:0;">
                 <div style="font-size:.85rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(i.name)}</div>
@@ -464,7 +467,11 @@ function buildConfirmation() {
     let html = '';
     cart.forEach(i => {
         html += `<div class="conf-item">
-            <div class="conf-thumb"><i class="${i.icon}"></i></div>
+            <div class="conf-thumb">
+                ${i.imagen
+                    ? `<img src="${i.imagen}" alt="${esc(i.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`
+                    : `<i class="${i.icon}"></i>`}
+            </div>
             <div>
                 <div class="conf-name">${esc(i.name)}</div>
                 <div class="conf-artist">${esc(i.artist)}</div>
@@ -761,7 +768,10 @@ function mostrarResumenFinal() {
     let itemsHtml = '';
     cart.forEach(i => {
         itemsHtml += `<div class="mr-item">
-            <i class="${i.icon}" style="color:var(--rojo)"></i>
+            ${i.imagen
+                ? `<img src="${i.imagen}" alt="${esc(i.name)}" style="width:36px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;">`
+                : `<i class="${i.icon}" style="color:var(--rojo);font-size:1.2rem;flex-shrink:0;"></i>`
+            }
             <div class="mr-item-info">
                 <span>${esc(i.name)}</span>
                 <span class="mr-item-meta">${esc(i.variant)} · Cant: ${i.qty}</span>
