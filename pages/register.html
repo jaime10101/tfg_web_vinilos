@@ -14,11 +14,11 @@
 </head>
 <body>
 
-<!-- Sin header — solo logo y enlace a login para no distraer del formulario -->
+<!-- Sin header ni footer — formulario sin distracciones -->
 
 <main class="contenedor-registro">
 
-    <!-- Izquierda — decorativa con texto promocional -->
+    <!-- Izquierda — decorativa -->
     <section class="columna-izquierda">
         <h1>La música que amas,<br><span>en formato físico.</span></h1>
         <p>
@@ -27,10 +27,9 @@
         </p>
     </section>
 
-    <!-- Derecha — formulario de registro -->
+    <!-- Derecha — formulario -->
     <section class="tarjeta-formulario">
 
-        <!-- Logo — enlace a inicio -->
         <div class="logo">
             <a href="../index.html">Vinyl Sounds</a>
         </div>
@@ -38,19 +37,16 @@
         <h2>Crea tu cuenta</h2>
         <p class="subtitulo">Completa tus datos para comenzar tu colección.</p>
 
-        <!-- Formulario — TODO (Spring Boot): POST /api/auth/register -->
+        <!-- TODO (Spring Boot): POST /api/auth/register -->
         <form id="formRegister" novalidate>
 
-            <!-- Fila nombre y apellido -->
             <div class="fila-nombres">
                 <input type="text" id="nombre" placeholder="Tu nombre" required>
                 <input type="text" id="apellido" placeholder="Tu apellido" required>
             </div>
 
-            <!-- Email -->
             <input type="email" id="email" placeholder="ejemplo@correo.com" required>
 
-            <!-- Contraseña con toggle mostrar/ocultar -->
             <div class="campo-contrasena">
                 <input type="password" id="pass1" placeholder="Mínimo 8 caracteres" required>
                 <span class="toggle-contrasena" data-target="pass1" title="Mostrar u ocultar contraseña">
@@ -58,7 +54,6 @@
                 </span>
             </div>
 
-            <!-- Confirmar contraseña -->
             <div class="campo-contrasena">
                 <input type="password" id="pass2" placeholder="Repite tu contraseña" required>
                 <span class="toggle-contrasena" data-target="pass2" title="Mostrar u ocultar contraseña">
@@ -66,18 +61,16 @@
                 </span>
             </div>
 
-            <!-- Checkbox términos y condiciones -->
             <label class="terminos">
                 <input type="checkbox" id="terminos" required>
                 Acepto los <a href="#">Términos y Condiciones</a> y la <a href="#">Política de Privacidad</a>
             </label>
 
-            <!-- Botón registro principal -->
             <button type="submit" class="btn-principal">Registrarse</button>
 
             <div class="separador">O regístrate con</div>
 
-            <!-- Botón Google — TODO (Spring Boot): OAuth2 Google -->
+            <!-- TODO (Spring Boot): OAuth2 Google -->
             <button type="button" class="btn-google" id="btnGoogle">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                 Continuar con Google
@@ -85,7 +78,6 @@
 
         </form>
 
-        <!-- Enlace a login -->
         <p class="enlace-login">
             ¿Ya tienes cuenta? <a href="login.html">Iniciar sesión</a>
         </p>
@@ -94,8 +86,7 @@
 
 </main>
 
-<!-- Scripts -->
-<script src="../js/header.js"></script>
+<!-- FIX: eliminado header.js — register no tiene header ni footer -->
 <script src="../js/register.js"></script>
 </body>
 </html>

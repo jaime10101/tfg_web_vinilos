@@ -14,7 +14,8 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
 
     <!-- Hero — título, estadísticas y tira de fotos -->
@@ -75,7 +76,7 @@
                     <i class="fa-solid fa-search icono-busqueda"></i>
                     <input type="text" id="campoBusqueda" placeholder="Buscar artista…" autocomplete="off">
                 </div>
-                <!-- Filtros de género -->
+                <!-- FIX: todos los botones usan data-genre para que artistas.js los lea directamente -->
                 <div class="filtros-genero" id="filtrosGenero">
                     <button class="btn-genero activo" data-genre="all">Todos</button>
                     <button class="btn-genero" data-genre="rock">Rock</button>
@@ -133,7 +134,8 @@
     </section>
 
 
-    <!-- Footer -->
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
 
 
     <!-- Scripts -->

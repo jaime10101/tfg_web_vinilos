@@ -5,7 +5,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
 
-/* Body — fondo con gradientes fijos */
 body {
     font-family: 'DM Sans', -apple-system, sans-serif;
     background:
@@ -15,12 +14,6 @@ body {
     background-attachment: fixed;
 }
 
-
-/* ============================================================
-   HERO
-   ============================================================ */
-
-/* Hero con clip diagonal */
 .hero-artistas {
     position: relative;
     min-height: 92vh;
@@ -31,7 +24,6 @@ body {
     clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
 }
 
-/* Fondo con gradientes radiales */
 .hero-fondo {
     position: absolute;
     inset: 0;
@@ -42,18 +34,14 @@ body {
     z-index: 0;
 }
 
-/* Línea superior de color */
 .hero-fondo::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--morado) 30%, var(--rojo) 70%, transparent);
 }
 
-/* Orbes de luz borrosos */
 .hero-orbe {
     position: absolute;
     border-radius: 50%;
@@ -64,7 +52,6 @@ body {
 .orbe-1 { width: 500px; height: 500px; background: rgba(123, 47, 255, 0.20); top: -100px; right: 10%; }
 .orbe-2 { width: 350px; height: 350px; background: rgba(255, 0, 110, 0.15); bottom: 0; left: 30%; }
 
-/* Líneas de escaneo */
 .hero-scanlines {
     position: absolute;
     inset: 0;
@@ -79,27 +66,22 @@ body {
     z-index: 1;
 }
 
-/* Tira de fotos animada — lado derecho del hero */
 .tira-fotos {
     position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    right: 0; top: 0; bottom: 0;
     width: 45%;
     display: flex;
     flex-direction: row;
     gap: 12px;
     overflow: hidden;
-    mask-image:
-        linear-gradient(to left, transparent 0%, black 20%, black 80%, transparent 100%),
-        linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to left, transparent 0%, black 20%, black 80%, transparent 100%),
+                linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
     -webkit-mask-image: linear-gradient(to left, transparent 0%, black 20%, black 80%, transparent 100%);
     mask-composite: intersect;
     z-index: 1;
     opacity: 0.55;
 }
 
-/* Columna de la tira — sube en bucle */
 .tira-col {
     display: flex;
     flex-direction: column;
@@ -108,7 +90,6 @@ body {
     animation: subirTira 30s linear infinite;
 }
 
-/* Velocidades distintas por columna */
 .tira-col:nth-child(2) { animation-direction: reverse; animation-duration: 24s; }
 .tira-col:nth-child(3) { animation-duration: 36s; }
 
@@ -117,7 +98,6 @@ body {
     to   { transform: translateY(-50%); }
 }
 
-/* Foto individual de la tira */
 .tira-foto {
     width: 130px;
     height: 130px;
@@ -129,18 +109,14 @@ body {
     transition: filter 0.3s;
 }
 
-.tira-foto:hover {
-    filter: saturate(1) brightness(1);
-}
+.tira-foto:hover { filter: saturate(1) brightness(1); }
 
-/* Contenido de texto del hero */
 .hero-contenido {
     position: relative;
     z-index: 2;
     max-width: 620px;
 }
 
-/* Badge pulsante */
 .hero-etiqueta {
     display: inline-flex;
     align-items: center;
@@ -163,7 +139,6 @@ body {
     50%       { box-shadow: 0 0 0 8px rgba(255, 0, 110, 0.00); }
 }
 
-/* Título en Bebas Neue con animación de entrada */
 .hero-contenido h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(3rem, 6vw, 5.5rem);
@@ -179,7 +154,6 @@ body {
     to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Palabra en degradado UV */
 .titulo-grad {
     background: var(--grad-uv);
     -webkit-background-clip: text;
@@ -187,7 +161,6 @@ body {
     background-clip: text;
 }
 
-/* Párrafo descriptivo */
 .hero-contenido p {
     color: var(--apagado);
     font-size: 16px;
@@ -197,7 +170,6 @@ body {
     animation: aparecerAbajo 0.7s 0.1s ease both;
 }
 
-/* Stats — artistas, géneros y vinilos */
 .hero-estadisticas {
     display: flex;
     align-items: center;
@@ -205,13 +177,8 @@ body {
     animation: aparecerAbajo 0.7s 0.2s ease both;
 }
 
-.hero-estadistica {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+.hero-estadistica { display: flex; flex-direction: column; gap: 2px; }
 
-/* Número grande en degradado fuego */
 .estadistica-numero {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
@@ -222,7 +189,6 @@ body {
     line-height: 1;
 }
 
-/* Etiqueta debajo del número */
 .estadistica-etiqueta {
     font-size: 11px;
     color: var(--apagado);
@@ -231,17 +197,8 @@ body {
     text-transform: uppercase;
 }
 
-/* Separador vertical entre stats */
-.hero-divisor {
-    width: 1px;
-    height: 40px;
-    background: var(--borde);
-}
+.hero-divisor { width: 1px; height: 40px; background: var(--borde); }
 
-
-/* ============================================================
-   CONTENEDOR GENERAL
-   ============================================================ */
 .contenedor {
     width: 100%;
     max-width: 1600px;
@@ -249,15 +206,8 @@ body {
     padding: 0 50px;
 }
 
+.seccion-explorar { padding: 0 0 80px; }
 
-/* ============================================================
-   SECCIÓN EXPLORAR ARTISTAS
-   ============================================================ */
-.seccion-explorar {
-    padding: 0 0 80px;
-}
-
-/* Barra superior — búsqueda, filtros y orden */
 .barra-superior {
     display: flex;
     align-items: center;
@@ -270,12 +220,7 @@ body {
     padding: 16px 20px;
 }
 
-/* Campo de búsqueda */
-.campo-busqueda {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-}
+.campo-busqueda { position: relative; flex: 1; min-width: 200px; }
 
 .campo-busqueda input {
     width: 100%;
@@ -295,11 +240,8 @@ body {
     box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.07);
 }
 
-.campo-busqueda input::placeholder {
-    color: var(--apagado);
-}
+.campo-busqueda input::placeholder { color: var(--apagado); }
 
-/* Icono lupa */
 .icono-busqueda {
     position: absolute;
     left: 12px;
@@ -310,14 +252,8 @@ body {
     pointer-events: none;
 }
 
-/* Filtros de género */
-.filtros-genero {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
+.filtros-genero { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* Botón de género */
 .btn-genero {
     padding: 7px 16px;
     border-radius: 50px;
@@ -332,12 +268,8 @@ body {
     transition: all 0.2s;
 }
 
-.btn-genero:hover {
-    border-color: rgba(0, 212, 255, 0.4);
-    color: var(--texto);
-}
+.btn-genero:hover { border-color: rgba(0, 212, 255, 0.4); color: var(--texto); }
 
-/* Género activo — degradado UV */
 .btn-genero.activo {
     background: var(--grad-uv);
     border-color: transparent;
@@ -345,7 +277,6 @@ body {
     box-shadow: 0 4px 14px rgba(255, 0, 110, 0.3);
 }
 
-/* Selector de orden */
 .selector-orden {
     appearance: none;
     background-color: rgba(8, 5, 15, 0.6);
@@ -364,25 +295,11 @@ body {
     background-position: right 10px center;
 }
 
-.selector-orden option {
-    background: var(--superficie);
-}
+.selector-orden option { background: var(--superficie); }
 
-/* Contador de resultados */
-.info-resultados {
-    margin-bottom: 24px;
-    font-size: 13px;
-    color: var(--apagado);
-}
+.info-resultados { margin-bottom: 24px; font-size: 13px; color: var(--apagado); }
+.info-resultados strong { color: var(--texto); }
 
-.info-resultados strong {
-    color: var(--texto);
-}
-
-
-/* ============================================================
-   REJILLA DE ARTISTAS
-   ============================================================ */
 .rejilla-artistas {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -390,14 +307,14 @@ body {
     margin-bottom: 40px;
 }
 
-/* Tarjeta de artista */
+/* FIX: cursor default — la tarjeta no es clicable */
 .tarjeta-artista {
     background: #0E0C1F;
     border: 1px solid var(--borde);
     border-radius: 16px;
     padding: 24px 20px 20px;
-    cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.25s, box-shadow 0.3s;
+    cursor: default;
+    transition: border-color 0.25s, box-shadow 0.3s;
     position: relative;
     overflow: hidden;
     animation: aparecerAbajo 0.4s ease both;
@@ -406,30 +323,24 @@ body {
     display: block;
 }
 
-/* Línea superior al hover */
 .tarjeta-artista::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 2px;
     background: var(--grad-fuego);
     opacity: 0;
     transition: opacity 0.3s;
 }
 
+/* FIX: sin transform al hover — no sube ni escala */
 .tarjeta-artista:hover {
     border-color: rgba(0, 212, 255, 0.35);
-    transform: translateY(-5px) scale(1.01);
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.06);
 }
 
-.tarjeta-artista:hover::before {
-    opacity: 1;
-}
+.tarjeta-artista:hover::before { opacity: 1; }
 
-/* Foto circular del artista */
 .imagen-artista {
     width: 100%;
     aspect-ratio: 1;
@@ -456,13 +367,11 @@ body {
     filter: saturate(0.85);
 }
 
-/* Zoom y saturación al hover */
 .tarjeta-artista:hover .imagen-artista img {
     transform: scale(1.07);
     filter: saturate(1.15);
 }
 
-/* Overlay con icono de vinilo al hover */
 .overlay-play {
     position: absolute;
     inset: 0;
@@ -481,11 +390,8 @@ body {
     filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
 }
 
-.tarjeta-artista:hover .overlay-play {
-    opacity: 1;
-}
+.tarjeta-artista:hover .overlay-play { opacity: 0; }
 
-/* Nombre del artista centrado */
 .nombre-artista {
     font-size: 15px;
     font-weight: 700;
@@ -494,7 +400,6 @@ body {
     margin-bottom: 4px;
 }
 
-/* Fila género + álbumes */
 .meta-artista {
     display: flex;
     align-items: center;
@@ -503,7 +408,6 @@ body {
     margin-bottom: 12px;
 }
 
-/* Tag de género */
 .tag-genero {
     font-size: 10px;
     font-weight: 700;
@@ -516,20 +420,9 @@ body {
     border: 1px solid rgba(123, 47, 255, 0.25);
 }
 
-/* Número de álbumes */
-.albums-count {
-    font-size: 11px;
-    color: var(--apagado);
-    font-weight: 600;
-}
+.albums-count { font-size: 11px; color: var(--apagado); font-weight: 600; }
 
-/* Barra de popularidad */
-.barra-pop {
-    height: 2px;
-    border-radius: 1px;
-    background: var(--borde);
-    overflow: hidden;
-}
+.barra-pop { height: 2px; border-radius: 1px; background: var(--borde); overflow: hidden; }
 
 .fill-pop {
     height: 100%;
@@ -538,35 +431,12 @@ body {
     transition: width 1.2s ease;
 }
 
-/* Estado vacío */
-.sin-resultados {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--apagado);
-}
+.sin-resultados { text-align: center; padding: 80px 20px; color: var(--apagado); }
+.sin-resultados i { font-size: 48px; opacity: 0.2; display: block; margin-bottom: 20px; }
+.sin-resultados p { font-size: 18px; color: var(--texto); margin-bottom: 8px; }
+.sin-resultados span { font-size: 14px; }
 
-.sin-resultados i {
-    font-size: 48px;
-    opacity: 0.2;
-    display: block;
-    margin-bottom: 20px;
-}
-
-.sin-resultados p {
-    font-size: 18px;
-    color: var(--texto);
-    margin-bottom: 8px;
-}
-
-.sin-resultados span {
-    font-size: 14px;
-}
-
-/* Botón cargar más */
-.zona-cargar-mas {
-    text-align: center;
-    padding: 10px 0 40px;
-}
+.zona-cargar-mas { text-align: center; padding: 10px 0 40px; }
 
 .btn-cargar-mas {
     display: inline-flex;
@@ -590,15 +460,8 @@ body {
     box-shadow: 0 0 20px rgba(255, 0, 110, 0.10);
 }
 
+.seccion-generos { padding: 0 0 100px; }
 
-/* ============================================================
-   SECCIÓN GÉNEROS
-   ============================================================ */
-.seccion-generos {
-    padding: 0 0 100px;
-}
-
-/* Cabecera de sección */
 .seccion-cabecera {
     display: flex;
     justify-content: space-between;
@@ -606,7 +469,6 @@ body {
     margin-bottom: 32px;
 }
 
-/* Título con línea decorativa */
 .seccion-titulo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
@@ -627,14 +489,8 @@ body {
     flex-shrink: 0;
 }
 
-/* Subtítulo de sección */
-.seccion-subtitulo {
-    color: var(--apagado);
-    font-size: 14px;
-    margin-top: 4px;
-}
+.seccion-subtitulo { color: var(--apagado); font-size: 14px; margin-top: 4px; }
 
-/* Grid de géneros — 3 columnas */
 .cuadricula-generos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -642,7 +498,6 @@ body {
     margin-top: 32px;
 }
 
-/* Tarjeta de género */
 .tarjeta-genero {
     border-radius: 16px;
     padding: 32px 28px;
@@ -658,7 +513,6 @@ body {
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
-/* Fondo con degradado del género */
 .tarjeta-genero::before {
     content: '';
     position: absolute;
@@ -668,21 +522,15 @@ body {
     transition: opacity 0.3s;
 }
 
-.tarjeta-genero:hover::before {
-    opacity: 0.14;
-}
+.tarjeta-genero:hover::before { opacity: 0.14; }
 
-/* Línea superior de color */
 .genero-linea {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 2px;
     background: var(--color-genero, var(--grad-uv));
 }
 
-/* Icono del género */
 .genero-icono-fa {
     font-size: 28px;
     margin-bottom: 14px;
@@ -693,7 +541,6 @@ body {
     background-clip: text;
 }
 
-/* Nombre del género */
 .genero-nombre {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.6rem;
@@ -702,29 +549,17 @@ body {
     margin-bottom: 4px;
 }
 
-/* Número de artistas */
-.genero-count {
-    font-size: 13px;
-    color: var(--apagado);
-    font-weight: 600;
-}
+.genero-count { font-size: 13px; color: var(--apagado); font-weight: 600; }
 
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-
-/* Tablet — 900px */
 @media (max-width: 900px) {
-    .tira-fotos        { display: none; }
-    .hero-artistas     { clip-path: none; min-height: auto; padding: 110px 6% 70px; }
-    .contenedor        { padding: 0 24px; }
+    .tira-fotos         { display: none; }
+    .hero-artistas      { clip-path: none; min-height: auto; padding: 110px 6% 70px; }
+    .contenedor         { padding: 0 24px; }
     .cuadricula-generos { grid-template-columns: repeat(2, 1fr); }
-    .barra-superior    { flex-direction: column; align-items: stretch; }
-    .campo-busqueda    { min-width: 100%; }
+    .barra-superior     { flex-direction: column; align-items: stretch; }
+    .campo-busqueda     { min-width: 100%; }
 }
 
-/* Móvil — 600px */
 @media (max-width: 600px) {
     .hero-contenido h1  { font-size: clamp(2.5rem, 10vw, 3.5rem); }
     .hero-estadisticas  { flex-wrap: wrap; gap: 16px; }

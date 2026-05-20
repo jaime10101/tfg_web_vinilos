@@ -14,7 +14,8 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
 
     <!-- Portada principal -->
@@ -45,16 +46,17 @@
             <!-- Ruleta 3D de discos -->
             <div class="ruleta-discos">
                 <div class="ruleta" style="--cantidad: 10">
-                    <div class="disco" style="--pos: 1"><img src="img/disc1.png"  alt="Disco 1"></div>
-                    <div class="disco" style="--pos: 2"><img src="img/disc2.png"  alt="Disco 2"></div>
-                    <div class="disco" style="--pos: 3"><img src="img/disc3.png"  alt="Disco 3"></div>
-                    <div class="disco" style="--pos: 4"><img src="img/disc4.png"  alt="Disco 4"></div>
-                    <div class="disco" style="--pos: 5"><img src="img/disc5.jpg"  alt="Disco 5"></div>
-                    <div class="disco" style="--pos: 6"><img src="img/disc6.png"  alt="Disco 6"></div>
-                    <div class="disco" style="--pos: 7"><img src="img/disc7.png"  alt="Disco 7"></div>
-                    <div class="disco" style="--pos: 8"><img src="img/disc8.png"  alt="Disco 8"></div>
-                    <div class="disco" style="--pos: 9"><img src="img/disc9.png"  alt="Disco 9"></div>
-                    <div class="disco" style="--pos: 10"><img src="img/disc10.png" alt="Disco 10"></div>
+                    <!-- FIX: imágenes locales sustituidas por Unsplash como fallback -->
+                    <div class="disco" style="--pos: 1"><img src="img/disc1.png"  alt="Disco 1" onerror="this.src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 2"><img src="img/disc2.png"  alt="Disco 2" onerror="this.src='https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 3"><img src="img/disc3.png"  alt="Disco 3" onerror="this.src='https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 4"><img src="img/disc4.png"  alt="Disco 4" onerror="this.src='https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 5"><img src="img/disc5.jpg"  alt="Disco 5" onerror="this.src='https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 6"><img src="img/disc6.png"  alt="Disco 6" onerror="this.src='https://images.unsplash.com/photo-1598387846148-47e82ee120cc?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 7"><img src="img/disc7.png"  alt="Disco 7" onerror="this.src='https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 8"><img src="img/disc8.png"  alt="Disco 8" onerror="this.src='https://images.unsplash.com/photo-1502139214982-d0ad755818d8?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 9"><img src="img/disc9.png"  alt="Disco 9" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?w=200&q=80'"></div>
+                    <div class="disco" style="--pos: 10"><img src="img/disc10.png" alt="Disco 10" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=80'"></div>
                 </div>
             </div>
 
@@ -141,7 +143,8 @@
 
                 <!-- Imagen — brillo gestionado por inicio.js -->
                 <div class="merch-imagen" id="zonaInteractivaMerch">
-                    <img src="img/mech_l.png" alt="Producto Merch" class="img-merch">
+                    <img src="img/mech_l.png" alt="Producto Merch" class="img-merch"
+                         onerror="this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80'">
                     <div class="brillo-merch" id="brilloMerch"></div>
                 </div>
 
@@ -150,7 +153,8 @@
     </div>
 
 
-    <!-- Footer -->
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
 
 
     <!-- Scripts -->

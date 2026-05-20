@@ -5,9 +5,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
 
-/* Body — fondo con gradientes fijos */
+/* Body — FIX: usa DM Sans igual que el resto de páginas */
+/* Syne solo se aplica a títulos específicos, no al body entero */
 body {
-    font-family: 'Syne', -apple-system, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background:
         radial-gradient(ellipse at 30% 20%, rgba(123,47,255,0.18) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 80%, rgba(255,0,110,0.1) 0%, transparent 50%),
@@ -23,7 +24,6 @@ body {
    PORTADA
    ============================================================ */
 
-/* Hero con gradientes morados y textura de ruido */
 .portada {
     position: relative;
     width: 100%;
@@ -37,7 +37,6 @@ body {
     overflow: hidden;
 }
 
-/* Fondo con gradientes radiales */
 .portada::before {
     content: '';
     position: absolute;
@@ -49,7 +48,6 @@ body {
     z-index: 0;
 }
 
-/* Textura de ruido decorativa */
 .portada::after {
     content: '';
     position: absolute;
@@ -60,13 +58,11 @@ body {
     pointer-events: none;
 }
 
-/* Contenido sobre el fondo */
 .portada-contenido {
     position: relative;
     z-index: 1;
 }
 
-/* Badge edición limitada */
 .etiqueta-edicion {
     display: inline-block;
     background: transparent;
@@ -81,7 +77,7 @@ body {
     margin-bottom: 22px;
 }
 
-/* Título principal */
+/* Título portada — mantiene Syne */
 .portada h1 {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
@@ -92,7 +88,6 @@ body {
     color: #fff;
 }
 
-/* Descripción */
 .portada p {
     font-size: 1rem;
     color: var(--apagado);
@@ -115,7 +110,6 @@ body {
     align-items: start;
 }
 
-/* Botón toggle filtros — oculto en escritorio */
 .btn-toggle-filtros {
     display: none;
     align-items: center;
@@ -136,7 +130,6 @@ body {
     font-family: inherit;
 }
 
-/* Botón toggle activo — filtros abiertos */
 .btn-toggle-filtros.activo {
     background: rgba(255,0,110,0.08);
     border-color: rgba(255,0,110,0.4);
@@ -148,13 +141,12 @@ body {
    PANEL DE FILTROS
    ============================================================ */
 
-/* Panel sticky */
 .panel-filtros {
     position: sticky;
     top: 100px;
 }
 
-/* Título del panel */
+/* Título filtros — mantiene Syne */
 .filtros-titulo {
     font-family: 'Syne', sans-serif;
     font-size: 1.5rem;
@@ -170,12 +162,10 @@ body {
     color: var(--apagado);
 }
 
-/* Grupo de filtro con label */
 .grupo-filtro {
     margin-bottom: 32px;
 }
 
-/* Label del grupo */
 .grupo-label {
     font-size: 13px;
     font-weight: 600;
@@ -186,7 +176,6 @@ body {
     display: block;
 }
 
-/* Campo de búsqueda */
 .campo-busqueda {
     position: relative;
 }
@@ -213,7 +202,6 @@ body {
     border-color: var(--rojo);
 }
 
-/* Icono lupa */
 .campo-busqueda i {
     position: absolute;
     right: 12px;
@@ -224,7 +212,6 @@ body {
     pointer-events: none;
 }
 
-/* Checkbox personalizado */
 .opcion-check {
     display: flex;
     align-items: center;
@@ -250,13 +237,11 @@ body {
     position: relative;
 }
 
-/* Checkbox marcado */
 .opcion-check input[type="checkbox"]:checked {
     background: var(--rojo);
     border-color: var(--rojo);
 }
 
-/* Tick del checkbox */
 .opcion-check input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
@@ -270,7 +255,15 @@ body {
     transform: rotate(45deg);
 }
 
-/* Grid de botones de tamaño */
+/* FIX: clases sin ñ para que coincidan con el JS */
+.grid-tamanos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 4px;
+}
+
+/* Mantenemos también la clase original por si acaso */
 .grid-tamaños {
     display: flex;
     flex-wrap: wrap;
@@ -278,7 +271,7 @@ body {
     margin-top: 4px;
 }
 
-/* Botón de tamaño */
+.btn-tamano,
 .btn-tamaño {
     padding: 7px 18px;
     border-radius: 7px;
@@ -292,12 +285,13 @@ body {
     transition: all 0.15s;
 }
 
+.btn-tamano:hover,
 .btn-tamaño:hover {
     border-color: var(--rojo);
     color: var(--rojo);
 }
 
-/* Tamaño seleccionado */
+.btn-tamano.activo,
 .btn-tamaño.activo {
     background: var(--grad-uv);
     border-color: transparent;
@@ -310,7 +304,6 @@ body {
    ZONA RESULTADOS
    ============================================================ */
 
-/* Barra superior — contador y orden */
 .barra-superior {
     display: flex;
     align-items: center;
@@ -320,7 +313,6 @@ body {
     gap: 12px;
 }
 
-/* Contador de resultados */
 .contador {
     font-size: 13px;
     color: var(--apagado);
@@ -331,7 +323,6 @@ body {
     font-weight: 600;
 }
 
-/* Selector de orden */
 .selector-orden {
     background: var(--superficie2);
     border: 1.5px solid var(--borde);
@@ -354,7 +345,6 @@ body {
     border-color: var(--rojo);
 }
 
-/* Chips de filtros activos */
 .filtros-activos {
     display: flex;
     flex-wrap: wrap;
@@ -363,7 +353,6 @@ body {
     align-items: center;
 }
 
-/* Chip individual */
 .etiqueta-filtro {
     display: inline-flex;
     align-items: center;
@@ -376,13 +365,11 @@ body {
     user-select: none;
 }
 
-/* Chip rosa — estilos */
 .etiqueta-filtro.rosa {
     background: var(--rojo);
     color: #fff;
 }
 
-/* Chip oscuro — artistas y tamaños */
 .etiqueta-filtro.oscuro {
     background: var(--superficie2);
     border: 1.5px solid var(--borde);
@@ -393,7 +380,6 @@ body {
     font-size: 10px;
 }
 
-/* Botón borrar todos los filtros */
 .btn-borrar-todo {
     background: none;
     border: none;
@@ -416,14 +402,12 @@ body {
    REJILLA DE POSTERS
    ============================================================ */
 
-/* Grid de 4 columnas */
 .rejilla-posters {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
 
-/* Tarjeta de poster */
 .tarjeta-poster {
     border-radius: 14px;
     overflow: hidden;
@@ -440,7 +424,6 @@ body {
     box-shadow: 0 16px 40px rgba(0,0,0,0.4);
 }
 
-/* Imagen con proporción 3/4 */
 .imagen-poster {
     position: relative;
     aspect-ratio: 3/4;
@@ -455,12 +438,10 @@ body {
     transition: transform 0.35s ease;
 }
 
-/* Zoom imagen al hover */
 .tarjeta-poster:hover .imagen-poster img {
     transform: scale(1.04);
 }
 
-/* Insignia — novedad o agotado */
 .insignia-poster {
     position: absolute;
     top: 11px;
@@ -484,7 +465,6 @@ body {
     color: #111;
 }
 
-/* Capa hover con botón ver detalle */
 .capa-detalle {
     position: absolute;
     inset: 0;
@@ -501,12 +481,10 @@ body {
     opacity: 1;
 }
 
-/* Sin capa en tarjetas agotadas */
 .tarjeta-poster.agotado-card:hover .capa-detalle {
     opacity: 0;
 }
 
-/* Botón ver detalle */
 .btn-ver-detalle {
     display: flex;
     align-items: center;
@@ -530,12 +508,11 @@ body {
     transform: scale(1.04);
 }
 
-/* Información del poster */
 .info-poster {
     padding: 14px 15px 16px;
 }
 
-/* Nombre del poster */
+/* Nombre poster — mantiene Syne */
 .nombre-poster {
     font-family: 'Syne', sans-serif;
     font-size: 14px;
@@ -544,21 +521,18 @@ body {
     color: var(--texto);
 }
 
-/* Artista */
 .artista-poster {
     font-size: 12px;
     color: var(--apagado);
     margin-bottom: 9px;
 }
 
-/* Fila de precios */
 .precios-poster {
     display: flex;
     align-items: center;
     gap: 9px;
 }
 
-/* Precio actual — degradado fuego */
 .precio-actual {
     background: var(--grad-fuego);
     -webkit-background-clip: text;
@@ -568,14 +542,12 @@ body {
     font-size: 14px;
 }
 
-/* Precio anterior tachado */
 .precio-antes {
     color: var(--apagado);
     font-size: 12px;
     text-decoration: line-through;
 }
 
-/* Zona botón cargar más */
 .zona-cargar-mas {
     grid-column: 1/-1;
     display: flex;
@@ -583,7 +555,6 @@ body {
     margin-top: 20px;
 }
 
-/* Botón cargar más */
 .btn-cargar-mas {
     display: flex;
     align-items: center;
@@ -606,7 +577,6 @@ body {
     box-shadow: 0 0 20px rgba(255,0,110,0.1);
 }
 
-/* Toast — notificación de carrito */
 .aviso-toast {
     position: fixed;
     bottom: 30px;
@@ -642,7 +612,6 @@ body {
    RESPONSIVE
    ============================================================ */
 
-/* Tablet — 900px */
 @media (max-width: 900px) {
     .contenedor-principal {
         grid-template-columns: 1fr;
@@ -650,12 +619,10 @@ body {
         gap: 0;
     }
 
-    /* Mostrar botón toggle filtros */
     .btn-toggle-filtros {
         display: flex;
     }
 
-    /* Panel filtros oculto por defecto — toggle con JS */
     .panel-filtros {
         position: static;
         display: none;
@@ -694,34 +661,21 @@ body {
     }
 }
 
-/* Móvil — 600px */
 @media (max-width: 600px) {
-    .portada h1 {
-        font-size: clamp(2rem, 9vw, 3rem);
-    }
+    .portada h1      { font-size: clamp(2rem, 9vw, 3rem); }
+    .portada p       { font-size: 0.9rem; }
+    .portada         { padding: 90px 16px 50px; }
+    .contenedor-principal { padding: 0 14px 50px; }
 
-    .portada p {
-        font-size: 0.9rem;
-    }
-
-    .portada {
-        padding: 90px 16px 50px;
-    }
-
-    .contenedor-principal {
-        padding: 0 14px 50px;
-    }
-
-    /* 2 columnas en móvil */
     .rejilla-posters {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
     }
 
-    .info-poster    { padding: 10px 10px 12px; }
-    .nombre-poster  { font-size: 12px; }
-    .artista-poster { font-size: 11px; margin-bottom: 6px; }
-    .precio-actual  { font-size: 13px; }
+    .info-poster     { padding: 10px 10px 12px; }
+    .nombre-poster   { font-size: 12px; }
+    .artista-poster  { font-size: 11px; margin-bottom: 6px; }
+    .precio-actual   { font-size: 13px; }
 
     .btn-ver-detalle {
         font-size: 12px;

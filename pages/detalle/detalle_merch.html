@@ -14,10 +14,11 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
 
-    <!-- Migas de pan — Inicio > Merch > Categoría > Nombre -->
+    <!-- Migas de pan -->
     <div class="migas-pan">
         <a href="../../index.html">Inicio</a>
         <i class="fa-solid fa-chevron-right"></i>
@@ -29,41 +30,36 @@
     </div>
 
 
-    <!-- Detalle principal — imagen + info -->
+    <!-- Detalle principal -->
     <main class="contenedor-detalle">
         <div class="detalle-grid">
 
-            <!-- Columna imagen — marco con zoom y miniatura -->
+            <!-- Columna imagen -->
             <div class="zona-imagen">
                 <div class="marco-imagen">
                     <img id="productoImagen" src="" alt="Producto">
-                    <!-- Insignia nuevo — visible si el producto lo es -->
                     <span class="insignia-nuevo" id="insigniaNuevo" style="display:none">NUEVO</span>
                 </div>
-                <!-- Miniatura — generada por detalle_merch.js -->
                 <div class="miniaturas">
                     <div class="miniatura activa" id="miniaturaUnica"></div>
                 </div>
             </div>
 
 
-            <!-- Columna info — título, precio, talla, color, descripción y acciones -->
+            <!-- Columna info -->
             <div class="zona-info">
 
-                <!-- Cabecera — categoría, nombre y artista -->
                 <div class="info-cabecera">
                     <span class="etiqueta-categoria" id="etiquetaCategoria">MERCH OFICIAL</span>
                     <h1 id="productoNombre"></h1>
                     <p id="productoArtista" class="artista-producto"></p>
                 </div>
 
-                <!-- Precio y precio anterior si hay descuento -->
                 <div class="zona-precio">
                     <span class="precio-grande" id="productoPrecio">€0,00</span>
                     <span class="precio-antes" id="precioAntes" style="display:none"></span>
                 </div>
 
-                <!-- Selector de talla — visible solo si el producto tiene tallas -->
                 <div class="selector-talla" id="selectorTalla" style="display:none">
                     <h3 class="titulo-selector">Talla <span id="tallaSeleccionada"></span></h3>
                     <div class="opciones-talla" id="opcionesTalla"></div>
@@ -72,19 +68,16 @@
                     </a>
                 </div>
 
-                <!-- Selector de color — visible solo si el producto tiene colores -->
                 <div class="selector-color" id="selectorColor" style="display:none">
                     <h3 class="titulo-selector">Color: <span id="colorSeleccionado"></span></h3>
                     <div class="opciones-color" id="opcionesColor"></div>
                 </div>
 
-                <!-- Descripción del producto -->
                 <div class="bloque-descripcion">
                     <h3 class="titulo-descripcion">Descripción</h3>
                     <p class="descripcion-larga" id="productoDescripcion"></p>
                 </div>
 
-                <!-- Tabla de detalles — material, categoría, artista y stock -->
                 <div class="detalles-tabla">
                     <div class="fila-detalle"><span>Material</span><span id="productoMaterial">100% algodón orgánico</span></div>
                     <div class="fila-detalle"><span>Categoría</span><span id="productoCategoria"></span></div>
@@ -95,7 +88,6 @@
                     </div>
                 </div>
 
-                <!-- Acciones — cantidad y botón añadir al carrito -->
                 <div class="zona-acciones">
                     <div class="selector-cantidad">
                         <button class="btn-cantidad" id="btnMenos"><i class="fa-solid fa-minus"></i></button>
@@ -107,12 +99,10 @@
                     </button>
                 </div>
 
-                <!-- Aviso de confirmación -->
                 <div class="aviso-carrito" id="avisoCarrito" style="display:none">
                     <i class="fa-solid fa-circle-check"></i> ¡Añadido al carrito!
                 </div>
 
-                <!-- Enlace volver -->
                 <a href="javascript:history.back()" class="enlace-volver">
                     <i class="fa-solid fa-arrow-left"></i> Volver
                 </a>
@@ -121,17 +111,17 @@
     </main>
 
 
-    <!-- Sección relacionados — otros productos de merch -->
+    <!-- Relacionados -->
     <section class="seccion-relacionados">
         <div class="contenedor-relacionados">
             <h2 class="titulo-relacionados">También te puede gustar</h2>
-            <!-- Grid generado por detalle_merch.js -->
             <div class="grid-relacionados" id="gridRelacionados"></div>
         </div>
     </section>
 
 
-    <!-- Footer -->
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
 
 
     <!-- Scripts -->

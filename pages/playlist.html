@@ -14,7 +14,8 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
 
     <!-- Hero — título, stats y vinilo giratorio -->
@@ -71,7 +72,7 @@
     </section>
 
 
-    <!-- Barra reproductora fija — portada, info, controles, progreso y volumen -->
+    <!-- Barra reproductora fija -->
     <div class="barra-reproductor" id="barraReproductor">
 
         <!-- Portada con brillo al reproducir -->
@@ -80,13 +81,13 @@
             <div class="portada-glow" id="portadaGlow"></div>
         </div>
 
-        <!-- Título y artista de la canción actual -->
+        <!-- Título y artista -->
         <div class="reproductor-info">
             <span class="reproductor-titulo"  id="reproductorTitulo">Selecciona una canción</span>
             <span class="reproductor-artista" id="reproductorArtista">—</span>
         </div>
 
-        <!-- Controles — aleatorio, anterior, play/pausa, siguiente, repetir -->
+        <!-- Controles -->
         <div class="reproductor-controles">
             <button class="ctrl-btn" id="btnAleatorio" title="Aleatorio">
                 <i class="fa-solid fa-shuffle"></i>
@@ -105,7 +106,7 @@
             </button>
         </div>
 
-        <!-- Barra de progreso — tiempo actual, slider y tiempo total -->
+        <!-- Barra de progreso -->
         <div class="reproductor-progreso-wrap">
             <span class="tiempo" id="tiempoActual">0:00</span>
             <div class="barra-progreso" id="barraProgreso">
@@ -115,7 +116,7 @@
             <span class="tiempo" id="tiempoTotal">0:00</span>
         </div>
 
-        <!-- Control de volumen — icono mute y slider -->
+        <!-- Volumen -->
         <div class="reproductor-volumen">
             <i class="fa-solid fa-volume-high" id="iconoVolumen"></i>
             <input type="range" class="slider-volumen" id="sliderVolumen" min="0" max="1" step="0.01" value="0.8">
@@ -126,9 +127,8 @@
     </div>
 
 
-    <!-- Lista de canciones — cabecera + filas generadas por playlist.js -->
+    <!-- Lista de canciones -->
     <main class="contenedor-playlist">
-        <!-- Cabecera de columnas -->
         <div class="playlist-cabecera-lista">
             <div class="col-num">#</div>
             <div class="col-titulo">TÍTULO</div>
@@ -136,12 +136,12 @@
             <div class="col-genero">GÉNERO</div>
             <div class="col-duracion"><i class="fa-regular fa-clock"></i></div>
         </div>
-        <!-- Filas de canciones generadas por playlist.js -->
         <div class="lista-canciones" id="listaCanciones"></div>
     </main>
 
 
-    <!-- Footer -->
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
 
 
     <!-- Scripts -->

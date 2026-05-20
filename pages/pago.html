@@ -14,7 +14,8 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
 
     <!-- ════════════════════════════════════════════════
@@ -90,17 +91,15 @@
                     <span class="lbl">Impuestos (21%)</span>
                     <span class="val">Incluidos</span>
                 </div>
-                <!-- Badge VIP Oro — visible solo para nivel Oro con +100€ -->
+                <!-- Badge VIP Oro -->
                 <div class="badge-oro-cart" id="badge-oro" style="display:none">
                     <i class="fa-solid fa-crown"></i>
                     <span>Beneficio <strong>Oro</strong> aplicado — envío gratis + 5% descuento</span>
                 </div>
                 <hr class="s-divider">
 
-                <!-- Vinyl Points — canje directo en el carrito -->
+                <!-- Vinyl Points — canje -->
                 <div class="puntos-canje-bloque" id="puntosCanje">
-
-                    <!-- Cabecera con corona y puntos disponibles -->
                     <div class="puntos-canje-cabecera">
                         <div class="puntos-canje-titulo">
                             <i class="fa-solid fa-crown"></i>
@@ -109,9 +108,8 @@
                         <span class="puntos-canje-disp" id="puntosDisp">0 pts disponibles</span>
                     </div>
 
-                    <!-- Estado A: formulario de canje -->
+                    <!-- Estado A: formulario -->
                     <div id="pCanjeForm">
-                        <!-- Slider visual de puntos -->
                         <div class="puntos-slider-wrap">
                             <input type="range" id="pCanjeSlider" class="puntos-slider"
                                    min="0" max="1250" step="100" value="0">
@@ -120,8 +118,6 @@
                                 <span id="pSliderMax">1.250 pts</span>
                             </div>
                         </div>
-
-                        <!-- Input manual + botón -->
                         <div class="puntos-canje-fila">
                             <div class="puntos-input-wrap">
                                 <i class="fa-solid fa-coins"></i>
@@ -133,8 +129,6 @@
                                 <i class="fa-solid fa-tag"></i> Aplicar
                             </button>
                         </div>
-
-                        <!-- Preview del descuento en tiempo real -->
                         <div class="puntos-preview-card" id="pCanjePreviewCard" style="display:none">
                             <div class="puntos-preview-desc">
                                 <i class="fa-solid fa-circle-check" style="color:var(--verde)"></i>
@@ -145,7 +139,7 @@
                         <p class="puntos-canje-hint">100 pts = €1,00 · múltiplos de 100</p>
                     </div>
 
-                    <!-- Estado B: puntos ya aplicados -->
+                    <!-- Estado B: puntos aplicados -->
                     <div id="pCanjeActivo" style="display:none">
                         <div class="puntos-aplicados-fila">
                             <div class="puntos-aplicados-info">
@@ -184,12 +178,10 @@
                 </div>
                 <div class="s-iva">Incluye IVA (21%)</div>
 
-                <!-- Botón finalizar compra -->
                 <button class="btn-primary" onclick="goTo(2)">
                     Finalizar Compra <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
-                <!-- Iconos de seguridad -->
                 <div class="ssl-icons">
                     <span class="ssl-icon"><i class="fa-solid fa-credit-card"></i></span>
                     <span class="ssl-icon"><i class="fa-solid fa-lock"></i></span>
@@ -206,7 +198,6 @@
     ════════════════════════════════════════════════ -->
     <div class="page" id="page-shipping">
 
-        <!-- Stepper — paso 2 activo -->
         <div class="stepper-wrap">
             <div class="stepper">
                 <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
@@ -224,7 +215,7 @@
                 <h1>Dirección de Envío</h1>
                 <p class="subtitle">¿Dónde quieres recibir tu pedido?</p>
 
-                <!-- Selector de dirección guardada — TODO (Supabase): SELECT * FROM direcciones WHERE user_id = auth.uid() -->
+                <!-- TODO (Supabase): SELECT * FROM direcciones WHERE user_id = auth.uid() -->
                 <div class="panel">
                     <div class="panel-title"><i class="fa-solid fa-bookmark"></i> Direcciones Guardadas</div>
                     <div class="dirs-guardadas" id="dirsGuardadas">
@@ -252,7 +243,6 @@
                     </div>
                 </div>
 
-                <!-- Panel datos de contacto -->
                 <div class="panel" id="panelContacto">
                     <div class="panel-title"><i class="fa-solid fa-user"></i> Datos de Contacto</div>
                     <div class="field-row">
@@ -265,7 +255,6 @@
                             <input type="text" class="field-input" id="sh-surname" placeholder="Pérez" oninput="chkNombre(this)" autocomplete="family-name">
                         </div>
                     </div>
-                    <!-- Email con validación en tiempo real -->
                     <div class="field-group">
                         <div class="field-label">Email</div>
                         <div class="input-wrap" id="wrap-email">
@@ -273,7 +262,6 @@
                             <span class="valid-icon"><i class="fa-solid fa-check"></i></span>
                         </div>
                     </div>
-                    <!-- Teléfono con validación en tiempo real -->
                     <div class="field-group">
                         <div class="field-label">Teléfono</div>
                         <div class="input-wrap" id="wrap-telefono">
@@ -283,7 +271,6 @@
                     </div>
                 </div>
 
-                <!-- Panel dirección postal -->
                 <div class="panel">
                     <div class="panel-title"><i class="fa-solid fa-location-dot"></i> Dirección</div>
                     <div class="field-group">
@@ -311,10 +298,8 @@
                     </div>
                 </div>
 
-                <!-- Panel método de envío -->
                 <div class="panel">
                     <div class="panel-title"><i class="fa-solid fa-truck"></i> Método de Envío</div>
-                    <!-- Envío estándar -->
                     <div class="ship-option" id="ship-std" onclick="selectShipping('std', true)">
                         <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-std"></div></div>
                         <div class="ship-info">
@@ -323,7 +308,6 @@
                         </div>
                         <div class="ship-price">€4.95</div>
                     </div>
-                    <!-- Envío express -->
                     <div class="ship-option" id="ship-exp" onclick="selectShipping('exp', true)">
                         <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-exp"></div></div>
                         <div class="ship-info">
@@ -332,7 +316,6 @@
                         </div>
                         <div class="ship-price">€9.95</div>
                     </div>
-                    <!-- Envío gratuito — visible cuando el pedido supera 100€ -->
                     <div class="ship-option" id="ship-free" onclick="selectShipping('free', true)" style="display:none;">
                         <div class="ship-radio-wrap"><div class="ship-radio-dot" id="radio-free"></div></div>
                         <div class="ship-info">
@@ -343,7 +326,6 @@
                     </div>
                 </div>
 
-                <!-- Navegación — volver y continuar -->
                 <div class="nav-row">
                     <button class="btn-back" onclick="goTo(1)">
                         <i class="fa-solid fa-arrow-left"></i> Volver al Carrito
@@ -354,7 +336,6 @@
                 </div>
             </div>
 
-            <!-- Resumen lateral del pedido -->
             <div class="summary-card">
                 <div class="s-title"><i class="fa-solid fa-bag-shopping"></i> Tu Pedido</div>
                 <div id="ship-summary-items"></div>
@@ -382,7 +363,6 @@
     ════════════════════════════════════════════════ -->
     <div class="page" id="page-payment">
 
-        <!-- Stepper — paso 3 activo -->
         <div class="stepper-wrap">
             <div class="stepper">
                 <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
@@ -400,7 +380,7 @@
                 <h1>Método de Pago</h1>
                 <p class="subtitle">Finaliza tu compra de forma segura.</p>
 
-                <!-- Tarjetas guardadas — TODO (Supabase): SELECT * FROM tarjetas_guardadas WHERE user_id = auth.uid() -->
+                <!-- TODO (Supabase): SELECT * FROM tarjetas_guardadas WHERE user_id = auth.uid() -->
                 <div id="tarjetasGuardadas" class="panel">
                     <div class="panel-title"><i class="fa-solid fa-credit-card"></i> Tarjetas guardadas</div>
                     <div class="tarjeta-guardada-item selected" id="tg-nueva" onclick="seleccionarTarjeta('nueva')">
@@ -410,7 +390,6 @@
                             <span>Usar nueva tarjeta</span>
                         </div>
                     </div>
-                    <!-- Ejemplo de tarjeta guardada — se genera desde localStorage tras el primer pago -->
                     <div class="tarjeta-guardada-item" id="tg-guardada" style="display:none" onclick="seleccionarTarjeta('guardada')">
                         <div class="tg-radio"></div>
                         <div class="tg-info">
@@ -426,18 +405,15 @@
                     </div>
                 </div>
 
-                <!-- Botón de método seleccionado -->
                 <button class="card-method-btn">
                     <i class="fa-solid fa-credit-card"></i> Tarjeta
                 </button>
 
-                <!-- Panel detalles de la tarjeta -->
                 <div class="panel">
                     <div class="panel-title-row">
                         <div class="panel-title" style="margin:0;">
                             <i class="fa-solid fa-credit-card"></i> Detalles de la Tarjeta
                         </div>
-                        <!-- Logos de tarjetas aceptadas -->
                         <div class="card-logos">
                             <span class="card-logo">VISA</span>
                             <span class="card-logo">MC</span>
@@ -445,7 +421,6 @@
                         </div>
                     </div>
 
-                    <!-- Número de tarjeta — formato automático 0000 0000 0000 0000 -->
                     <div class="field-group">
                         <div class="field-label"><i class="fa-solid fa-lock" style="font-size:.7rem;"></i> Número de Tarjeta</div>
                         <div class="input-wrap" id="wrap-cn">
@@ -454,7 +429,6 @@
                         </div>
                     </div>
 
-                    <!-- Titular — solo letras -->
                     <div class="field-group">
                         <div class="field-label">Nombre del Titular</div>
                         <div class="input-wrap" id="wrap-ch">
@@ -463,7 +437,6 @@
                         </div>
                     </div>
 
-                    <!-- Caducidad y CVV -->
                     <div class="field-row">
                         <div class="field-group">
                             <div class="field-label">Fecha de Caducidad</div>
@@ -481,20 +454,16 @@
                         </div>
                     </div>
 
-                    <!-- Toggle — guardar tarjeta para próximas compras -->
                     <div class="toggle-row">
                         <div class="toggle on" id="save-card-toggle" onclick="toggleGuardarTarjeta()"></div>
                         <span>Guardar tarjeta para próximas compras</span>
                     </div>
-
-                    <!-- Toggle — misma dirección de facturación -->
                     <div class="toggle-row">
                         <div class="toggle" id="bill-toggle" onclick="toggleBill()"></div>
                         <span>La dirección de facturación es la misma que la de envío</span>
                     </div>
                 </div>
 
-                <!-- Navegación — volver y pagar -->
                 <div class="nav-row">
                     <button class="btn-back" onclick="goTo(2)">
                         <i class="fa-solid fa-arrow-left"></i> Volver al Envío
@@ -505,7 +474,6 @@
                 </div>
             </div>
 
-            <!-- Resumen lateral del pedido -->
             <div class="summary-card">
                 <div class="s-title"><i class="fa-solid fa-gift"></i> Resumen del Pedido</div>
                 <div id="pay-summary-items"></div>
@@ -532,7 +500,6 @@
     ════════════════════════════════════════════════ -->
     <div class="page" id="page-confirm">
 
-        <!-- Stepper — todos completados -->
         <div class="stepper-wrap">
             <div class="stepper">
                 <div class="step-item"><div class="step-circle done">&#10003;</div><span class="step-label done">Carrito</span></div>
@@ -545,23 +512,18 @@
             </div>
         </div>
 
-        <!-- Contenido de confirmación — generado por pago.js buildConfirmation() -->
         <div class="confirm-wrap">
-            <!-- Icono de éxito animado -->
             <div class="confirm-check"><i class="fa-solid fa-check"></i></div>
             <h1 class="confirm-title">¡Gracias por tu compra!</h1>
             <p class="confirm-sub">Tu pedido <span id="conf-order-id">#VS-0000</span> ha sido confirmado.</p>
             <p class="confirm-email" id="conf-email-msg">Hemos enviado los detalles a tu correo.</p>
 
-            <!-- Grid — resumen izquierda + totales derecha -->
             <div class="confirm-grid">
                 <div class="confirm-left">
-                    <!-- Artículos del pedido -->
                     <div class="panel" style="margin-bottom:0;">
                         <div class="panel-title"><i class="fa-solid fa-gift"></i> Resumen del Pedido</div>
                         <div id="conf-items"></div>
                     </div>
-                    <!-- Dirección y entrega estimada -->
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;">
                         <div class="addr-box">
                             <div class="addr-label"><i class="fa-solid fa-box"></i> Dirección de Envío</div>
@@ -579,7 +541,6 @@
                 </div>
 
                 <div class="confirm-right">
-                    <!-- Totales del pedido -->
                     <div class="total-conf-card">
                         <div class="addr-label" style="margin-bottom:11px;">
                             <i class="fa-solid fa-receipt"></i> Total
@@ -597,7 +558,6 @@
                         <div class="tc-row"><span class="lbl">IVA (21%)</span><span class="val">Incluido</span></div>
                         <div class="tc-total"><span class="lbl">Total</span><span class="val" id="cf-total">€0.00</span></div>
                     </div>
-                    <!-- Método de pago utilizado -->
                     <div class="payment-method-badge">
                         <div class="visa-badge">VISA</div>
                         <div>
@@ -605,7 +565,6 @@
                             <div class="pm-sub" id="conf-card">•••• 0000</div>
                         </div>
                     </div>
-                    <!-- Botón seguir comprando -->
                     <button class="btn-primary" onclick="goTo(1); resetCart();">
                         <i class="fa-solid fa-bag-shopping"></i> Seguir Comprando
                     </button>
@@ -615,18 +574,14 @@
     </div>
 
 
-    <!-- Toast — notificaciones de acción -->
+    <!-- Toast -->
     <div id="toast">
         <i id="t-icon" class="fa-solid fa-circle-info"></i>
         <span id="t-msg">–</span>
     </div>
 
 
-    <!-- Footer -->
-
-
-    <!-- Scripts -->
-    <!-- Modal resumen final — antes de confirmar el pago -->
+    <!-- FIX: Modal resumen final movido ANTES de los scripts -->
     <div class="modal-resumen-overlay" id="modalResumenFinal">
         <div class="modal-resumen">
             <button class="modal-resumen-cerrar" onclick="cerrarResumenFinal()">
@@ -637,7 +592,6 @@
             </h2>
             <p class="modal-resumen-sub">Confirma que todo es correcto antes de pagar.</p>
 
-            <!-- Artículos -->
             <div class="mr-seccion">
                 <div class="mr-seccion-titulo">
                     <i class="fa-solid fa-bag-shopping"></i> Artículos
@@ -645,7 +599,6 @@
                 <div id="mr-items"></div>
             </div>
 
-            <!-- Envío -->
             <div class="mr-seccion">
                 <div class="mr-seccion-titulo">
                     <i class="fa-solid fa-truck"></i> Envío
@@ -660,7 +613,6 @@
                 </div>
             </div>
 
-            <!-- Pago -->
             <div class="mr-seccion">
                 <div class="mr-seccion-titulo">
                     <i class="fa-solid fa-credit-card"></i> Método de pago
@@ -671,7 +623,6 @@
                 </div>
             </div>
 
-            <!-- Totales -->
             <div class="mr-totales">
                 <div class="mr-fila"><span>Subtotal</span><span id="mr-sub">€0,00</span></div>
                 <div class="mr-fila" id="mr-fila-cupon" style="display:none">
@@ -689,13 +640,18 @@
                 </div>
             </div>
 
-            <!-- Botón confirmar final -->
             <button class="btn-confirmar-final" onclick="processPay()">
                 <i class="fa-solid fa-lock"></i> Confirmar y Pagar <span id="mr-total-btn">€0,00</span>
             </button>
         </div>
     </div>
 
+
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
+
+
+    <!-- Scripts -->
     <script src="../js/header.js"></script>
     <script src="../js/common.js"></script>
     <script src="../js/pago.js"></script>

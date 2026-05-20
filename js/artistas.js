@@ -3,235 +3,167 @@
    Header, footer y btn-subir los gestiona header.js
    ============================================================ */
 
-
 /* ============================================================
    DATOS
    TODO (Spring Boot): GET /api/artistas
    ============================================================ */
-const TODOS_LOS_ARTISTAS = [
-    { id: 1,  nombre: "The Beatles",    albums: 14, genero: "rock",        pop: 98, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Beatles_ad_1965_just_the_beatles_crop.jpg/400px-Beatles_ad_1965_just_the_beatles_crop.jpg" },
-    { id: 2,  nombre: "Rosalía",        albums: 4,  genero: "pop",         pop: 91, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Rosal%C3%ADa_%28cropped%29.jpg/400px-Rosal%C3%ADa_%28cropped%29.jpg" },
-    { id: 3,  nombre: "Dua Lipa",       albums: 3,  genero: "pop",         pop: 95, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Dua_Lipa_in_2018_%28cropped%29.jpg/400px-Dua_Lipa_in_2018_%28cropped%29.jpg" },
-    { id: 4,  nombre: "Arctic Monkeys", albums: 7,  genero: "indie",       pop: 90, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Arctic_Monkeys_2013.jpg/400px-Arctic_Monkeys_2013.jpg" },
-    { id: 5,  nombre: "Queen",          albums: 15, genero: "rock",        pop: 97, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Freddie_Mercury_performing_in_New_Haven,_CT_crop.jpg/400px-Freddie_Mercury_performing_in_New_Haven,_CT_crop.jpg" },
-    { id: 6,  nombre: "Pink Floyd",     albums: 11, genero: "rock",        pop: 94, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Dark_side_of_the_moon.jpg/400px-Dark_side_of_the_moon.jpg" },
-    { id: 7,  nombre: "Bad Bunny",      albums: 5,  genero: "pop",         pop: 96, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Bad_Bunny_2020.jpg/400px-Bad_Bunny_2020.jpg" },
-    { id: 8,  nombre: "C. Tangana",     albums: 4,  genero: "pop",         pop: 85, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/C._Tangana_en_el_Pabellón_de_la_Navegación_de_Sevilla_%28cropped%29.jpg/400px-C._Tangana_en_el_Pabellón_de_la_Navegación_de_Sevilla_%28cropped%29.jpg" },
-    { id: 9,  nombre: "Tame Impala",    albums: 4,  genero: "indie",       pop: 88, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Tame_Impala_02.jpg/400px-Tame_Impala_02.jpg" },
-    { id: 10, nombre: "Taylor Swift",   albums: 10, genero: "pop",         pop: 99, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png/400px-191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png" },
-    { id: 11, nombre: "Miles Davis",    albums: 8,  genero: "jazz",        pop: 83, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Miles_Davis_by_Palumbo.jpg/400px-Miles_Davis_by_Palumbo.jpg" },
-    { id: 12, nombre: "Daft Punk",      albums: 4,  genero: "electronica", pop: 93, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Daft_Punk_BRIT_Awards_2007_%28cropped%29.jpg/400px-Daft_Punk_BRIT_Awards_2007_%28cropped%29.jpg" },
-    { id: 13, nombre: "Radiohead",      albums: 9,  genero: "indie",       pop: 89, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Radioheadhp.jpg/400px-Radioheadhp.jpg" },
-    { id: 14, nombre: "Björk",          albums: 10, genero: "electronica", pop: 82, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Bjork_2_20070601.jpg/400px-Bjork_2_20070601.jpg" },
-    { id: 15, nombre: "John Coltrane",  albums: 12, genero: "jazz",        pop: 80, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/John_Coltrane_1963.jpg/400px-John_Coltrane_1963.jpg" },
-    { id: 16, nombre: "Nirvana",        albums: 3,  genero: "rock",        pop: 95, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Nirvana_around_1992.jpg/400px-Nirvana_around_1992.jpg" },
-    { id: 17, nombre: "The Weeknd",     albums: 5,  genero: "pop",         pop: 96, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/The_Weeknd_2017_%28cropped%29.jpg/400px-The_Weeknd_2017_%28cropped%29.jpg" },
-    { id: 18, nombre: "Kendrick Lamar", albums: 5,  genero: "indie",       pop: 97, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Kendrick_Lamar_2014_%28cropped%29.jpg/400px-Kendrick_Lamar_2014_%28cropped%29.jpg" },
-    { id: 19, nombre: "Frank Ocean",    albums: 2,  genero: "pop",         pop: 92, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Frank_Ocean_2012.jpg/400px-Frank_Ocean_2012.jpg" },
-    { id: 20, nombre: "Extremoduro",    albums: 9,  genero: "rock",        pop: 78, img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Extremoduro_-_Robe_%282%29.jpg/400px-Extremoduro_-_Robe_%282%29.jpg" },
+const ARTISTS = [
+    { id: 1,  name: "Arctic Monkeys",  genre: "rock",        albums: 7,  popularity: 95, image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80" },
+    { id: 2,  name: "Taylor Swift",    genre: "pop",         albums: 11, popularity: 99, image: "https://images.unsplash.com/photo-1598387846148-47e82ee120cc?w=400&q=80" },
+    { id: 3,  name: "Tame Impala",     genre: "indie",       albums: 5,  popularity: 88, image: "https://images.unsplash.com/photo-1557682224-5b8590cd9ec5?w=400&q=80" },
+    { id: 4,  name: "Daft Punk",       genre: "electronica", albums: 4,  popularity: 96, image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=80" },
+    { id: 5,  name: "Lana Del Rey",    genre: "pop",         albums: 9,  popularity: 92, image: "https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=400&q=80" },
+    { id: 6,  name: "Kendrick Lamar",  genre: "hiphop",      albums: 6,  popularity: 97, image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&q=80" },
+    { id: 7,  name: "Radiohead",       genre: "rock",        albums: 9,  popularity: 94, image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80" },
+    { id: 8,  name: "Dua Lipa",        genre: "pop",         albums: 3,  popularity: 93, image: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&q=80" },
+    { id: 9,  name: "The Weeknd",      genre: "pop",         albums: 6,  popularity: 96, image: "https://images.unsplash.com/photo-1544785349-c4a5301826fd?w=400&q=80" },
+    { id: 10, name: "Miles Davis",     genre: "jazz",        albums: 12, popularity: 91, image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&q=80" },
+    { id: 11, name: "Olivia Rodrigo",  genre: "pop",         albums: 2,  popularity: 90, image: "https://images.unsplash.com/photo-1502139214982-d0ad755818d8?w=400&q=80" },
+    { id: 12, name: "Harry Styles",    genre: "pop",         albums: 3,  popularity: 91, image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" },
+    { id: 13, name: "Billie Eilish",   genre: "indie",       albums: 3,  popularity: 93, image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80" },
+    { id: 14, name: "Bad Bunny",       genre: "latina",      albums: 6,  popularity: 97, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" },
+    { id: 15, name: "Rosalía",         genre: "latina",      albums: 3,  popularity: 89, image: "https://images.unsplash.com/photo-1556821840-3a63f15732ce?w=400&q=80" },
+    { id: 16, name: "John Coltrane",   genre: "jazz",        albums: 10, popularity: 87, image: "https://images.unsplash.com/photo-1578681994506-b8f463449011?w=400&q=80" }
 ];
 
-/* Metadatos de géneros — iconos, colores y nombre */
-const GENEROS_META = [
-    { id: "rock",        nombre: "Rock",        icono: "fa-solid fa-guitar",       color: "linear-gradient(135deg,#FF006E,#FF6B00)" },
-    { id: "pop",         nombre: "Pop",         icono: "fa-solid fa-microphone",   color: "linear-gradient(135deg,#7B2FFF,#FF006E)" },
-    { id: "indie",       nombre: "Indie",       icono: "fa-solid fa-record-vinyl", color: "linear-gradient(135deg,#00D4FF,#7B2FFF)" },
-    { id: "jazz",        nombre: "Jazz",        icono: "fa-solid fa-music",        color: "linear-gradient(135deg,#FFE600,#FF6B00)" },
-    { id: "electronica", nombre: "Electrónica", icono: "fa-solid fa-headphones",   color: "linear-gradient(135deg,#00FF94,#00D4FF)" },
+const GENRES = [
+    { id: "rock",        name: "Rock",       icon: "fa-guitar",       color: "linear-gradient(135deg,#FF006E,#FF6B00)", count: 0 },
+    { id: "pop",         name: "Pop",         icon: "fa-star",         color: "linear-gradient(135deg,#7B2FFF,#FF006E)", count: 0 },
+    { id: "indie",       name: "Indie",       icon: "fa-record-vinyl", color: "linear-gradient(135deg,#00D4FF,#7B2FFF)", count: 0 },
+    { id: "electronica", name: "Electrónica", icon: "fa-bolt",         color: "linear-gradient(135deg,#00FF94,#00D4FF)", count: 0 },
+    { id: "jazz",        name: "Jazz",        icon: "fa-music",        color: "linear-gradient(135deg,#FFE600,#FF6B00)", count: 0 },
+    { id: "latina",      name: "Latina",      icon: "fa-fire",         color: "linear-gradient(135deg,#FF6B00,#FF006E)", count: 0 }
 ];
 
-/* Imagen placeholder si falla la carga */
-const imagenFallback = (nombre) =>
-    `https://via.placeholder.com/300x300/12103A/7B2FFF?text=${encodeURIComponent(nombre)}`;
+const ITEMS_POR_CARGA = 8;
 
-const POR_PAGINA = 12;
-
-/* Estado global de filtros */
 let state = {
-    genero:   'all',
-    orden:    'popularity',
-    busqueda: '',
-    pagina:   POR_PAGINA,
+    genre:       'all',
+    sort:        'popularity',
+    search:      '',
+    itemsToShow: ITEMS_POR_CARGA
 };
 
-
-/* Filtra y ordena el array de artistas según el estado */
-function getFiltrados() {
-    let lista = [...TODOS_LOS_ARTISTAS];
-
-    if (state.genero !== 'all') lista = lista.filter(a => a.genero === state.genero);
-    if (state.busqueda)         lista = lista.filter(a => a.nombre.toLowerCase().includes(state.busqueda.toLowerCase()));
-
-    /* Ordenación */
-    if (state.orden === 'name')        lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
-    else if (state.orden === 'albums') lista.sort((a, b) => b.albums - a.albums);
-    else                               lista.sort((a, b) => b.pop - a.pop);
-
-    return lista;
-}
-
-
-/* Genera la tira de fotos animada del hero */
-function renderTira() {
-    const contenedor = document.getElementById('tiraFotos');
-    if (!contenedor) return;
-
-    const imagenes = TODOS_LOS_ARTISTAS.map(a => a.img);
-    contenedor.innerHTML = '';
-
-    /* 3 columnas con velocidades distintas */
-    for (let col = 0; col < 3; col++) {
-        const columna = document.createElement('div');
-        columna.className = 'tira-col';
-        [...imagenes, ...imagenes].forEach(src => {
-            const img     = document.createElement('img');
-            img.className = 'tira-foto';
-            img.src       = src;
-            img.alt       = '';
-            img.loading   = 'lazy';
-            img.onerror   = function () { this.style.display = 'none'; };
-            columna.appendChild(img);
-        });
-        contenedor.appendChild(columna);
+function getFiltered() {
+    let result = ARTISTS.filter(a => {
+        const matchGenre  = state.genre === 'all' || a.genre === state.genre;
+        const matchSearch = a.name.toLowerCase().includes(state.search.toLowerCase());
+        return matchGenre && matchSearch;
+    });
+    switch (state.sort) {
+        case 'popularity': result.sort((a, b) => b.popularity - a.popularity); break;
+        case 'name':       result.sort((a, b) => a.name.localeCompare(b.name)); break;
+        case 'albums':     result.sort((a, b) => b.albums - a.albums); break;
     }
+    return result;
 }
 
+function renderGrid() {
+    const rejilla    = document.getElementById('rejilla');
+    const contador   = document.getElementById('contadorArtistas');
+    const sinRes     = document.getElementById('sinResultados');
+    const zonaCargar = document.getElementById('zonaCargarMas');
+    const filtered   = getFiltered();
+    const visible    = filtered.slice(0, state.itemsToShow);
 
-/* Pinta las tarjetas de artistas en la rejilla */
-function renderRejilla() {
-    const rejilla       = document.getElementById('rejilla');
-    const sinResultados = document.getElementById('sinResultados');
-    const zonaCargarMas = document.getElementById('zonaCargarMas');
-    const contador      = document.getElementById('contadorArtistas');
+    contador.textContent = `${filtered.length} artista${filtered.length !== 1 ? 's' : ''}`;
 
-    const listaFiltrada = getFiltrados();
-    const listaVisible  = listaFiltrada.slice(0, state.pagina);
-
-    contador.innerHTML = `Mostrando <strong>${listaVisible.length}</strong> de <strong>${listaFiltrada.length}</strong> artistas`;
-
-    /* Sin resultados */
-    if (listaFiltrada.length === 0) {
-        rejilla.innerHTML = '';
-        sinResultados.style.display = 'block';
-        zonaCargarMas.style.display = 'none';
+    if (visible.length === 0) {
+        rejilla.innerHTML        = '';
+        sinRes.style.display     = 'block';
+        zonaCargar.style.display = 'none';
         return;
     }
 
-    sinResultados.style.display = 'none';
+    sinRes.style.display = 'none';
 
-    rejilla.innerHTML = listaVisible.map((artista, indice) => `
-        <div class="tarjeta-artista"
-             style="animation-delay: ${indice * 0.04}s"
-             data-genero="${artista.genero}"
-             onclick="irATienda('${encodeURIComponent(artista.nombre)}')">
+    /* FIX: <div> en lugar de <a href="#"> — las tarjetas no son clicables */
+    rejilla.innerHTML = visible.map((a, i) => `
+        <div class="tarjeta-artista" style="animation-delay:${i * 0.04}s" data-id="${a.id}">
             <div class="imagen-artista">
-                <img src="${artista.img}" alt="${artista.nombre}" loading="lazy"
-                     onerror="this.src='${imagenFallback(artista.nombre)}'">
-                <!-- Overlay con icono al hover -->
+                <img src="${a.image}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'">
                 <div class="overlay-play">
                     <i class="fa-solid fa-record-vinyl"></i>
                 </div>
             </div>
-            <div class="nombre-artista">${artista.nombre}</div>
+            <div class="nombre-artista">${a.name}</div>
             <div class="meta-artista">
-                <span class="tag-genero">${artista.genero}</span>
-                <span class="albums-count">${artista.albums} álbumes</span>
+                <span class="tag-genero">${a.genre}</span>
             </div>
-            <!-- Barra de popularidad -->
             <div class="barra-pop">
-                <div class="fill-pop" style="width: ${artista.pop}%"></div>
+                <div class="fill-pop" style="width:${a.popularity}%"></div>
             </div>
         </div>
     `).join('');
 
-    /* Mostrar / ocultar botón cargar más */
-    zonaCargarMas.style.display = listaFiltrada.length > state.pagina ? 'block' : 'none';
+    const quedan = filtered.length - state.itemsToShow;
+    const btn    = document.getElementById('btnCargarMas');
+    if (quedan <= 0) {
+        zonaCargar.style.display = 'none';
+    } else {
+        zonaCargar.style.display = 'block';
+        btn.innerHTML = `Ver más artistas (${quedan} restantes) <i class="fas fa-chevron-down"></i>`;
+        btn.disabled  = false;
+    }
 }
 
-
-/* Navega a la tienda filtrada por el artista seleccionado */
-function irATienda(nombreCodificado) {
-    const nombre = decodeURIComponent(nombreCodificado);
-    window.location.href = `tienda.html?artista=${encodeURIComponent(nombre)}`;
-}
-
-
-/* Genera las tarjetas de la sección de géneros */
 function renderGeneros() {
-    const cuadricula = document.getElementById('gridGeneros');
-    if (!cuadricula) return;
+    GENRES.forEach(g => { g.count = ARTISTS.filter(a => a.genre === g.id).length; });
 
-    cuadricula.innerHTML = GENEROS_META.map(genero => {
-        const total = TODOS_LOS_ARTISTAS.filter(a => a.genero === genero.id).length;
-        return `
-        <div class="tarjeta-genero"
-             style="--color-genero: ${genero.color}"
-             data-genero="${genero.id}">
-            <div class="genero-linea"></div>
-            <i class="${genero.icono} genero-icono-fa"></i>
-            <div class="genero-nombre">${genero.nombre}</div>
-            <div class="genero-count">${total} artistas</div>
-        </div>`;
-    }).join('');
+    const grid = document.getElementById('gridGeneros');
+    if (!grid) return;
 
-    /* Clic en tarjeta de género — filtra la rejilla y hace scroll */
-    cuadricula.querySelectorAll('.tarjeta-genero').forEach(tarjeta => {
-        tarjeta.addEventListener('click', () => {
-            state.genero = tarjeta.dataset.genero;
-            state.pagina = POR_PAGINA;
-            document.querySelectorAll('.btn-genero').forEach(b => b.classList.remove('activo'));
-            const btnFiltro = document.querySelector(`.btn-genero[data-genre="${state.genero}"]`);
-            if (btnFiltro) btnFiltro.classList.add('activo');
-            renderRejilla();
+    grid.innerHTML = GENRES.map(g => `
+        <div class="tarjeta-genero" style="--color-genero:${g.color}" data-genre="${g.id}">
+            <div class="genero-linea" style="background:${g.color}"></div>
+            <i class="fa-solid ${g.icon} genero-icono-fa" style="--color-genero:${g.color}"></i>
+            <div class="genero-nombre">${g.name}</div>
+            <div class="genero-count">${g.count} artistas</div>
+        </div>
+    `).join('');
+
+    grid.querySelectorAll('.tarjeta-genero').forEach(card => {
+        card.addEventListener('click', () => {
+            state.genre       = card.dataset.genre;
+            state.itemsToShow = ITEMS_POR_CARGA;
+            document.querySelectorAll('.btn-genero').forEach(b => {
+                b.classList.toggle('activo', b.dataset.genre === state.genre);
+            });
+            renderGrid();
             document.querySelector('.seccion-explorar').scrollIntoView({ behavior: 'smooth' });
         });
     });
 }
 
-/* Resetea la paginación y re-renderiza */
-function resetearPagina() {
-    state.pagina = POR_PAGINA;
-    renderRejilla();
-}
-
-
-/* Eventos e inicialización */
 document.addEventListener('DOMContentLoaded', () => {
-    renderTira();
-    renderRejilla();
+    renderGrid();
     renderGeneros();
 
-    /* Búsqueda por nombre */
     document.getElementById('campoBusqueda').addEventListener('input', function () {
-        state.busqueda = this.value.trim();
-        resetearPagina();
+        state.search      = this.value.trim();
+        state.itemsToShow = ITEMS_POR_CARGA;
+        renderGrid();
     });
 
-    /* Filtros de género */
-    document.getElementById('filtrosGenero').addEventListener('click', evento => {
-        const boton = evento.target.closest('.btn-genero');
-        if (!boton) return;
-        document.querySelectorAll('.btn-genero').forEach(b => b.classList.remove('activo'));
-        boton.classList.add('activo');
-        state.genero = boton.dataset.genre;
-        resetearPagina();
+    document.querySelectorAll('.btn-genero').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.btn-genero').forEach(b => b.classList.remove('activo'));
+            this.classList.add('activo');
+            state.genre       = this.dataset.genre;
+            state.itemsToShow = ITEMS_POR_CARGA;
+            renderGrid();
+        });
     });
 
-    /* Selector de orden */
     document.getElementById('selectOrden').addEventListener('change', function () {
-        state.orden = this.value;
-        resetearPagina();
+        state.sort = this.value;
+        renderGrid();
     });
 
-    /* Botón cargar más */
     document.getElementById('btnCargarMas').addEventListener('click', function () {
-        state.pagina += POR_PAGINA;
-        this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando...';
-        this.disabled  = true;
-        setTimeout(() => {
-            renderRejilla();
-            this.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Ver más artistas';
-            this.disabled  = false;
-        }, 400);
+        state.itemsToShow += ITEMS_POR_CARGA;
+        this.innerHTML     = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
+        this.disabled      = true;
+        setTimeout(renderGrid, 400);
     });
 });

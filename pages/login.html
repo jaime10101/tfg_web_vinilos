@@ -14,24 +14,27 @@
 </head>
 <body>
 
-<!-- Sin header — solo formulario para no distraer al usuario -->
+<!-- Sin header ni footer — formulario sin distracciones -->
 
 <main class="contenedor-login">
 
-    <!-- Izquierda — formulario de inicio de sesión -->
+    <!-- Izquierda — formulario -->
     <section class="tarjeta-login">
+
+        <!-- Logo enlace a inicio -->
+        <div class="logo" style="margin-bottom:32px;">
+            <a href="../index.html">Vinyl Sounds</a>
+        </div>
 
         <h1>Bienvenido de nuevo</h1>
         <p class="subtitulo">Ingresa tus credenciales para acceder a tu colección.</p>
 
-        <!-- Formulario — TODO (Spring Boot): POST /api/auth/login -->
+        <!-- TODO (Spring Boot): POST /api/auth/login -->
         <form id="formLogin" novalidate>
 
-            <!-- Email -->
             <label for="email">Correo electrónico</label>
             <input type="email" id="email" placeholder="ejemplo@email.com" required>
 
-            <!-- Contraseña con enlace olvidé y toggle -->
             <div class="etiqueta-contrasena">
                 <label for="password">Contraseña</label>
                 <a href="#" class="enlace-olvidaste">¿Olvidaste tu contraseña?</a>
@@ -44,12 +47,11 @@
                 </span>
             </div>
 
-            <!-- Botón iniciar sesión -->
             <button type="submit" class="btn-principal">Iniciar Sesión</button>
 
             <div class="separador">O continúa con</div>
 
-            <!-- Botón Google — TODO (Spring Boot): OAuth2 Google -->
+            <!-- TODO (Spring Boot): OAuth2 Google -->
             <button type="button" class="btn-google" id="btnGoogle">
                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
                 Continuar con Google
@@ -57,9 +59,8 @@
 
         </form>
 
-        <!-- Enlace a registro -->
         <p class="enlace-registro">
-            ¿No tienes cuenta? <a href="../pages/register.html">Regístrate gratis</a>
+            ¿No tienes cuenta? <a href="register.html">Regístrate gratis</a>
         </p>
 
     </section>
@@ -77,8 +78,7 @@
 
 </main>
 
-<!-- Scripts -->
-<script src="../js/header.js"></script>
+<!-- FIX: eliminado header.js — login no tiene header ni footer -->
 <script src="../js/login.js"></script>
 </body>
 </html>

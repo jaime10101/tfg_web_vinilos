@@ -14,8 +14,10 @@
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Header inyectado por header.js -->
+    <div id="header-placeholder"></div>
 
+    <!-- FIX: un único contenedor que envuelve portada + productos + newsletter -->
     <div class="contenedor">
 
         <!-- Portada — lanzamiento destacado de la semana -->
@@ -32,9 +34,6 @@
                 Edición Deluxe Limitada en vinilo "Blood Red" splatter. Incluye póster exclusivo y arte conceptual inédito.
             </p>
         </div>
-    </div>
-
-        <div class="contenedor">
 
         <!-- Sección productos — filtros y rejilla -->
         <div class="seccion-productos">
@@ -85,9 +84,13 @@
             </div>
             <p class="aviso-newsletter">Nos comprometemos a cuidar tu privacidad.</p>
         </div>
-    </div>
 
-    <!-- Footer -->
+    </div><!-- /contenedor -->
+
+
+    <!-- Footer inyectado por header.js -->
+    <div id="footer-placeholder"></div>
+
 
     <!-- Scripts -->
     <script src="../js/header.js"></script>
