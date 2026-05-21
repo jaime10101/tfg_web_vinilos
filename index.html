@@ -17,7 +17,6 @@
     <!-- Header inyectado por header.js -->
     <div id="header-placeholder"></div>
 
-
     <!-- Portada principal -->
     <div class="portada">
         <div class="portada-interior">
@@ -42,14 +41,13 @@
                 </div>
             </div>
 
-            <!-- FIX: Ruleta vacía — los discos se generan desde inicio.js -->
+            <!-- Ruleta vacía — discos generados por inicio.js -->
             <div class="ruleta-discos">
                 <div class="ruleta"></div>
             </div>
 
         </div>
     </div>
-
 
     <!-- Sección categorías — generado por inicio.js -->
     <!-- TODO (Spring Boot): GET /api/categorias -->
@@ -65,7 +63,6 @@
         </div>
     </section>
 
-
     <!-- Sección novedades — carrusel generado por inicio.js -->
     <!-- TODO (Spring Boot): GET /api/productos?orden=reciente&limite=10 -->
     <section class="seccion-novedades">
@@ -78,7 +75,6 @@
                 Ver todo <i class="fa-solid fa-arrow-right"></i>
             </a>
         </div>
-
         <div class="carrusel-externo">
             <button class="btn-nav anterior desactivado" id="btnAnterior">
                 <i class="fa-solid fa-chevron-left"></i>
@@ -90,10 +86,8 @@
                 <i class="fa-solid fa-chevron-right"></i>
             </button>
         </div>
-
         <div class="puntos-carrusel" id="puntosCarrusel"></div>
     </section>
-
 
     <!-- Sección más vendidos — generado por inicio.js -->
     <!-- TODO (Spring Boot): GET /api/productos?orden=ventas&limite=3 -->
@@ -104,8 +98,7 @@
         </div>
     </div>
 
-
-    <!-- Sección merch -->
+    <!-- Sección merch — imagen gestionada por inicio.js -->
     <div class="seccion-merch">
         <div class="contenedor">
             <div class="tarjeta-merch">
@@ -120,19 +113,17 @@
                         Ver Colección Merch <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
+                <!-- FIX: imagen sin src — se asigna desde inicio.js -->
                 <div class="merch-imagen" id="zonaInteractivaMerch">
-                    <img src="img/mech_l.png" alt="Producto Merch" class="img-merch"
-                         onerror="this.src='https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80'">
+                    <img id="imgMerch" alt="Producto Merch" class="img-merch">
                     <div class="brillo-merch" id="brilloMerch"></div>
                 </div>
             </div>
         </div>
     </div>
 
-
     <!-- Footer inyectado por header.js -->
     <div id="footer-placeholder"></div>
-
 
     <!-- Scripts -->
     <script src="js/header.js"></script>

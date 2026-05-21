@@ -7,6 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+/* FIX: imagen merch asignada desde JS */
+const imgMerch = document.getElementById('imgMerch');
+if (imgMerch) {
+    imgMerch.src = 'img/mech_l.png';
+    imgMerch.onerror = () => {
+        imgMerch.src = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80';
+    };
+}
+
 /* Efecto brillo — sección merch */
 const zonaMerch   = document.getElementById('zonaInteractivaMerch');
 const brilloMerch = document.getElementById('brilloMerch');

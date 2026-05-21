@@ -1,31 +1,49 @@
 /* ============================================================
    PAGO.JS — Lógica del checkout (carrito → envío → pago → confirmación)
    Header, footer y btn-subir los gestiona header.js
+
+   FLUJO:
+   1. renderCart()        — pinta el carrito desde el array local
+   2. goTo(2)             — avanza al paso de envío
+   3. goToPayment()       — valida envío y avanza al pago
+   4. mostrarResumenFinal() — abre modal de revisión antes de pagar
+   5. processPay()        — confirma el pedido y avanza a confirmación
+
+   TODO (Spring Boot):
+   - GET  /api/carrito          → sustituir array cart[]
+   - GET  /api/direcciones      → sustituir DIRS_GUARDADAS
+   - GET  /api/tarjetas         → sustituir tarjeta guardada en localStorage
+   - GET  /api/puntos           → sustituir localStorage vs_puntos_usuario
+   - POST /api/pedidos          → llamar en processPay()
+   - POST /api/cupones/validar  → llamar en applyPromo()
    ============================================================ */
 
-const FREE_THRESHOLD   = 100;   /* envío gratis desde este importe */
-let shippingMethod     = 'std';
-let shippingCost       = 4.95;
-let promoApplied       = false;
-let billingOn          = true;
-let userPickedShipping = false;
-let shipData           = {};
-let cardData           = {};
 
-/* ── Nivel del usuario leído desde localStorage ── */
+/* ── Constantes y estado global ── */
+const FREE_THRESHOLD   = 100;   /* importe mínimo para envío gratis */
+let shippingMethod     = 'std'; /* 'std' | 'exp' | 'free' */
+let shippingCost       = 4.95;  /* coste de envío actual */
+let promoApplied       = false; /* true si ya se aplicó un código promo */
+let billingOn          = true;  /* true si facturación = envío */
+let userPickedShipping = false; /* true si el usuario eligió envío manualmente */
+let shipData           = {};    /* datos del formulario de envío */
+let cardData           = {};    /* datos de la tarjeta confirmada */
+
+/* Nivel del usuario — leído desde localStorage (guardado por cuenta.js) */
 let nivelUsuario = null;
 
+/* Lee el nivel del usuario desde localStorage */
 function cargarNivelUsuario() {
-    /* Lee el nivel guardado por cuenta.js en localStorage */
     try {
         const raw = localStorage.getItem('vs_nivel_usuario');
         nivelUsuario = raw ? JSON.parse(raw) : null;
     } catch (e) { nivelUsuario = null; }
 }
 
-/* ── Cupón Vinyl Points leído desde localStorage ── */
+/* Cupón Vinyl Points activo — guardado por cuenta.js al canjear */
 let cuponActivo = null;
 
+/* Lee el cupón activo desde localStorage */
 function cargarCupon() {
     try {
         const raw = localStorage.getItem('vs_cupon');
@@ -35,7 +53,7 @@ function cargarCupon() {
     mostrarBadgeOro();
 }
 
-/* Muestra u oculta la fila del cupón en todos los resúmenes */
+/* Muestra u oculta la fila del cupón en todos los resúmenes del checkout */
 function mostrarFilaCupon() {
     document.querySelectorAll('.fila-cupon').forEach(el => {
         if (cuponActivo) {
@@ -47,60 +65,68 @@ function mostrarFilaCupon() {
     });
 }
 
-/* Badge VIP Oro — visible si el usuario es nivel Oro y supera 100€ */
+/* Badge VIP Oro — visible solo si el usuario es Oro y el pedido supera 100€ */
 function mostrarBadgeOro() {
     const badge = document.getElementById('badge-oro');
     if (!badge) return;
-    const esOro   = nivelUsuario?.nombre === 'Oro';
-    const supera  = sub() >= FREE_THRESHOLD;
+    const esOro  = nivelUsuario?.nombre === 'Oro';
+    const supera = sub() >= FREE_THRESHOLD;
     badge.style.display = (esOro && supera) ? 'flex' : 'none';
 }
 
-/* Descuento Oro: 5% adicional si el usuario es Oro y supera 100€ */
+/* Calcula el descuento del 5% para usuarios Oro con pedidos +100€ */
 function descuentoOro() {
     if (nivelUsuario?.nombre !== 'Oro') return 0;
     if (sub() < FREE_THRESHOLD) return 0;
     return +(sub() * 0.05).toFixed(2);
 }
 
+/* Calcula el descuento por puntos Vinyl Points canjeados (100 pts = 1€) */
 function descuentoCupon() {
-    /* Descuento por puntos Vinyl Points canjeados en este checkout */
     return puntosAplicados > 0 ? parseFloat((puntosAplicados / 100).toFixed(2)) : 0;
 }
 
-/* Total final con todos los descuentos */
+/* Total final = subtotal - descuento puntos - descuento oro + envío */
 function grandTotal() {
     return Math.max(0, sub() - descuentoCupon() - descuentoOro() + shippingCost);
 }
 
 
-/* ── Carrito ── */
+/* ── Carrito ──
+   TODO (Spring Boot): sustituir este array por:
+   const res  = await fetch('/api/carrito');
+   let   cart = await res.json();
+   Cada item necesita: id, name, artist, variant, icon/imagen, price, stock, qty */
 let cart = [
-    { id: 1, name: 'Camiseta "Nevermind"',      artist: 'Nirvana',        variant: 'Talla M · Blanco',         icon: 'fa-solid fa-shirt',      price: 29.99, stock: 'in',  qty: 1 },
-    { id: 2, name: 'Hoodie "Dark Side"',         artist: 'Pink Floyd',     variant: 'Talla L · Negro',          icon: 'fa-solid fa-shirt',      price: 54.99, stock: 'in',  qty: 1 },
-    { id: 3, name: 'Gorra Bordada "AM"',         artist: 'Arctic Monkeys', variant: 'Talla única · Negra',      icon: 'fa-solid fa-hat-cowboy', price: 24.99, stock: 'low', qty: 1 },
-    { id: 4, name: 'Chaqueta Bomber "Currents"', artist: 'Tame Impala',    variant: 'Talla S · Verde oliva',    icon: 'fa-solid fa-person',     price: 89.99, stock: 'in',  qty: 1 },
-    { id: 5, name: 'Calcetines Pack x3 "Roses"', artist: 'Rosalía',       variant: 'Talla 36-42 · Multicolor', icon: 'fa-solid fa-socks',      price: 14.99, stock: 'low', qty: 1 },
+    { id: 1, name: 'Camiseta "Nevermind"',       artist: 'Nirvana',        variant: 'Talla M · Blanco',         icon: 'fa-solid fa-shirt',      price: 29.99, stock: 'in',  qty: 1 },
+    { id: 2, name: 'Hoodie "Dark Side"',          artist: 'Pink Floyd',     variant: 'Talla L · Negro',          icon: 'fa-solid fa-shirt',      price: 54.99, stock: 'in',  qty: 1 },
+    { id: 3, name: 'Gorra Bordada "AM"',          artist: 'Arctic Monkeys', variant: 'Talla única · Negra',      icon: 'fa-solid fa-hat-cowboy', price: 24.99, stock: 'low', qty: 1 },
+    { id: 4, name: 'Chaqueta Bomber "Currents"',  artist: 'Tame Impala',    variant: 'Talla S · Verde oliva',    icon: 'fa-solid fa-person',     price: 89.99, stock: 'in',  qty: 1 },
+    { id: 5, name: 'Calcetines Pack x3 "Roses"',  artist: 'Rosalía',        variant: 'Talla 36-42 · Multicolor', icon: 'fa-solid fa-socks',      price: 14.99, stock: 'low', qty: 1 },
 ];
 
 
-/* ── Navegación entre pasos ── */
+/* ── Navegación entre pasos del checkout ──
+   n=1 Carrito | n=2 Envío | n=3 Pago | n=4 Confirmación */
 function goTo(n) {
     const pages = ['cart', 'shipping', 'payment', 'confirm'];
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + pages[n - 1]).classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    /* Actualiza el resumen lateral al cambiar de paso */
     if (n === 2) renderSidebarSummary('ship');
     if (n === 3) renderSidebarSummary('pay');
     if (n === 4) buildConfirmation();
 }
 
 
-/* ── Helpers ── */
+/* ── Helper — subtotal del carrito ── */
 function sub() { return cart.reduce((s, i) => s + i.price * i.qty, 0); }
 
 
-/* ── Render del carrito ── */
+/* ── Render del carrito ──
+   Pinta cada item con imagen o icono, controles de cantidad y botón eliminar.
+   También actualiza la barra de progreso de envío gratis y todos los totales. */
 function renderCart() {
     const list  = document.getElementById('cart-list');
     const empty = document.getElementById('empty-state');
@@ -108,6 +134,7 @@ function renderCart() {
     list.innerHTML = '';
 
     if (cart.length === 0) {
+        /* Muestra estado vacío */
         empty.style.display = 'block';
     } else {
         empty.style.display = 'none';
@@ -140,10 +167,10 @@ function renderCart() {
         });
     }
 
-    const s     = sub();
+    const s = sub();
 
-    /* Calcula el envío efectivo ANTES de calcular el total
-       para garantizar que ambos números sean consistentes */
+    /* Activa envío gratis automáticamente si el pedido supera FREE_THRESHOLD
+       y el usuario no ha elegido método manualmente */
     if (s >= FREE_THRESHOLD && !userPickedShipping) {
         shippingMethod = 'free';
         shippingCost   = 0;
@@ -151,11 +178,13 @@ function renderCart() {
         document.getElementById('ship-free')?.classList.add('selected');
     }
 
+    /* Calcula descuentos y total final */
     const desc  = descuentoCupon();
     const oro   = descuentoOro();
     const ship  = shippingCost;
     const total = Math.max(0, s - desc - oro + ship);
 
+    /* Actualiza cabecera y totales del resumen lateral */
     document.getElementById('cart-count').textContent  = `(${count})`;
     document.getElementById('s-count-lbl').textContent = `Subtotal (${count} artículo${count !== 1 ? 's' : ''})`;
     document.getElementById('s-sub').textContent       = '€' + s.toFixed(2);
@@ -165,7 +194,7 @@ function renderCart() {
     /* Fila cupón Vinyl Points */
     mostrarFilaCupon();
 
-    /* Fila descuento Oro */
+    /* Fila descuento Oro — visible solo si aplica */
     const filaOro = document.getElementById('fila-oro');
     if (filaOro) {
         if (oro > 0) {
@@ -179,17 +208,19 @@ function renderCart() {
     /* Badge VIP Oro */
     mostrarBadgeOro();
 
-    /* Barra de progreso envío gratis */
+    /* Barra de progreso hacia envío gratis */
     const pct = Math.min(100, (s / FREE_THRESHOLD) * 100);
     document.getElementById('ship-fill').style.width = pct + '%';
     document.getElementById('free-msg-bar').innerHTML = s >= FREE_THRESHOLD
         ? '<i class="fa-solid fa-circle-check" style="color:var(--verde)"></i> ¡Tienes <span class="hl">envío gratis</span>!'
         : `Te faltan <span class="hl">€${(FREE_THRESHOLD - s).toFixed(2)}</span> para envío gratis`;
 
+    /* Muestra/oculta la opción de envío gratis en el paso 2 */
     const freeEl = document.getElementById('ship-free');
     if (freeEl) freeEl.style.display = s >= FREE_THRESHOLD ? 'flex' : 'none';
 }
 
+/* Cambia la cantidad de un producto en el carrito (+1 o -1) */
 function changeQty(id, d) {
     const item = cart.find(i => i.id === id);
     if (!item) return;
@@ -197,6 +228,7 @@ function changeQty(id, d) {
     renderCart();
 }
 
+/* Elimina un producto del carrito con animación de salida */
 function removeItem(id) {
     const el = document.getElementById('ci-' + id);
     if (el) { el.style.transition = 'all .25s'; el.style.opacity = '0'; el.style.transform = 'translateX(18px)'; }
@@ -204,6 +236,8 @@ function removeItem(id) {
     showToast('fa-trash', 'Producto eliminado');
 }
 
+/* Aplica código promocional — actualmente solo VINYL20 (20% de descuento)
+   TODO (Spring Boot): POST /api/cupones/validar { codigo } */
 function applyPromo() {
     const code = document.getElementById('promo-input').value.trim().toUpperCase();
     if (code === 'VINYL20') {
@@ -215,13 +249,14 @@ function applyPromo() {
     } else { showToast('fa-xmark', 'Código no válido'); }
 }
 
+/* Reinicia el carrito al estado inicial — usado al volver a comprar tras confirmación */
 function resetCart() {
     cart = [
-        { id: 1, name: 'Camiseta "Nevermind"',      artist: 'Nirvana',        variant: 'Talla M · Blanco',         icon: 'fa-solid fa-shirt',      price: 29.99, stock: 'in',  qty: 1 },
-        { id: 2, name: 'Hoodie "Dark Side"',         artist: 'Pink Floyd',     variant: 'Talla L · Negro',          icon: 'fa-solid fa-shirt',      price: 54.99, stock: 'in',  qty: 1 },
-        { id: 3, name: 'Gorra Bordada "AM"',         artist: 'Arctic Monkeys', variant: 'Talla única · Negra',      icon: 'fa-solid fa-hat-cowboy', price: 24.99, stock: 'low', qty: 1 },
-        { id: 4, name: 'Chaqueta Bomber "Currents"', artist: 'Tame Impala',    variant: 'Talla S · Verde oliva',    icon: 'fa-solid fa-person',     price: 89.99, stock: 'in',  qty: 1 },
-        { id: 5, name: 'Calcetines Pack x3 "Roses"', artist: 'Rosalía',       variant: 'Talla 36-42 · Multicolor', icon: 'fa-solid fa-socks',      price: 14.99, stock: 'low', qty: 1 },
+        { id: 1, name: 'Camiseta "Nevermind"',       artist: 'Nirvana',        variant: 'Talla M · Blanco',         icon: 'fa-solid fa-shirt',      price: 29.99, stock: 'in',  qty: 1 },
+        { id: 2, name: 'Hoodie "Dark Side"',          artist: 'Pink Floyd',     variant: 'Talla L · Negro',          icon: 'fa-solid fa-shirt',      price: 54.99, stock: 'in',  qty: 1 },
+        { id: 3, name: 'Gorra Bordada "AM"',          artist: 'Arctic Monkeys', variant: 'Talla única · Negra',      icon: 'fa-solid fa-hat-cowboy', price: 24.99, stock: 'low', qty: 1 },
+        { id: 4, name: 'Chaqueta Bomber "Currents"',  artist: 'Tame Impala',    variant: 'Talla S · Verde oliva',    icon: 'fa-solid fa-person',     price: 89.99, stock: 'in',  qty: 1 },
+        { id: 5, name: 'Calcetines Pack x3 "Roses"',  artist: 'Rosalía',        variant: 'Talla 36-42 · Multicolor', icon: 'fa-solid fa-socks',      price: 14.99, stock: 'low', qty: 1 },
     ];
     promoApplied = false; userPickedShipping = false; shippingMethod = 'std'; shippingCost = 4.95;
     selectShipping('std');
@@ -229,20 +264,24 @@ function resetCart() {
 }
 
 
-/* ── Envío ── */
+/* ── Métodos de envío ──
+   type: 'std' (estándar 4.95€) | 'exp' (express 9.95€) | 'free' (gratis)
+   userAction: true si el usuario lo eligió manualmente (no cambia al superar 100€) */
 function selectShipping(type, userAction = false) {
     if (userAction) userPickedShipping = true;
     shippingMethod = type;
     shippingCost   = type === 'exp' ? 9.95 : type === 'free' ? 0 : 4.95;
     ['std', 'exp', 'free'].forEach(t => document.getElementById('ship-' + t)?.classList.remove('selected'));
     document.getElementById('ship-' + type)?.classList.add('selected');
-    /* Recalcula todo desde renderCart para garantizar consistencia */
+    /* Recalcula totales con el nuevo coste de envío */
     renderCart();
     renderSidebarSummary('ship');
 }
 
+/* Valida el formulario de envío y avanza al paso de pago */
 function goToPayment() {
     if (!validarEnvio()) return;
+    /* Guarda los datos del formulario para usarlos en confirmación y modal resumen */
     shipData = {
         name:    (document.getElementById('sh-name').value + ' ' + document.getElementById('sh-surname').value).trim() || 'Cliente',
         email:   document.getElementById('sh-email').value  || 'usuario@ejemplo.com',
@@ -257,14 +296,16 @@ function goToPayment() {
 }
 
 
-/* ── Sidebar resumen — pasos 2 y 3 ── */
+/* ── Resumen lateral — pasos 2 (ship) y 3 (pay) ──
+   Genera el mini-listado de artículos y actualiza subtotal, envío y total */
 function renderSidebarSummary(which) {
-    const s    = sub();
-    const desc = descuentoCupon();
-    const oro  = descuentoOro();
-    const ship = shippingCost;
+    const s     = sub();
+    const desc  = descuentoCupon();
+    const oro   = descuentoOro();
+    const ship  = shippingCost;
     const total = Math.max(0, s - desc - oro + ship);
 
+    /* Genera el HTML de cada artículo del carrito */
     let html = '';
     cart.forEach(i => {
         html += `<div style="display:flex;align-items:center;gap:12px;padding:12px 10px;background:rgba(18,16,58,0.6);border:1px solid var(--borde);border-radius:12px;margin-bottom:10px;">
@@ -282,6 +323,7 @@ function renderSidebarSummary(which) {
         </div>`;
     });
 
+    /* Actualiza el resumen del paso correspondiente */
     if (which === 'ship') {
         document.getElementById('ship-summary-items').innerHTML = html;
         document.getElementById('ss-sub').textContent   = '€' + s.toFixed(2);
@@ -295,11 +337,11 @@ function renderSidebarSummary(which) {
         document.getElementById('pay-amt').textContent  = '€' + total.toFixed(2);
     }
 
-    /* Filas de descuentos en sidebars */
     mostrarFilaCupon();
     actualizarFilaOroSidebar(which, oro);
 }
 
+/* Muestra u oculta la fila de descuento Oro en los sidebars de envío y pago */
 function actualizarFilaOroSidebar(which, oro) {
     const id = which === 'ship' ? 'ss-fila-oro' : 'ps-fila-oro';
     const el = document.getElementById(id);
@@ -313,17 +355,21 @@ function actualizarFilaOroSidebar(which, oro) {
 }
 
 
-/* ── Validaciones formulario de envío ── */
+/* ── Validaciones del formulario de envío ── */
+
+/* Solo permite letras y caracteres válidos en campos de nombre */
 function chkNombre(el) {
     el.value = el.value.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']/g, '');
 }
 
+/* Valida formato de email con regex y muestra estado visual */
 function chkEmail(el) {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value);
     document.getElementById('wrap-email').classList.toggle('valid', ok);
     document.getElementById('wrap-email').classList.toggle('invalid', el.value.length > 0 && !ok);
 }
 
+/* Valida teléfono — solo números, +, espacios y guiones, entre 9 y 15 dígitos */
 function chkTelefono(el) {
     el.value = el.value.replace(/[^0-9+\s\-]/g, '');
     const digits = el.value.replace(/\D/g, '');
@@ -332,10 +378,12 @@ function chkTelefono(el) {
     document.getElementById('wrap-telefono').classList.toggle('invalid', el.value.length > 0 && !ok);
 }
 
+/* Solo permite dígitos en el código postal */
 function chkCP(el) {
     el.value = el.value.replace(/\D/g, '');
 }
 
+/* Validación completa antes de avanzar al pago — muestra toast si falla */
 function validarEnvio() {
     const name  = document.getElementById('sh-name').value.trim();
     const email = document.getElementById('sh-email').value.trim();
@@ -343,15 +391,17 @@ function validarEnvio() {
     const st    = document.getElementById('sh-street').value.trim();
     const city  = document.getElementById('sh-city').value.trim();
     const cp    = document.getElementById('sh-cp').value.trim();
-    if (!name)                             { showToast('fa-triangle-exclamation', 'Introduce tu nombre'); return false; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('fa-triangle-exclamation', 'Email no válido'); return false; }
-    if (phone.length < 9)                  { showToast('fa-triangle-exclamation', 'Teléfono no válido'); return false; }
-    if (!st || !city || cp.length < 4)    { showToast('fa-triangle-exclamation', 'Completa la dirección'); return false; }
+    if (!name)                                              { showToast('fa-triangle-exclamation', 'Introduce tu nombre'); return false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))         { showToast('fa-triangle-exclamation', 'Email no válido'); return false; }
+    if (phone.length < 9)                                   { showToast('fa-triangle-exclamation', 'Teléfono no válido'); return false; }
+    if (!st || !city || cp.length < 4)                     { showToast('fa-triangle-exclamation', 'Completa la dirección'); return false; }
     return true;
 }
 
 
-/* ── Validaciones formulario de pago ── */
+/* ── Validaciones del formulario de tarjeta ── */
+
+/* Formatea el número de tarjeta en grupos de 4 y valida 16 dígitos */
 function fmtCard(el) {
     let v = el.value.replace(/\D/g, '').slice(0, 16);
     el.value = v.replace(/(.{4})/g, '$1 ').trim();
@@ -360,12 +410,14 @@ function fmtCard(el) {
     document.getElementById('wrap-cn').classList.toggle('invalid', v.length > 0 && !ok);
 }
 
+/* Solo permite letras en el nombre del titular */
 function chkHolder(el) {
     el.value = el.value.replace(/[^a-zA-ZÀ-ÿ\u00f1\u00d1\s\-']/g, '');
     const ok = el.value.trim().length > 1;
     document.getElementById('wrap-ch').classList.toggle('valid', ok);
 }
 
+/* Formatea la caducidad como MM / YY y valida mes entre 1 y 12 */
 function fmtExp(el) {
     let v = el.value.replace(/\D/g, '').slice(0, 4);
     if (v.length >= 3) v = v.slice(0, 2) + ' / ' + v.slice(2);
@@ -377,6 +429,7 @@ function fmtExp(el) {
     document.getElementById('wrap-ex').classList.toggle('invalid', digits.length > 0 && !ok);
 }
 
+/* Valida CVV — entre 3 y 4 dígitos */
 function chkCVV(el) {
     el.value = el.value.replace(/\D/g, '').slice(0, 4);
     const ok = el.value.length >= 3;
@@ -384,18 +437,22 @@ function chkCVV(el) {
     document.getElementById('wrap-cv').classList.toggle('invalid', el.value.length > 0 && !ok);
 }
 
+/* Toggle de dirección de facturación igual a envío */
 function toggleBill() {
     billingOn = !billingOn;
     document.getElementById('bill-toggle').classList.toggle('on', billingOn);
 }
 
 
-/* ── Confirmar pago ── */
+/* ── Confirmar pago ──
+   Valida la tarjeta, descuenta los puntos usados del localStorage,
+   guarda la tarjeta si el toggle está activo y avanza a confirmación.
+   TODO (Spring Boot): POST /api/pedidos { carrito, direccion, tarjeta, puntos, total } */
 function processPay() {
     let last4, holder;
 
     if (tarjetaSeleccionada === 'guardada') {
-        /* Tarjeta guardada — no necesita validación de formulario */
+        /* Tarjeta guardada — lee directamente de localStorage */
         try {
             const t = JSON.parse(localStorage.getItem('vs_tarjeta_guardada') || '{}');
             last4  = t.last4  || '0000';
@@ -405,7 +462,7 @@ function processPay() {
             return;
         }
     } else {
-        /* Tarjeta nueva — validar formulario completo */
+        /* Tarjeta nueva — valida todos los campos del formulario */
         const num = document.getElementById('card-num').value.replace(/\s/g, '');
         holder    = document.getElementById('card-holder').value.trim();
         const exp = document.getElementById('card-exp').value.replace(/\D/g, '');
@@ -425,7 +482,8 @@ function processPay() {
 
         last4 = num.slice(-4);
 
-        /* Guarda la tarjeta si el toggle está activo */
+        /* Guarda la tarjeta en localStorage si el toggle está activo
+           TODO (Spring Boot): POST /api/tarjetas { last4, holder } */
         if (guardarTarjeta) {
             localStorage.setItem('vs_tarjeta_guardada', JSON.stringify({ last4, holder }));
         }
@@ -433,11 +491,14 @@ function processPay() {
 
     cardData = { last4, holder };
 
-    /* Consume el cupón y descuenta los puntos usados en localStorage */
+    /* Limpia el cupón activo tras el pago */
     if (cuponActivo) {
         localStorage.removeItem('vs_cupon');
         cuponActivo = null;
     }
+
+    /* Descuenta los puntos usados del saldo disponible en localStorage
+       TODO (Spring Boot): PATCH /api/puntos { puntosUsados: puntosAplicados } */
     if (puntosAplicados > 0) {
         try {
             const raw  = localStorage.getItem('vs_puntos_usuario');
@@ -452,18 +513,22 @@ function processPay() {
 }
 
 
-/* ── Pantalla de confirmación ── */
+/* ── Pantalla de confirmación ──
+   Construye el resumen completo del pedido confirmado.
+   TODO (Spring Boot): recibir el objeto pedido de POST /api/pedidos */
 function buildConfirmation() {
-    const s    = sub();
-    const desc = descuentoCupon();
-    const oro  = descuentoOro();
-    const ship = shippingCost;
+    const s     = sub();
+    const desc  = descuentoCupon();
+    const oro   = descuentoOro();
+    const ship  = shippingCost;
     const total = Math.max(0, s - desc - oro + ship);
 
+    /* Número de pedido aleatorio — en producción viene del backend */
     document.getElementById('conf-order-id').textContent = '#VS-' + Math.floor(1000 + Math.random() * 9000);
     document.getElementById('conf-email-msg').innerHTML  =
         `Hemos enviado los detalles a <strong>${esc(shipData.email || 'usuario@ejemplo.com')}</strong>`;
 
+    /* Lista de artículos confirmados */
     let html = '';
     cart.forEach(i => {
         html += `<div class="conf-item">
@@ -482,10 +547,13 @@ function buildConfirmation() {
         </div>`;
     });
     document.getElementById('conf-items').innerHTML = html;
+
+    /* Datos de envío */
     document.getElementById('conf-name').textContent = shipData.name || '–';
     document.getElementById('conf-addr').innerHTML   =
         `${esc(shipData.street)}<br>${esc(shipData.cp)} ${esc(shipData.city)}<br>${esc(shipData.country)}`;
 
+    /* Fecha de entrega estimada según método de envío */
     const today = new Date();
     const d1 = new Date(today); d1.setDate(today.getDate() + (shippingMethod === 'exp' ? 1 : 3));
     const d2 = new Date(today); d2.setDate(today.getDate() + (shippingMethod === 'exp' ? 1 : 5));
@@ -495,6 +563,7 @@ function buildConfirmation() {
         shippingMethod === 'exp' ? 'Envío Express (24h)' :
         shippingMethod === 'free' ? 'Envío Gratuito' : 'Envío Estándar (Correos)';
 
+    /* Totales */
     document.getElementById('cf-sub').textContent   = '€' + s.toFixed(2);
     document.getElementById('cf-ship').textContent  = ship === 0 ? 'Gratis' : '€' + ship.toFixed(2);
     document.getElementById('cf-total').textContent = '€' + total.toFixed(2);
@@ -516,7 +585,7 @@ function buildConfirmation() {
 }
 
 
-/* ── Toast ── */
+/* ── Toast — notificación temporal (3 segundos) ── */
 let toastTimer;
 function showToast(icon, msg) {
     const t = document.getElementById('toast');
@@ -528,21 +597,29 @@ function showToast(icon, msg) {
 }
 
 
-/* ── Utils ── */
-function esc(s = '') { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+/* ── Utilidad de escape HTML ── */
+function esc(s = '') {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 
 
-/* ── Vinyl Points — canje directo en pago ── */
-let puntosAplicados = 0; /* pts usados en esta compra */
+/* ── Vinyl Points — canje directo en el paso de carrito ──
+   puntosAplicados: pts usados en esta compra (se descuentan al confirmar)
+   TODO (Spring Boot): GET /api/puntos → { puntosHistorico, puntosDisponibles } */
+let puntosAplicados = 0;
 
+/* Carga el saldo de puntos del usuario desde localStorage y configura el slider */
 function cargarPuntosUsuario() {
     try {
         const raw  = localStorage.getItem('vs_puntos_usuario');
         const data = raw ? JSON.parse(raw) : null;
         const disp = data?.puntosDisponibles ?? 1250;
+
+        /* Actualiza el texto de puntos disponibles */
         document.getElementById('puntosDisp').textContent =
             `${disp.toLocaleString('es-ES')} pts disponibles`;
-        /* Configura slider y max del input */
+
+        /* Configura el slider y el input con el máximo disponible */
         const slider = document.getElementById('pCanjeSlider');
         const input  = document.getElementById('pCanjeInput');
         const maxEl  = document.getElementById('pSliderMax');
@@ -553,9 +630,10 @@ function cargarPuntosUsuario() {
     } catch (e) { /* sin datos previos */ }
 }
 
-/* Sincroniza slider → input */
+/* Sincroniza el slider con el input y actualiza el preview en tiempo real */
 document.addEventListener('input', e => {
     if (e.target.id === 'pCanjeSlider') {
+        /* Redondea al múltiplo de 100 más cercano */
         const v = Math.round(parseInt(e.target.value) / 100) * 100;
         e.target.value = v;
         const inp = document.getElementById('pCanjeInput');
@@ -570,6 +648,7 @@ document.addEventListener('input', e => {
     }
 });
 
+/* Lee los puntos disponibles actuales desde localStorage */
 function getPuntosDisponibles() {
     try {
         const raw  = localStorage.getItem('vs_puntos_usuario');
@@ -578,37 +657,44 @@ function getPuntosDisponibles() {
     } catch (e) { return 0; }
 }
 
+/* Actualiza el preview del descuento en tiempo real mientras el usuario escribe/desliza */
 function actualizarPreviewPuntos() {
-    const input   = document.getElementById('pCanjeInput');
-    const card    = document.getElementById('pCanjePreviewCard');
-    const prev    = document.getElementById('pCanjePreview');
-    const quedan  = document.getElementById('pCanjeQuedan');
+    const input  = document.getElementById('pCanjeInput');
+    const card   = document.getElementById('pCanjePreviewCard');
+    const prev   = document.getElementById('pCanjePreview');
+    const quedan = document.getElementById('pCanjeQuedan');
     if (!input) return;
     const pts  = parseInt(input.value || 0);
     const disp = getPuntosDisponibles();
 
     if (pts >= 100 && pts % 100 === 0 && pts <= disp) {
+        /* Cantidad válida — muestra el descuento en verde */
         if (card)   card.style.display = 'flex';
         if (prev)   { prev.textContent = `−€${(pts / 100).toFixed(2)} de descuento`; prev.style.color = 'var(--verde)'; }
         if (quedan) quedan.textContent = `te quedan ${(disp - pts).toLocaleString('es-ES')} pts`;
     } else if (pts > disp) {
+        /* Supera el saldo disponible — muestra error en rojo */
         if (card)   card.style.display = 'flex';
         if (prev)   { prev.textContent = `Solo tienes ${disp.toLocaleString('es-ES')} pts disponibles`; prev.style.color = 'rgba(255,80,80,0.8)'; }
         if (quedan) quedan.textContent = '';
     } else if (pts > 0 && pts % 100 !== 0) {
+        /* No es múltiplo de 100 — muestra aviso en rojo */
         if (card)   card.style.display = 'flex';
         if (prev)   { prev.textContent = 'Debe ser múltiplo de 100 pts'; prev.style.color = 'rgba(255,80,80,0.8)'; }
         if (quedan) quedan.textContent = '';
     } else {
-        if (card)   card.style.display = 'none';
+        /* Sin valor — oculta el preview */
+        if (card) card.style.display = 'none';
     }
 }
 
+/* Aplica los puntos seleccionados y cambia al estado B (puntos aplicados) */
 function aplicarPuntos() {
     const input = document.getElementById('pCanjeInput');
     const pts   = parseInt(input?.value || 0);
     const disp  = getPuntosDisponibles();
 
+    /* Validaciones antes de aplicar */
     if (!pts || pts < 100)    { showToast('fa-triangle-exclamation', 'Mínimo 100 pts'); return; }
     if (pts % 100 !== 0)      { showToast('fa-triangle-exclamation', 'Debe ser múltiplo de 100'); return; }
     if (pts > disp)           { showToast('fa-triangle-exclamation', `Solo tienes ${disp.toLocaleString('es-ES')} pts`); return; }
@@ -616,7 +702,7 @@ function aplicarPuntos() {
     puntosAplicados = pts;
     const desc = parseFloat((pts / 100).toFixed(2));
 
-    /* Muestra estado B — puntos aplicados */
+    /* Cambia al estado B — muestra resumen de puntos aplicados */
     document.getElementById('pCanjeForm').style.display   = 'none';
     document.getElementById('pCanjeActivo').style.display = 'block';
     document.getElementById('pCanjeValorActivo').textContent =
@@ -624,11 +710,12 @@ function aplicarPuntos() {
     document.getElementById('pCanjePtsActivos').textContent =
         `${pts.toLocaleString('es-ES')} pts usados · quedan ${(disp - pts).toLocaleString('es-ES')} pts`;
 
-    /* Actualiza totales */
+    /* Recalcula el total con el descuento de puntos */
     renderCart();
     showToast('fa-circle-check', `€${desc.toFixed(2)} de descuento aplicado`);
 }
 
+/* Quita los puntos aplicados y vuelve al estado A (formulario de canje) */
 function quitarPuntos() {
     puntosAplicados = 0;
     document.getElementById('pCanjeActivo').style.display = 'none';
@@ -640,22 +727,29 @@ function quitarPuntos() {
     showToast('fa-xmark', 'Descuento de puntos eliminado');
 }
 
+/* Event delegation para los botones de puntos */
 document.addEventListener('click', e => {
-    if (e.target.closest('#btnAplicarPuntos'))  aplicarPuntos();
+    if (e.target.closest('#btnAplicarPuntos'))   aplicarPuntos();
     if (e.target.closest('#btnModificarPuntos')) quitarPuntos();
     if (e.target.closest('#btnQuitarPuntos'))    quitarPuntos();
 });
 
-/* ── Direcciones guardadas ── */
+
+/* ── Direcciones guardadas ──
+   Hardcodeadas como ejemplo.
+   TODO (Spring Boot): GET /api/direcciones → renderizar dinámicamente */
 const DIRS_GUARDADAS = {
-    1: { nombre: 'Alex Rodríguez', email: 'alex.music@ejemplo.com', phone: '+34600000000', street: 'Calle Gran Vía 24, 3ªA', city: 'Madrid',    cp: '28013', country: 'ES' },
+    1: { nombre: 'Alex Rodríguez', email: 'alex.music@ejemplo.com', phone: '+34600000000', street: 'Calle Gran Vía 24, 3ªA',  city: 'Madrid',    cp: '28013', country: 'ES' },
     2: { nombre: 'Alex Rodríguez', email: 'alex.music@ejemplo.com', phone: '+34600000000', street: 'Avenida de la Música 10', city: 'Barcelona', cp: '08001', country: 'ES' },
 };
 
 let dirSeleccionada = null;
 
+/* Selecciona una dirección guardada y rellena el formulario automáticamente */
 function seleccionarDirGuardada(id) {
     dirSeleccionada = id;
+
+    /* Actualiza el estado visual de los radio buttons */
     document.querySelectorAll('.dir-guardada-item').forEach(el => el.classList.remove('selected'));
     document.querySelectorAll('[id^="dg-radio-"]').forEach(el => el.classList.remove('dg-radio-sel'));
     document.getElementById(`dg-radio-${id}`)?.classList.add('dg-radio-sel');
@@ -663,11 +757,12 @@ function seleccionarDirGuardada(id) {
 
     const panel = document.getElementById('panelContacto');
     if (id === 0) {
-        /* Nueva dirección — muestra el formulario */
+        /* Opción "Nueva dirección" — muestra el formulario vacío */
         if (panel) panel.style.display = 'block';
         return;
     }
-    /* Rellena el formulario con la dirección guardada */
+
+    /* Rellena el formulario con los datos de la dirección guardada */
     const d = DIRS_GUARDADAS[id];
     if (!d) return;
     const parts = d.nombre.split(' ');
@@ -683,29 +778,33 @@ function seleccionarDirGuardada(id) {
 }
 
 
-/* ── Tarjetas guardadas ── */
-let guardarTarjeta = true;
-let tarjetaSeleccionada = 'nueva'; /* 'nueva' | 'guardada' */
+/* ── Tarjetas guardadas ──
+   Se guarda en localStorage tras el primer pago exitoso.
+   TODO (Spring Boot): GET /api/tarjetas y POST /api/tarjetas */
+let guardarTarjeta    = true;       /* toggle activo por defecto */
+let tarjetaSeleccionada = 'nueva';  /* 'nueva' | 'guardada' */
 
+/* Toggle para guardar la tarjeta en próximas compras */
 function toggleGuardarTarjeta() {
     guardarTarjeta = !guardarTarjeta;
     document.getElementById('save-card-toggle')?.classList.toggle('on', guardarTarjeta);
 }
 
+/* Carga la tarjeta guardada desde localStorage y la muestra en el selector */
 function cargarTarjetaGuardada() {
-    /* TODO (Supabase): SELECT * FROM tarjetas_guardadas WHERE user_id = auth.uid() LIMIT 1 */
     try {
         const raw = localStorage.getItem('vs_tarjeta_guardada');
         if (!raw) return;
-        const t = JSON.parse(raw);
+        const t  = JSON.parse(raw);
         const el = document.getElementById('tg-guardada');
         if (!el) return;
         el.style.display = 'flex';
         document.getElementById('tgLast4').textContent   = t.last4;
         document.getElementById('tgTitular').textContent = t.holder;
-    } catch (e) { /* sin tarjeta */ }
+    } catch (e) { /* sin tarjeta guardada */ }
 }
 
+/* Selecciona entre nueva tarjeta o tarjeta guardada */
 function seleccionarTarjeta(tipo) {
     tarjetaSeleccionada = tipo;
     document.querySelectorAll('.tarjeta-guardada-item').forEach(el => el.classList.remove('selected'));
@@ -715,13 +814,13 @@ function seleccionarTarjeta(tipo) {
     el?.classList.add('selected');
     el?.querySelector('.tg-radio')?.classList.add('tg-radio-sel');
 
-    /* Muestra/oculta el formulario de tarjeta */
+    /* Muestra u oculta el formulario de tarjeta según la selección */
     const form = document.querySelector('.panel:has(#card-num)') ||
                  document.getElementById('wrap-cn')?.closest('.panel');
     if (form) form.style.display = tipo === 'nueva' ? 'block' : 'none';
 
     if (tipo === 'guardada') {
-        /* Rellena con datos de la tarjeta guardada */
+        /* Rellena el formulario con los datos enmascarados de la tarjeta guardada */
         try {
             const raw = localStorage.getItem('vs_tarjeta_guardada');
             if (!raw) return;
@@ -732,6 +831,7 @@ function seleccionarTarjeta(tipo) {
     }
 }
 
+/* Elimina la tarjeta guardada de localStorage y vuelve a nueva tarjeta */
 function eliminarTarjetaGuardada(e) {
     e.stopPropagation();
     localStorage.removeItem('vs_tarjeta_guardada');
@@ -741,9 +841,12 @@ function eliminarTarjetaGuardada(e) {
 }
 
 
-/* ── Modal resumen final — antes de confirmar ── */
+/* ── Modal resumen final ──
+   Se muestra al pulsar "Revisar y Pagar" en el paso 3.
+   Permite revisar artículos, envío, método de pago y totales
+   antes de confirmar definitivamente el pedido. */
 function mostrarResumenFinal() {
-    /* Validaciones primero */
+    /* Valida la tarjeta antes de abrir el modal */
     const num    = document.getElementById('card-num').value.replace(/[\s•]/g, '');
     const holder = document.getElementById('card-holder').value.trim();
     const exp    = document.getElementById('card-exp').value.replace(/\D/g, '');
@@ -751,20 +854,23 @@ function mostrarResumenFinal() {
     const mes    = parseInt(exp.slice(0, 2), 10);
 
     if (tarjetaSeleccionada === 'nueva') {
-        if (num.length < 16)                        { showToast('fa-triangle-exclamation', 'Número de tarjeta incompleto'); return; }
+        if (num.length < 16)                                  { showToast('fa-triangle-exclamation', 'Número de tarjeta incompleto'); return; }
         if (!holder || !/^[a-zA-ZÀ-ÿ\s\-']+$/.test(holder)) { showToast('fa-triangle-exclamation', 'El titular solo puede contener letras'); return; }
-        if (exp.length < 4 || mes < 1 || mes > 12) { showToast('fa-triangle-exclamation', 'Fecha de caducidad inválida'); return; }
-        if (cvv.length < 3)                         { showToast('fa-triangle-exclamation', 'CVV incompleto'); return; }
+        if (exp.length < 4 || mes < 1 || mes > 12)           { showToast('fa-triangle-exclamation', 'Fecha de caducidad inválida'); return; }
+        if (cvv.length < 3)                                   { showToast('fa-triangle-exclamation', 'CVV incompleto'); return; }
     }
 
+    /* Calcula totales para el modal */
     const s     = sub();
     const desc  = descuentoCupon();
     const oro   = descuentoOro();
     const ship  = shippingCost;
     const total = Math.max(0, s - desc - oro + ship);
-    const last4 = tarjetaSeleccionada === 'nueva' ? num.slice(-4) : (JSON.parse(localStorage.getItem('vs_tarjeta_guardada') || '{}').last4 || '0000');
+    const last4 = tarjetaSeleccionada === 'nueva'
+        ? num.slice(-4)
+        : (JSON.parse(localStorage.getItem('vs_tarjeta_guardada') || '{}').last4 || '0000');
 
-    /* Rellena el modal */
+    /* Rellena la sección de artículos del modal */
     let itemsHtml = '';
     cart.forEach(i => {
         itemsHtml += `<div class="mr-item">
@@ -781,41 +887,57 @@ function mostrarResumenFinal() {
     });
     document.getElementById('mr-items').innerHTML = itemsHtml;
 
+    /* Rellena la sección de envío del modal */
     document.getElementById('mr-metodo-envio').textContent =
         shippingMethod === 'exp' ? 'Envío Express (24h)' :
         shippingMethod === 'free' ? 'Envío Gratuito' : 'Envío Estándar (Correos)';
     document.getElementById('mr-coste-envio').textContent = ship === 0 ? 'Gratis' : `€${ship.toFixed(2)}`;
     document.getElementById('mr-direccion').textContent   = `${shipData.street || '–'}, ${shipData.cp || ''} ${shipData.city || ''}`;
-    document.getElementById('mr-tarjeta').textContent     = `•••• •••• •••• ${last4}`;
+
+    /* Rellena la sección de pago del modal */
+    document.getElementById('mr-tarjeta').textContent      = `•••• •••• •••• ${last4}`;
     document.getElementById('mr-titular-card').textContent = holder || document.getElementById('card-holder').value.trim();
 
-    document.getElementById('mr-sub').textContent       = `€${s.toFixed(2)}`;
+    /* Rellena los totales del modal */
+    document.getElementById('mr-sub').textContent        = `€${s.toFixed(2)}`;
     document.getElementById('mr-envio-total').textContent = ship === 0 ? 'Gratis' : `€${ship.toFixed(2)}`;
-    document.getElementById('mr-total').textContent     = `€${total.toFixed(2)}`;
-    document.getElementById('mr-total-btn').textContent = `€${total.toFixed(2)}`;
+    document.getElementById('mr-total').textContent      = `€${total.toFixed(2)}`;
+    document.getElementById('mr-total-btn').textContent  = `€${total.toFixed(2)}`;
 
+    /* Fila cupón en el modal */
     const filaCupon = document.getElementById('mr-fila-cupon');
-    if (filaCupon) { filaCupon.style.display = desc > 0 ? 'flex' : 'none'; if (desc > 0) document.getElementById('mr-cupon').textContent = `−€${desc.toFixed(2)}`; }
+    if (filaCupon) {
+        filaCupon.style.display = desc > 0 ? 'flex' : 'none';
+        if (desc > 0) document.getElementById('mr-cupon').textContent = `−€${desc.toFixed(2)}`;
+    }
 
+    /* Fila descuento Oro en el modal */
     const filaOro = document.getElementById('mr-fila-oro');
-    if (filaOro) { filaOro.style.display = oro > 0 ? 'flex' : 'none'; if (oro > 0) document.getElementById('mr-oro').textContent = `−€${oro.toFixed(2)}`; }
+    if (filaOro) {
+        filaOro.style.display = oro > 0 ? 'flex' : 'none';
+        if (oro > 0) document.getElementById('mr-oro').textContent = `−€${oro.toFixed(2)}`;
+    }
 
+    /* Abre el modal y bloquea el scroll */
     document.getElementById('modalResumenFinal').classList.add('visible');
     document.body.style.overflow = 'hidden';
 }
 
+/* Cierra el modal de resumen y restaura el scroll */
 function cerrarResumenFinal() {
     document.getElementById('modalResumenFinal').classList.remove('visible');
     document.body.style.overflow = '';
 }
 
-/* Cerrar al clicar fuera */
+/* Cierra el modal al hacer clic en el overlay (fuera del contenido) */
 document.addEventListener('click', e => {
     const overlay = document.getElementById('modalResumenFinal');
     if (e.target === overlay) cerrarResumenFinal();
 });
 
-/* ── Init ── */
+
+/* ── Inicialización ──
+   Se ejecuta al cargar la página antes del DOMContentLoaded */
 cargarNivelUsuario();
 cargarCupon();
 cargarPuntosUsuario();
