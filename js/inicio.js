@@ -25,38 +25,46 @@ if (zonaMerch && brilloMerch) {
 
 
 /* ============================================================
+   RULETA — imágenes generadas desde JS
+   TODO (Spring Boot): GET /api/productos?orden=reciente&limite=10
+   ============================================================ */
+const RULETA_IMGS = [
+    { src: 'img/disc1.png',  fallback: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&q=80' },
+    { src: 'img/disc2.png',  fallback: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200&q=80' },
+    { src: 'img/disc3.png',  fallback: 'https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=200&q=80' },
+    { src: 'img/disc4.png',  fallback: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=200&q=80' },
+    { src: 'img/disc5.jpg',  fallback: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=200&q=80' },
+    { src: 'img/disc6.png',  fallback: 'https://images.unsplash.com/photo-1598387846148-47e82ee120cc?w=200&q=80' },
+    { src: 'img/disc7.png',  fallback: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=200&q=80' },
+    { src: 'img/disc8.png',  fallback: 'https://images.unsplash.com/photo-1502139214982-d0ad755818d8?w=200&q=80' },
+    { src: 'img/disc9.png',  fallback: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=200&q=80' },
+    { src: 'img/disc10.png', fallback: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=80' },
+];
+
+function renderRuleta() {
+    const ruleta = document.querySelector('.ruleta');
+    if (!ruleta) return;
+
+    ruleta.style.setProperty('--cantidad', RULETA_IMGS.length);
+
+    ruleta.innerHTML = RULETA_IMGS.map((img, i) => `
+        <div class="disco" style="--pos: ${i + 1}">
+            <img src="${img.src}" alt="Disco ${i + 1}"
+                 onerror="this.src='${img.fallback}'">
+        </div>
+    `).join('');
+}
+
+
+/* ============================================================
    CATEGORÍAS
    TODO (Spring Boot): GET /api/categorias
    ============================================================ */
 const CATEGORIAS = [
-    {
-        nombre:   'Vinilos',
-        etiqueta: 'Colección',
-        desc:     'LPs, EPs y ediciones limitadas.',
-        enlace:   'pages/tienda.html',
-        imagen:   'https://images.unsplash.com/photo-1461360228754-6e81c478b882?w=600&q=80'
-    },
-    {
-        nombre:   'Merchandising',
-        etiqueta: 'Ropa y Accesorios',
-        desc:     'Camisetas, sudaderas, gorras y más.',
-        enlace:   'pages/merch.html',
-        imagen:   'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80'
-    },
-    {
-        nombre:   'Posters',
-        etiqueta: 'Arte Visual',
-        desc:     'Arte oficial y ediciones limitadas.',
-        enlace:   'pages/posters.html',
-        imagen:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80'
-    },
-    {
-        nombre:   'Novedades',
-        etiqueta: 'Lo Último',
-        desc:     'Descubre los lanzamientos de la semana.',
-        enlace:   'pages/novedades.html',
-        imagen:   'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80'
-    }
+    { nombre: 'Vinilos',       etiqueta: 'Colección',       desc: 'LPs, EPs y ediciones limitadas.',          enlace: 'pages/tienda.html',    imagen: 'https://images.unsplash.com/photo-1461360228754-6e81c478b882?w=600&q=80' },
+    { nombre: 'Merchandising', etiqueta: 'Ropa y Accesorios', desc: 'Camisetas, sudaderas, gorras y más.',     enlace: 'pages/merch.html',     imagen: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80' },
+    { nombre: 'Posters',       etiqueta: 'Arte Visual',      desc: 'Arte oficial y ediciones limitadas.',      enlace: 'pages/posters.html',   imagen: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+    { nombre: 'Novedades',     etiqueta: 'Lo Último',        desc: 'Descubre los lanzamientos de la semana.', enlace: 'pages/novedades.html', imagen: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80' }
 ];
 
 function renderCategorias() {
@@ -83,34 +91,9 @@ function renderCategorias() {
    TODO (Spring Boot): GET /api/productos?orden=ventas&limite=3
    ============================================================ */
 const MAS_VENDIDOS = [
-    {
-        id:      5,
-        nombre:  'After Hours',
-        artista: 'The Weeknd',
-        precio:  '€35,00',
-        tipo:    'vinilo',
-        enlace:  'pages/detalle/detalle_vinilo.html?id=5',
-        imagen:  'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80'
-    },
-    {
-        id:      20,
-        nombre:  'Eras Tour Hoodie',
-        artista: 'Taylor Swift',
-        precio:  '€65,00',
-        tipo:    'merch',
-        enlace:  'pages/detalle/detalle_merch.html?id=20',
-        imagen:  'https://images.unsplash.com/photo-1578681994506-b8f463449011?w=400&q=80'
-    },
-    {
-        id:      3,
-        nombre:  'Pink Floyd — The Wall',
-        artista: 'Pink Floyd',
-        precio:  '€5,99',
-        tipo:    'poster',
-        /* FIX: corregido detalle.html → detalle_poster.html */
-        enlace:  'pages/detalle/detalle_poster.html?id=3',
-        imagen:  'https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=400&q=80'
-    }
+    { id: 5,  nombre: 'After Hours',        artista: 'The Weeknd',  precio: '€35,00', tipo: 'vinilo', enlace: 'pages/detalle/detalle_vinilo.html?id=5',  imagen: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80' },
+    { id: 20, nombre: 'Eras Tour Hoodie',   artista: 'Taylor Swift', precio: '€65,00', tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=20',  imagen: 'https://images.unsplash.com/photo-1578681994506-b8f463449011?w=400&q=80' },
+    { id: 3,  nombre: 'Pink Floyd — The Wall', artista: 'Pink Floyd', precio: '€5,99', tipo: 'poster', enlace: 'pages/detalle/detalle_poster.html?id=3',  imagen: 'https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=400&q=80' }
 ];
 
 const TIPO_LABEL  = { vinilo: 'VINILO', merch: 'MERCH', poster: 'POSTER' };
@@ -153,7 +136,6 @@ const NOVEDADES = [
     { titulo: 'Eras Tour Hoodie',    artista: 'Taylor Swift',   precio: '€65,00', insignia: 'nuevo',    tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=20',   img: 'https://images.unsplash.com/photo-1578681994506-b8f463449011?w=400&q=80' },
     { titulo: 'Blinding Lights Tee', artista: 'The Weeknd',     precio: '€35,00', insignia: null,       tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=22',   img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&q=80' },
     { titulo: 'The Car Tour Tee',    artista: 'Arctic Monkeys', precio: '€35,00', insignia: 'restock',  tipo: 'merch',  enlace: 'pages/detalle/detalle_merch.html?id=3',    img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80' },
-    /* FIX: corregidos detalle.html → detalle_poster.html en los 3 posters */
     { titulo: 'The Dark Side',       artista: 'Pink Floyd',     precio: '€5,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle_poster.html?id=1',   img: 'https://images.unsplash.com/photo-1500099817043-86d46000d58f?w=400&q=80' },
     { titulo: 'Nevermind',           artista: 'Nirvana',        precio: '€4,99',  insignia: 'limitado', tipo: 'poster', enlace: 'pages/detalle/detalle_poster.html?id=2',   img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80' },
     { titulo: 'AM Poster',           artista: 'Arctic Monkeys', precio: '€6,99',  insignia: null,       tipo: 'poster', enlace: 'pages/detalle/detalle_poster.html?id=4',   img: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&q=80' },
@@ -280,6 +262,7 @@ if (rejillaProductos && btnSiguiente && btnAnterior) {
 
 /* Inicialización */
 document.addEventListener('DOMContentLoaded', () => {
+    renderRuleta();
     renderCategorias();
     renderVendidos();
 });
